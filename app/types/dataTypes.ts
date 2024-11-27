@@ -1,25 +1,27 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface User {
   id?: string;
   username: string;
   password: string;
   isAdmin: boolean;
-  createdAt: Date;
+  createdAt: Timestamp;
 }
 
 export interface Post {
   id?: string;
-  content: string;
-  createdAt: Date;
-  dateOfEvent: string;
+  review: string;
+  createdAt: Timestamp;
+  showDate: string;
   userId: string;
-  artist: string;
+  artistBand: string;
   location: string;
   venue: string;
   rating: number;
   tourName?: string;
-  imageUrl?: string;
+  photo?: string;
   topTracks?: string[];
-  emoji?: string[];
+  emojis?: string[];
 }
 
 export interface Comment {
