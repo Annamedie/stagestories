@@ -1,8 +1,15 @@
+import { auth } from "@/utils/firebase";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { fetchPosts } from "./api/postActions";
 
 async function Home() {
+  const user = auth.currentUser;
+  if (!user) {
+    redirect("/auth/login");
+  }
   const posts = await fetchPosts();
+
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mb-4">Concert Reviews</h1>
