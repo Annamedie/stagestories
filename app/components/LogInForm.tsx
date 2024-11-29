@@ -4,12 +4,26 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../context/Authcontext";
 
 interface FormInputs {
   email: string;
   password: string;
+}
+
+function getFriendlyErrorMessage(errorCode: string): string {
+  const errorMessages: Record<string, string> = {
+    "auth/user-not-found": "No account found with this email.",
+    "auth/invalid-credential": "Incorrect password. Please try again.",
+    "auth/invalid-email": "Invalid email address.",
+    "auth/too-many-requests": "Too many attempts. Please try again later.",
+  };
+
+  return (
+    errorMessages[errorCode] ||
+    "An unexpected error occurred. Please try again."
+  );
 }
 
 function LogInForm() {
@@ -26,15 +40,14 @@ function LogInForm() {
     setIsLoading(true);
     try {
       await login(loginData.email, loginData.password);
-      console.log("User logged in successfully");
       toast.success("Logged in successfully");
       router.push("/");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+    } catch (error: any) {
+      if (error?.code) {
+        const friendlyMessage = getFriendlyErrorMessage(error.code);
+        toast.error(friendlyMessage, { position: "top-center" });
       } else {
-        toast.error("An unknown error occurred");
-        console.log("Ngt gick fel");
+        toast.error("An unknown error occurred", { position: "top-center" });
       }
     } finally {
       setIsLoading(false);
@@ -43,6 +56,19 @@ function LogInForm() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <div className="max-w-md mx-auto mt-10">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
