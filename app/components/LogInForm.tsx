@@ -33,6 +33,7 @@ function LogInForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormInputs>();
 
@@ -40,7 +41,9 @@ function LogInForm() {
     setIsLoading(true);
     try {
       await login(loginData.email, loginData.password);
+      reset();
       toast.success("Logged in successfully");
+
       router.push("/");
     } catch (error: any) {
       if (error?.code) {

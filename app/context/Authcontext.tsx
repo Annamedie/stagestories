@@ -13,7 +13,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface AuthContextType {
   user: User | null;
   isloading: boolean;
-  register: (
+  registerUser: (
     email: string,
     password: string,
     username: string
@@ -25,7 +25,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isloading: true,
-  register: async () => {},
+  registerUser: async () => {},
   login: async () => {},
   logout: async () => {},
 });
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
-  const register = async (
+  const registerUser = async (
     email: string,
     password: string,
     username: string
@@ -85,7 +85,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ user, isloading, register, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isloading, registerUser, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
