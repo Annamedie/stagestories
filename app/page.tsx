@@ -1,14 +1,38 @@
-import { auth } from "@/utils/firebase";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { fetchPosts } from "./api/postActions";
+"use client";
 
-async function Home() {
-  const user = auth.currentUser;
-  if (!user) {
-    redirect("/auth/login");
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { fetchPosts } from "./api/postActions";
+import { useAuth } from "./context/Authcontext";
+import { Post } from "./types/dataTypes";
+
+function Home() {
+  const { user, isloading } = useAuth();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isloading) {
+      if (!user) {
+        router.push("/auth/login");
+      } else {
+        fetchPosts().then((data) => setPosts(data));
+      }
+    }
+  }, [user, isloading, router]);
+
+  if (isloading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
   }
-  const posts = await fetchPosts();
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto px-4">
@@ -37,4 +61,5 @@ async function Home() {
     </div>
   );
 }
+
 export default Home;
