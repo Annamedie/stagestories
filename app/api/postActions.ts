@@ -1,12 +1,13 @@
 // Import Timestamp
 import { db } from "@/utils/firebase";
+import { User, getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
-  Timestamp,
+  serverTimestamp,
 } from "firebase/firestore";
 import { Post } from "../types/dataTypes";
 
@@ -15,10 +16,6 @@ export const fetchPosts = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-
-      if (data.showDate instanceof Timestamp) {
-        data.showDate = data.showDate.toDate().toISOString();
-      }
 
       return { id: doc.id, ...data } as Post;
     });
@@ -34,9 +31,6 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      if (data.showDate instanceof Timestamp) {
-        data.showDate = data.showDate.toDate().toISOString();
-      }
 
       return { id: docSnap.id, ...data } as Post;
     } else {
@@ -49,8 +43,22 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
 };
 
 export const addPost = async (post: Post) => {
+  const auth = getAuth();
+  const user = auth.currentUser as User | null;
+  if (!user) {
+    console.error("User not authenticated");
+    throw new Error("User not authenticated");
+  }
+
   try {
-    await addDoc(collection(db, "posts"), post);
+    console.log(user);
+    const postWithUser = {
+      ...post,
+      userId: user.uid,
+      createdAt: serverTimestamp(),
+    };
+    await addDoc(collection(db, "posts"), postWithUser);
+    console.log("Post added successfully");
   } catch (error) {
     console.error("Error adding post:", error);
     throw error;
