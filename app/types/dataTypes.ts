@@ -19,6 +19,7 @@ export interface Post {
   location: string;
   venue: string;
   rating: number;
+  genre?: string;
   tourName?: string;
   photo?: string;
   topTracks?: string[];
