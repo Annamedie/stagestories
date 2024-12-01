@@ -1,6 +1,7 @@
 // Import Timestamp
 import { db } from "@/utils/firebase";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -43,6 +44,15 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
     }
   } catch (error) {
     console.error("Error fetching post:", error);
+    throw error;
+  }
+};
+
+export const addPost = async (post: Post) => {
+  try {
+    await addDoc(collection(db, "posts"), post);
+  } catch (error) {
+    console.error("Error adding post:", error);
     throw error;
   }
 };

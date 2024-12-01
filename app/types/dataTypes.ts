@@ -10,6 +10,7 @@ export interface User {
 
 export interface Post {
   id?: string;
+  username?: string;
   review: string;
   createdAt: Timestamp;
   showDate: string;
