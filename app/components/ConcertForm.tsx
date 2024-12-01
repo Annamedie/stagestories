@@ -1,10 +1,12 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { addPost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
+import { ConcertFormSchema } from "../validationSchemas/concertValidation";
 
 function ConcertForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +15,7 @@ function ConcertForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Post>();
+  } = useForm<Post>({ resolver: zodResolver(ConcertFormSchema) });
 
   const onSubmit: SubmitHandler<Post> = async (concertData: Post) => {
     setIsLoading(true);
@@ -230,6 +232,17 @@ function ConcertForm() {
                 </option>
               ))}{" "}
             </select>
+          </div>
+          <div>
+            <label htmlFor="review">Type yout review</label>
+            <textarea
+              id="review"
+              rows={4}
+              {...register("review")}
+              className={`border p-2 rounded-md ${
+                errors.review ? "border-red-500" : "border-gray-300"
+              }`}
+            />
           </div>
           <button>add photo</button>
           <button>add emoijs</button>
