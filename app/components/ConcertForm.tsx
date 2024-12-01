@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -214,6 +215,7 @@ function ConcertForm() {
             </div>
           </div>
           <div>
+            <label htmlFor="genre">Genre</label>
             <select
               id="genre"
               {...register("genre")}
@@ -244,11 +246,9 @@ function ConcertForm() {
             {isLoading ? "Registering..." : "Register"}
           </button>
         </form>
-        <Link href={"/auth/login"}>
+        <Link href={"/"}>
           <div>
-            <h3>
-              Already a user? Sign In <i>here</i>
-            </h3>
+            <h3>Finished? To the start page!</h3>
           </div>
         </Link>
       </div>
