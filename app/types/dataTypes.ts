@@ -24,6 +24,8 @@ export interface Post {
   photo?: string;
   topTracks?: string[];
   emojis?: string[];
+  likes?: number;
+  likesBy?: string[];
 }
 
 export interface Comment {

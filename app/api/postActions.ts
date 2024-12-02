@@ -3,12 +3,16 @@ import { db } from "@/utils/firebase";
 import { User, getAuth } from "firebase/auth";
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
+  increment,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { Post } from "../types/dataTypes";
@@ -79,5 +83,49 @@ export const addPost = async (post: Post) => {
   } catch (error) {
     console.error("Error adding post:", error);
     throw error;
+  }
+};
+
+export const likePost = async (postId: string) => {
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
+
+  if (!userId) {
+    throw new Error("User must be logged in to like a post.");
+  }
+
+  const postRef = doc(db, "posts", postId);
+
+  try {
+    await updateDoc(postRef, {
+      likes: increment(1),
+      likesBy: arrayUnion(userId),
+    });
+  } catch (error) {
+    console.error("Error liking post:", error);
+    // Initialize fields if they don't exist
+    await updateDoc(postRef, {
+      likes: 1,
+      likesBy: [userId],
+    });
+  }
+};
+export const unlikePost = async (postId: string) => {
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
+
+  if (!userId) {
+    throw new Error("User must be logged in to unlike a post.");
+  }
+
+  const postRef = doc(db, "posts", postId);
+
+  try {
+    await updateDoc(postRef, {
+      likes: increment(-1),
+      likesBy: arrayRemove(userId),
+    });
+  } catch (error) {
+    console.error("Error unliking post:", error);
   }
 };

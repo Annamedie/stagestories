@@ -1,9 +1,30 @@
+"use client";
+import { useState } from "react";
+import { likePost, unlikePost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
 interface ConcertCardProps {
   post: Post;
 }
 
 function ConcertCard({ post }: ConcertCardProps) {
+  const [liked, setLiked] = useState(post.likesBy?.includes("userId"));
+  const [likes, setLikes] = useState(post.likes || 0);
+
+  const handleLike = async () => {
+    try {
+      if (liked) {
+        await unlikePost(post.id);
+        setLikes((prev) => prev - 1);
+      } else {
+        await likePost(post.id);
+        setLikes((prev) => prev + 1);
+      }
+      setLiked((prev) => !prev);
+    } catch (error) {
+      console.error("Error handling like:", error);
+    }
+  };
+
   return (
     <div key={post.id} className="border rounded-lg p-4 shadow-md">
       <div className="flex justify-between items-center mb-2">
@@ -19,6 +40,15 @@ function ConcertCard({ post }: ConcertCardProps) {
           {new Date(post.showDate).toLocaleDateString()}
         </span>
       </div>
+      <button
+        onClick={handleLike}
+        className={`px-3 py-1 rounded ${
+          liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
+        }`}
+      >
+        {liked ? "Unlike" : "Like"}
+      </button>
+      <span>{likes} Likes</span>
     </div>
   );
 }
