@@ -1,5 +1,6 @@
 import Link from "next/link";
 import LogOutButton from "./LogOutButton";
+import ProfileButton from "./ProfileButton";
 
 function Header() {
   return (
@@ -8,6 +9,7 @@ function Header() {
         <h1>Stage Stories</h1>
       </Link>
       <LogOutButton />
+      <ProfileButton />
     </header>
   );
 }
