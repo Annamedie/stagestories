@@ -7,7 +7,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 import { Post } from "../types/dataTypes";
 
@@ -38,6 +40,21 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
     }
   } catch (error) {
     console.error("Error fetching post:", error);
+    throw error;
+  }
+};
+
+export const fetchPostsByUserId = async (userId: string) => {
+  try {
+    const postsRef = collection(db, "posts");
+    const queryPost = query(postsRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(queryPost);
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return { id: doc.id, ...data } as Post;
+    });
+  } catch (error) {
+    console.error("Error fetching posts by user id: ", error);
     throw error;
   }
 };
