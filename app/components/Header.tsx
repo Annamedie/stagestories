@@ -1,7 +1,13 @@
+import Link from "next/link";
+import LogOutButton from "./LogOutButton";
+
 function Header() {
   return (
     <header className="bg-slate-600">
-      <h1>Stage Stories</h1>
+      <Link href="/">
+        <h1>Stage Stories</h1>
+      </Link>
+      <LogOutButton />
     </header>
   );
 }
