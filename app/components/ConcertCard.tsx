@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
@@ -28,6 +29,13 @@ function ConcertCard({ post }: ConcertCardProps) {
   return (
     <div key={post.id} className="border rounded-lg p-4 shadow-md">
       <div className="flex justify-between items-center mb-2">
+        <Image
+          src={post.image ? post.image : "/images/standin.jpg"}
+          alt={post.artistBand}
+          width={100}
+          height={100}
+          className="rounded-full"
+        />
         <h2 className="text-xl font-semibold">{post.artistBand}</h2>
         <span className="text-sm text-gray-500">{post.rating}/5</span>
       </div>

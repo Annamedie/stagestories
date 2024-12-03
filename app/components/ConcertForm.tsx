@@ -11,6 +11,7 @@ import UploadBtn from "./UploadBtn";
 
 function ConcertForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const {
     register,
     handleSubmit,
@@ -22,8 +23,10 @@ function ConcertForm() {
     setIsLoading(true);
 
     try {
-      await addPost(concertData);
+      const postWithImage = { ...concertData, image: imageUrl };
+      await addPost(postWithImage);
       reset();
+      setImageUrl("");
       toast.success("Concert added successfully");
     } catch (error: any) {
       if (error?.code) {
@@ -246,7 +249,7 @@ function ConcertForm() {
             />
           </div>
           <button>add photo</button>
-          <UploadBtn />
+          <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
 
           <button
             className={`w-full py-2 rounded ${

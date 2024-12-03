@@ -2,7 +2,11 @@ import { CldUploadButton } from "next-cloudinary";
 import Image from "next/image";
 import { useState } from "react";
 
-function UploadBtn() {
+interface UploadBtnProps {
+  onUpload: (url: string) => void;
+}
+
+function UploadBtn({ onUpload }: UploadBtnProps) {
   const [imageUrl, setImgUrl] = useState("");
 
   const handleUploadSuccess = (result: any) => {
