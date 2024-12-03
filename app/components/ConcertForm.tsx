@@ -7,6 +7,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import { addPost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
 import { ConcertFormSchema } from "../validationSchemas/concertValidation";
+import UploadBtn from "./UploadBtn";
 
 function ConcertForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -245,7 +246,7 @@ function ConcertForm() {
             />
           </div>
           <button>add photo</button>
-          <button>add emoijs</button>
+          <UploadBtn />
 
           <button
             className={`w-full py-2 rounded ${
