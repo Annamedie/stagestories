@@ -10,8 +10,8 @@ function Footer() {
     return null;
   }
   return (
-    <footer className="bg-pink-300">
-      <h2>C sedan 2024</h2>
+    <footer className="bg-footerHeader min-h-10 flex justify-center items-center">
+      <h2 className="text-white">©️ SINCE 2024</h2>
     </footer>
   );
 }

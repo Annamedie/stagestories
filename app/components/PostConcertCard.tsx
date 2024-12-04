@@ -27,26 +27,28 @@ function PostConcertCard({ post }: ConcertCardProps) {
   };
 
   return (
-    <div key={post.id} className="border rounded-lg p-4 shadow-md">
-      <div className="flex justify-between items-center mb-2">
-        <Image
-          src={post.image ? post.image : "/images/standin.jpg"}
-          alt={post.artistBand}
-          width={100}
-          height={100}
-          className="rounded-full"
-        />
-        <h2 className="text-xl font-semibold">{post.artistBand}</h2>
-        <span className="text-sm text-gray-500">{post.rating}/5</span>
-      </div>
-      <p className="text-gray-700 mb-2">{post.review}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-sm">
-          {post.venue} - {post.location}
-        </span>
-        <span className="text-sm text-gray-500">
-          {new Date(post.showDate).toLocaleDateString()}
-        </span>
+    <>
+      <div key={post.id} className="border rounded-lg p-4 shadow-md">
+        <div className="flex justify-between items-center mb-2">
+          <Image
+            src={post.image ? post.image : "/images/standin.jpg"}
+            alt={post.artistBand}
+            width={100}
+            height={100}
+            className=""
+          />
+          <h2 className="text-xl font-semibold">{post.artistBand}</h2>
+          <span className="text-sm text-gray-500">{post.rating}/5</span>
+        </div>
+        <p className="text-gray-700 mb-2">{post.review}</p>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">
+            {post.venue} - {post.location}
+          </span>
+          <span className="text-sm text-gray-500">
+            {new Date(post.showDate).toLocaleDateString()}
+          </span>
+        </div>
       </div>
       <button
         onClick={handleLike}
@@ -57,7 +59,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
         {liked ? "Unlike" : "Like"}
       </button>
       <span>{likes} Likes</span>
-    </div>
+    </>
   );
 }
 

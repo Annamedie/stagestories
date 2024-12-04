@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import LogOutButton from "./LogOutButton";
 import ProfileButton from "./ProfileButton";
 
 function Header() {
@@ -14,11 +13,13 @@ function Header() {
     return null;
   }
   return (
-    <header className="bg-slate-600">
+    <header className="bg-footerHeader flex justify-between items-center">
       <Link href="/">
-        <h1>Stage Stories</h1>
+        <h1 className="font-lacquer text-primary m-4 text-4xl">
+          Stage Stories
+        </h1>
       </Link>
-      <LogOutButton />
+
       <ProfileButton />
     </header>
   );

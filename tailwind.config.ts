@@ -15,6 +15,7 @@ export default {
         card1: "#DEECF2",
         buttonDark: "#053558",
         buttonDarkHover: "#0A6C9C",
+        footerHeader: "#053558",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],

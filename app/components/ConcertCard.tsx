@@ -13,7 +13,9 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
   const [liked, setLiked] = useState(post.likesBy?.includes("userId"));
   const [likes, setLikes] = useState(post.likes || 0);
 
-  const handleLike = async () => {
+  const handleLike = async (event) => {
+    event.stopPropagation();
+
     try {
       if (liked) {
         await unlikePost(post.id);
@@ -38,13 +40,18 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             alt={post.artistBand}
             width={100}
             height={100}
-            className="rounded-full"
+            className=""
           />
           <h2 className="text-xl font-semibold">{post.artistBand}</h2>
-          <span className="text-sm text-gray-500">{post.rating}/5</span>
+          <h3>{post.tourName ? post.tourName : "Sunny Tour"}</h3>
+          <span className="text-sm">
+            {post.venue ? post.venue : "Ullevi"} - {post.location}
+            <span className="text-sm text-gray-500">{post.rating}/5</span>
+          </span>
           <span className="text-sm text-gray-500">
             {isProfile && post.genre}
           </span>
+          <span className="text-sm text-gray-500">{post.rating}/5</span>
         </div>
         <p className="text-gray-700 mb-2">
           {post.review
@@ -52,9 +59,6 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             : "detta är en review allt är bra och solen skiner blablabla"}
         </p>
         <div className="flex items-center justify-between">
-          <span className="text-sm">
-            {post.venue ? post.venue : "Ullevi"} - {post.location}
-          </span>
           <span className="text-sm text-gray-500">
             {new Date(post.showDate).toLocaleDateString()}
           </span>
@@ -66,16 +70,16 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
           )}
         </div>
-        <button
-          onClick={handleLike}
-          className={`px-3 py-1 rounded ${
-            liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-          }`}
-        >
-          {liked ? "Unlike" : "Like"}
-        </button>
-        <span>{likes} Likes</span>
       </div>
+      <button
+        onClick={(e) => handleLike(e)}
+        className={`px-3 py-1 rounded ${
+          liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
+        }`}
+      >
+        {liked ? "Unlike" : "Like"}
+      </button>
+      <span>{likes} Likes</span>
     </>
   );
 }
