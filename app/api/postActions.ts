@@ -67,17 +67,21 @@ export const addPost = async (post: Post) => {
   const auth = getAuth();
   const user = auth.currentUser as User | null;
   if (!user) {
-    console.error("User not authenticated");
     throw new Error("User not authenticated");
   }
 
   try {
-    console.log(user);
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    const username = userSnap.exists() ? userSnap.data().username : "Unknown";
+
     const postWithUser = {
       ...post,
       userId: user.uid,
+      username,
       createdAt: serverTimestamp(),
     };
+
     await addDoc(collection(db, "posts"), postWithUser);
     console.log("Post added successfully");
   } catch (error) {
