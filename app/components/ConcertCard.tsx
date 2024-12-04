@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
+import Barcode from "../svg/Barcode.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
 interface ConcertCardProps {
@@ -32,54 +33,79 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
 
   return (
     <>
-      <h2>{post.username ? post.username : "Hemligt"}</h2>
-      <div key={post.id} className="border rounded-lg p-4 shadow-md">
-        <div className="flex justify-between items-center mb-2">
-          <Image
-            src={post.image ? post.image : "/images/standin.jpg"}
-            alt={post.artistBand}
-            width={100}
-            height={100}
-            className=""
-          />
-          <h2 className="text-xl font-semibold">{post.artistBand}</h2>
-          <h3>{post.tourName ? post.tourName : "Sunny Tour"}</h3>
-          <span className="text-sm">
-            {post.venue ? post.venue : "Ullevi"} - {post.location}
-            <span className="text-sm text-gray-500">{post.rating}/5</span>
-          </span>
-          <span className="text-sm text-gray-500">
-            {isProfile && post.genre}
-          </span>
-          <span className="text-sm text-gray-500">{post.rating}/5</span>
-        </div>
-        <p className="text-gray-700 mb-2">
-          {post.review
-            ? post.review
-            : "detta är en review allt är bra och solen skiner blablabla"}
-        </p>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">
-            {new Date(post.showDate).toLocaleDateString()}
-          </span>
-        </div>
-        <div>
-          {isProfile && post.topTracks && (
+      <div
+        key={post.id}
+        className="border min-h-52 shadow-md bg-[#F3F0E8] flex w-full"
+      >
+        {/* Left Section (Image and Content) */}
+        <div className="flex flex-grow">
+          {/* Image and Content Wrapper */}
+          <div className="flex">
+            {/* Image */}
+            <div className="w-44 flex-shrink-0">
+              <Image
+                src={post.image ? post.image : "/images/standin.jpg"}
+                alt={post.artistBand}
+                width={500}
+                height={500}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Content */}
+            <div className="pl-2 pt-2">
+              <div>
+                <h2 className="text-xl font-semibold">{post.artistBand}</h2>
+                <h3>{post.tourName ? post.tourName : "Sunny Tour"}</h3>
+              </div>
+              <span>{post.venue ? post.venue : "Ullevi"}</span>
+              <p>{post.location}</p>
+              <p className="text-sm text-gray-500">{post.genre}</p>
+              <p className="text-sm text-gray-500">{post.rating}/5</p>
+            </div>
+          </div>
+          {/* Additional Content */}
+          <div className="pt-2 pr-2 flex flex-col items-end justify-between flex-grow">
+            <div>
+              <span className="text-sm text-black">
+                {new Date(post.showDate).toLocaleDateString()}
+              </span>
+            </div>
+            <div>
+              <p className="text-gray-700 mb-2">
+                {post.review
+                  ? post.review
+                  : "detta är en review allt är bra och solen skiner blablabla"}
+              </p>
+            </div>
             <div>
               <TopTracks width={20} />
+              {isProfile && post.topTracks && post.topTracks.length > 0 && (
+                <div>
+                  <TopTracks width={20} />
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </div>
+        {/* Username and Barcode Section */}
+        <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
+          <h2>{post.username ? post.username : "Hemligt"}</h2>
+          <Barcode />
         </div>
       </div>
-      <button
-        onClick={(e) => handleLike(e)}
-        className={`px-3 py-1 rounded ${
-          liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-        }`}
-      >
-        {liked ? "Unlike" : "Like"}
-      </button>
-      <span>{likes} Likes</span>
+
+      {/* Like Button and Likes Count */}
+      <div className="flex items-center mt-2">
+        <button
+          onClick={(e) => handleLike(e)}
+          className={`px-3 py-1 rounded ${
+            liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
+          }`}
+        >
+          {liked ? "Unlike" : "Like"}
+        </button>
+        <span className="ml-2">{likes} Likes</span>
+      </div>
     </>
   );
 }

@@ -11,8 +11,8 @@ type Props = {
 async function profilePage({ params }: Props) {
   const posts = await fetchPostsByUserId(params.id);
   return (
-    <div>
-      <h1>Profile Page</h1>
+    <div className="container mx-auto px-4">
+      <h1 className="text-white">Profile Page</h1>
       <p>Posts by user {params.slug}</p>
       {posts.map((post) => (
         <ConcertCard key={post.id} post={post} isProfile={true} />

@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${lacquer.variable} antialiased`}>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col">
+          <div className="min-h-screen flex flex-col bg-[#020C11]">
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
