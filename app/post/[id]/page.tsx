@@ -1,5 +1,5 @@
 import { fetchPostById } from "@/app/api/postActions";
-import ConcertCard from "@/app/components/ConcertCard";
+import PostConcertCard from "@/app/components/PostConcertCard";
 
 type Props = {
   params: {
@@ -15,7 +15,7 @@ async function PostPage({ params }: Props) {
   }
   return (
     <div className="container mx-auto px-4 m-2">
-      <ConcertCard post={post} />
+      <PostConcertCard post={post} />
     </div>
   );
 }

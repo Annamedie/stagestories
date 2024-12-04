@@ -15,7 +15,7 @@ async function profilePage({ params }: Props) {
       <h1>Profile Page</h1>
       <p>Posts by user {params.slug}</p>
       {posts.map((post) => (
-        <ConcertCard key={post.id} post={post} />
+        <ConcertCard key={post.id} post={post} params={params} />
       ))}
     </div>
   );
