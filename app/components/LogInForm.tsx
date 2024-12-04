@@ -117,7 +117,7 @@ function LogInForm() {
           </div>
 
           <button
-            className="w-full bg-buttonDark text-white py-2 rounded hover:bg-buttonDarkHover text-lg"
+            className="w-full bg-buttonDark text-white py-2 rounded hover:bg-buttonDarkHover text-"
             type="submit"
             disabled={isLoading}
           >
@@ -125,8 +125,8 @@ function LogInForm() {
           </button>
         </form>
         <Link href={"/auth/register"}>
-          <div>
-            <h3>
+          <div className="flex justify-center mt-2">
+            <h3 className=" font-semibold">
               New user? Register <i>here</i>
             </h3>
           </div>

@@ -58,7 +58,7 @@ function RegisterForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto mt-10">
+      <div className="max-w-md mx-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
@@ -67,11 +67,11 @@ function RegisterForm() {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
                   message: "Invalid email address",
                 },
               })}
-              className={`w-full px-4 py-2 border rounded ${
+              className={`w-full px-2 py-2 border rounded ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.email ? "true" : "false"}
@@ -90,7 +90,7 @@ function RegisterForm() {
               {...register("password", {
                 required: "Password is required",
               })}
-              className={`w-full px-4 py-2 border rounded ${
+              className={`w-full px-2 py-2 border rounded ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.password ? "true" : "false"}
@@ -101,6 +101,7 @@ function RegisterForm() {
               </p>
             )}
           </div>
+
           <div>
             <label className="block text-sm font-medium">Username</label>
             <input
@@ -120,15 +121,8 @@ function RegisterForm() {
                   message:
                     "Username can only contain letters, numbers, underscores, and periods",
                 },
-                validate: (value) => {
-                  return (
-                    !["admin", "superuser", "root", "support", "test"].includes(
-                      value.toLowerCase()
-                    ) || "Username is not allowed"
-                  );
-                },
               })}
-              className={`w-full px-4 py-2 border rounded ${
+              className={`w-full px-2 py-2 border rounded ${
                 errors.username ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.username ? "true" : "false"}
@@ -144,7 +138,7 @@ function RegisterForm() {
             className={`w-full py-2 rounded ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-lime-500 hover:bg-lime-600 text-white"
+                : "bg-buttonDark hover:bg-buttonDarkHover text-white"
             }`}
             type="submit"
             disabled={isLoading}
@@ -153,8 +147,8 @@ function RegisterForm() {
           </button>
         </form>
         <Link href={"/auth/login"}>
-          <div>
-            <h3>
+          <div className="text-center mt-2">
+            <h3 className="font-semibold">
               Already a user? Sign In <i>here</i>
             </h3>
           </div>
