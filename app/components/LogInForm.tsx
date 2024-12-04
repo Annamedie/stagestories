@@ -72,7 +72,7 @@ function LogInForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto mt-10">
+      <div className="max-w-md mx-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
@@ -117,7 +117,7 @@ function LogInForm() {
           </div>
 
           <button
-            className="w-full bg-lime-500 text-white py-2 rounded hover:bg-lime-600"
+            className="w-full bg-buttonDark text-white py-2 rounded hover:bg-buttonDarkHover text-lg"
             type="submit"
             disabled={isLoading}
           >

@@ -11,10 +11,17 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#EDE5E3",
+        card1: "#DEECF2",
+        buttonDark: "#053558",
+        buttonDarkHover: "#0A6C9C",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
         lacquer: ["var(--font-lacquer)", "cursive"],
+      },
+      backgroundImage: {
+        "concert-background": "url('/images/background.jpg')",
       },
     },
   },
