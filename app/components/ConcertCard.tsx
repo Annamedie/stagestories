@@ -1,4 +1,5 @@
 "use client";
+import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
@@ -12,11 +13,21 @@ interface ConcertCardProps {
 }
 
 function ConcertCard({ post, isProfile }: ConcertCardProps) {
-  const [liked, setLiked] = useState(post.likesBy?.includes("userId"));
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
+  const [liked, setLiked] = useState(
+    post.likesBy && userId ? post.likesBy.includes(userId) : false
+  );
   const [likes, setLikes] = useState(post.likes || 0);
 
-  const handleLike = async (event) => {
+  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
+    event.preventDefault();
+
+    if (!userId) {
+      console.error("User must be logged in to like a post.");
+      return;
+    }
 
     try {
       if (liked) {
@@ -33,13 +44,13 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
   };
 
   return (
-    <>
+    <div className="flex flex-col">
+      {/* Card Content */}
       <div
         key={post.id}
         className="h-52 bg-[#F3F0E8] flex w-full overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out"
       >
         <div className="absolute right-[71px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
-
         <div className="absolute right-[71px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
         <div className="flex flex-grow">
           <div className="flex">
@@ -52,7 +63,6 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Content */}
             <div className="pl-4 pt-4 flex flex-col justify-between">
               <div>
                 <h2 className="text-2xl font-semibold">{post.artistBand}</h2>
@@ -76,7 +86,6 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               )}
             </div>
           </div>
-          {/* Additional Content */}
           <div className="pt-2 pr-2 flex flex-col items-end justify-between flex-grow">
             <div className="pt-2">
               <span className="text-sm text-black">
@@ -89,7 +98,6 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               </p>
             </div>
             <div className="pb-2">
-              <TopTracks width={20} />
               {isProfile && post.topTracks && post.topTracks.length > 0 && (
                 <div>
                   <TopTracks width={20} />
@@ -98,7 +106,6 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
           </div>
         </div>
-        {/* Username and Barcode Section */}
         <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
           <div>
             <p className="text-center text-sm p-1 truncate">
@@ -114,8 +121,8 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
         </div>
       </div>
 
-      {/* Like Button and Likes Count */}
-      <div className="flex items-center mt-2">
+      {/* Like Button and Likes Count Below the Card */}
+      <div className="mt-2">
         <button
           onClick={(e) => handleLike(e)}
           className={`px-3 py-1 rounded ${
@@ -124,9 +131,9 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
         >
           {liked ? "Unlike" : "Like"}
         </button>
-        <span className="ml-2">{likes} Likes</span>
+        <span className="ml-2 text-white">{likes} Likes</span>
       </div>
-    </>
+    </div>
   );
 }
 

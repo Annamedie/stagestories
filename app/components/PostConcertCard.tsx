@@ -1,4 +1,5 @@
 "use client";
+import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
@@ -8,10 +9,22 @@ interface ConcertCardProps {
 }
 
 function PostConcertCard({ post }: ConcertCardProps) {
-  const [liked, setLiked] = useState(post.likesBy?.includes("userId"));
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
+  const [liked, setLiked] = useState(
+    post.likesBy && userId ? post.likesBy.includes(userId) : false
+  );
   const [likes, setLikes] = useState(post.likes || 0);
 
-  const handleLike = async () => {
+  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!userId) {
+      console.error("User must be logged in to like a post.");
+      return;
+    }
+
     try {
       if (liked) {
         await unlikePost(post.id);
