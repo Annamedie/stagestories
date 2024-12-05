@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
 import Barcode from "../svg/Barcode.svg";
+import Star from "../svg/Star.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
 interface ConcertCardProps {
@@ -35,13 +36,13 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
     <>
       <div
         key={post.id}
-        className="border min-h-52 shadow-md bg-[#F3F0E8] flex w-full"
+        className="h-52 bg-[#F3F0E8] flex w-full overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out"
       >
-        {/* Left Section (Image and Content) */}
+        <div className="absolute right-[71px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
+
+        <div className="absolute right-[71px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
         <div className="flex flex-grow">
-          {/* Image and Content Wrapper */}
           <div className="flex">
-            {/* Image */}
             <div className="w-44 flex-shrink-0">
               <Image
                 src={post.image ? post.image : "/images/standin.jpg"}
@@ -52,32 +53,42 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               />
             </div>
             {/* Content */}
-            <div className="pl-2 pt-2">
+            <div className="pl-4 pt-4 flex flex-col justify-between">
               <div>
-                <h2 className="text-xl font-semibold">{post.artistBand}</h2>
-                <h3>{post.tourName ? post.tourName : "Sunny Tour"}</h3>
+                <h2 className="text-2xl font-semibold">{post.artistBand}</h2>
+                <h3 className="font-medium italic">
+                  {post.tourName ? post.tourName : "Sunny Tour"}
+                </h3>
               </div>
-              <span>{post.venue ? post.venue : "Ullevi"}</span>
-              <p>{post.location}</p>
-              <p className="text-sm text-gray-500">{post.genre}</p>
-              <p className="text-sm text-gray-500">{post.rating}/5</p>
+              <div className="my-1">
+                <p>{post.venue ? post.venue : "Ullevi"}</p>
+                <p>{post.location}</p>
+                <p className="text-sm text-gray-500">{post.genre}</p>
+              </div>
+              {post.rating && (
+                <div className="pb-2">
+                  {Array.from({ length: post.rating }, (_, index) => (
+                    <span key={index} className="inline-block">
+                      <Star width={20} height={20} />
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           {/* Additional Content */}
           <div className="pt-2 pr-2 flex flex-col items-end justify-between flex-grow">
-            <div>
+            <div className="pt-2">
               <span className="text-sm text-black">
                 {new Date(post.showDate).toLocaleDateString()}
               </span>
             </div>
             <div>
-              <p className="text-gray-700 mb-2">
-                {post.review
-                  ? post.review
-                  : "detta är en review allt är bra och solen skiner blablabla"}
+              <p className="text-gray-700 mb-2 font-bold">
+                {post.review && "Read review..."}
               </p>
             </div>
-            <div>
+            <div className="pb-2">
               <TopTracks width={20} />
               {isProfile && post.topTracks && post.topTracks.length > 0 && (
                 <div>
@@ -89,8 +100,17 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
         </div>
         {/* Username and Barcode Section */}
         <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
-          <h2>{post.username ? post.username : "Hemligt"}</h2>
-          <Barcode />
+          <div>
+            <p className="text-center text-sm p-1 truncate">
+              {post.username ? post.username : "Hemligt"}
+            </p>
+          </div>
+          <div className="flex items-center justify-center">
+            <Barcode />
+            <span className="text-xs font-lacquer rotate-[270deg]">
+              STAGE STORIES
+            </span>
+          </div>
         </div>
       </div>
 
