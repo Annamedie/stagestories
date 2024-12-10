@@ -1,10 +1,15 @@
 "use client";
+import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "../api/postActions";
 import { fetchAllUsers } from "../api/userActions";
+import { useAuth } from "../context/Authcontext";
 import { Post, Users } from "../types/dataTypes";
 
 function AdminPage() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const { isAdmin } = useAuth();
   const [userData, setUserData] = useState<Users[]>([]);
   const [postData, setPostData] = useState<Post[]>([]);
 
@@ -16,6 +21,16 @@ function AdminPage() {
     };
     getUsers();
   }, []);
+
+  if (!user || !isAdmin) {
+    return (
+      <div>
+        <h1 className="text-white">
+          User must be logged in and an admin to view this page
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div>

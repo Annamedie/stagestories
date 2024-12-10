@@ -14,6 +14,7 @@ interface AuthContextType {
   user: User | null;
   username: string | null;
   isloading: boolean;
+  isAdmin: boolean;
   registerUser: (
     email: string,
     password: string,
@@ -27,7 +28,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   username: null,
   isloading: true,
-
+  isAdmin: false,
   registerUser: async () => {},
   login: async () => {},
   logout: async () => {},
@@ -36,6 +37,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isloading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,9 +49,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           setUsername(userDoc.data().username || null);
+          setIsAdmin(userDoc.data().isAdmin || false);
         }
       } else {
         setUsername(null);
+        setIsAdmin(false);
       }
       setLoading(false);
     });
@@ -107,6 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         username,
         isloading,
+        isAdmin,
         registerUser,
         login,
         logout,
