@@ -1,9 +1,12 @@
 "use client";
+
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { deletePost, fetchPosts } from "../api/postActions";
 import { fetchAllUsers } from "../api/userActions";
 import { useAuth } from "../context/Authcontext";
+
+import DataTable from "../components/DataTable";
 import { Post, Users } from "../types/dataTypes";
 
 function AdminPage() {
@@ -45,70 +48,41 @@ function AdminPage() {
     <div>
       <h1 className="text-white">Admin Page</h1>
       <p className="text-white">Only accessible by admins</p>
+
       <h2 className="text-white mt-8">Users</h2>
-      <table className="text-white border-collapse w-full mt-4">
-        <thead>
-          <tr>
-            <th className="border-b border-white p-2 text-left">Username</th>
-            <th className="border-b border-white p-2 text-left">
-              Date of Registration
-            </th>
-            <th className="border-b border-white p-2 text-left">User ID</th>
-            <th className="border-b border-white p-2 text-left">Admin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userData.map((user) => (
-            <tr key={user.id}>
-              <td className="border-b border-white p-2">{user.username}</td>
-              <td className="border-b border-white p-2">
-                {user.createdAt.toDate().toLocaleDateString()}
-              </td>
-              <td className="border-b border-white p-2">{user.id}</td>
-              <td className="border-b border-white p-2">
-                {user.isAdmin ? "Yes" : "No"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataTable
+        data={userData}
+        columns={
+          [
+            { header: "Username", accessor: "username" },
+            { header: "Date of Registration", accessor: "createdAt" },
+            { header: "User ID", accessor: "id" },
+            { header: "Admin", accessor: "isAdmin" },
+          ] as Array<{ header: string; accessor: keyof Users }>
+        }
+      />
+
       <h2 className="text-white mt-8">Posts</h2>
-      <table className="text-white border-collapse w-full mt-4">
-        <thead>
-          <tr>
-            <th className="border-b border-white p-2 text-left">Username</th>
-            <th className="border-b border-white p-2 text-left">
-              Date of post
-            </th>
-            <th className="border-b border-white p-2 text-left">Post Id</th>
-            <th className="border-b border-white p-2 text-left">Artist</th>
-            <th className="border-b border-white p-2 text-left">Description</th>
-            <th className="border-b border-white p-2 text-left">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {postData.map((post) => (
-            <tr key={post.id}>
-              <td className="border-b border-white p-2">
-                {post.username ? post.username : "Usename missing"}
-              </td>
-              <td className="border-b border-white p-2">
-                {post.createdAt.toDate().toLocaleDateString()}
-              </td>
-              <td className="border-b border-white p-2">{post.id}</td>
-              <td className="border-b border-white p-2">{post.artistBand}</td>
-              <td className="border-b border-white p-2 truncate">
-                {post.review ? post.review : "Review missing"}
-              </td>
-              <td className="border-b border-white p-2">
-                <button onClick={() => post.id && handleDelete(post.id)}>
-                  Delete
-                </button>{" "}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <DataTable
+        data={postData}
+        columns={
+          [
+            { header: "Username", accessor: "username" },
+            { header: "Date of Post", accessor: "createdAt" },
+            { header: "Post ID", accessor: "id" },
+            { header: "Artist", accessor: "artistBand" },
+            { header: "Description", accessor: "review" },
+          ] as Array<{ header: string; accessor: keyof Post }>
+        }
+        actions={(row: Post) => (
+          <button
+            onClick={() => row.id && handleDelete(row.id)}
+            className="bg-red-500 text-white px-2 py-1 rounded"
+          >
+            Delete
+          </button>
+        )}
+      />
     </div>
   );
 }

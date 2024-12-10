@@ -10,7 +10,8 @@ export const fetchAllUsers = async () => {
 
     return usersSnapshot.docs.map((doc) => {
       const data = doc.data();
-      return { id: doc.id, ...data } as Users;
+      const createdAt = data.createdAt.toDate().toLocaleDateString();
+      return { id: doc.id, ...data, createdAt } as Users;
     });
   } catch (error) {
     console.error("Error fetching users: ", error);

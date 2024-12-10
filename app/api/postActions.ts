@@ -23,8 +23,8 @@ export const fetchPosts = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-
-      return { id: doc.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: doc.id, ...data, createdAt } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts: ", error);
