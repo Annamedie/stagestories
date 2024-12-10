@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^3.9.1",
     "firebase": "^11.0.2",
     "next": "14.2.18",
+    "next-cloudinary": "^6.16.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
@@ -19,6 +20,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

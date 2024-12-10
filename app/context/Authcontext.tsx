@@ -7,11 +7,12 @@ import {
   signInWithEmailAndPassword,
   User,
 } from "firebase/auth";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: User | null;
+  username: string | null;
   isloading: boolean;
   registerUser: (
     email: string,
@@ -24,6 +25,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  username: null,
   isloading: true,
   registerUser: async () => {},
   login: async () => {},
@@ -32,11 +34,22 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
   const [isloading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
       setUser(currentUser);
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setUsername(userDoc.data().username || null);
+        }
+      } else {
+        setUsername(null);
+      }
       setLoading(false);
     });
 
@@ -60,6 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAdmin: false,
         createdAt: Timestamp.now(),
       });
+      setUsername(username);
     } catch (error) {
       console.error("Error registering user: ", error);
       throw error;
@@ -79,6 +93,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await auth.signOut();
       setUser(null);
+      setUsername(null);
     } catch (error) {
       console.error("Error logging out: ", error);
       throw error;
@@ -86,7 +101,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <AuthContext.Provider
-      value={{ user, isloading, registerUser, login, logout }}
+      value={{ user, username, isloading, registerUser, login, logout }}
     >
       {children}
     </AuthContext.Provider>

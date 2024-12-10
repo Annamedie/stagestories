@@ -7,9 +7,11 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import { addPost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
 import { ConcertFormSchema } from "../validationSchemas/concertValidation";
+import UploadBtn from "./UploadBtn";
 
 function ConcertForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const {
     register,
     handleSubmit,
@@ -21,8 +23,10 @@ function ConcertForm() {
     setIsLoading(true);
 
     try {
-      await addPost(concertData);
+      const postWithImage = { ...concertData, image: imageUrl };
+      await addPost(postWithImage);
       reset();
+      setImageUrl("");
       toast.success("Concert added successfully");
     } catch (error: any) {
       if (error?.code) {
@@ -245,7 +249,7 @@ function ConcertForm() {
             />
           </div>
           <button>add photo</button>
-          <button>add emoijs</button>
+          <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
 
           <button
             className={`w-full py-2 rounded ${

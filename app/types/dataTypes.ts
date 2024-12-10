@@ -21,9 +21,11 @@ export interface Post {
   rating: number;
   genre?: string;
   tourName?: string;
-  photo?: string;
+  image?: string;
   topTracks?: string[];
   emojis?: string[];
+  likes?: number;
+  likesBy?: string[];
 }
 
 export interface Comment {
