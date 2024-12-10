@@ -12,7 +12,7 @@ export interface Post {
   id?: string;
   username?: string;
   review: string;
-  createdAt?: Timestamp;
+  createdAt: Timestamp;
   showDate: string;
   userId?: string;
   artistBand: string;
