@@ -7,8 +7,16 @@ import {
   signInWithEmailAndPassword,
   User,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  Timestamp,
+} from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
+import { Users } from "../types/dataTypes";
 
 interface AuthContextType {
   user: User | null;
@@ -21,12 +29,14 @@ interface AuthContextType {
   ) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  fetchAllUsers: () => Promise<Users[]>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   username: null,
   isloading: true,
+  fetchAllUsers: async () => [],
   registerUser: async () => {},
   login: async () => {},
   logout: async () => {},
@@ -99,9 +109,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw error;
     }
   };
+
+  const fetchAllUsers = async () => {
+    try {
+      const userCollection = collection(db, "users");
+      const usersSnapshot = await getDocs(userCollection);
+      const usersData = usersSnapshot.docs.map((doc) => ({
+        userId: doc.id,
+        ...doc.data(),
+      }));
+      return usersData as (Users & { userId: string })[];
+    } catch (error) {
+      console.error("Error fetching users: ", error);
+      throw error;
+    }
+  };
   return (
     <AuthContext.Provider
-      value={{ user, username, isloading, registerUser, login, logout }}
+      value={{
+        user,
+        username,
+        isloading,
+        registerUser,
+        login,
+        logout,
+        fetchAllUsers,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,9 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface User {
+export interface Users {
   id?: string;
   username: string;
-  password: string;
+  password?: string;
   isAdmin: boolean;
   createdAt: Timestamp;
 }
