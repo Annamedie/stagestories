@@ -6,6 +6,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -86,6 +87,23 @@ export const addPost = async (post: Post) => {
     console.log("Post added successfully");
   } catch (error) {
     console.error("Error adding post:", error);
+    throw error;
+  }
+};
+
+export const deletePost = async (postId: string) => {
+  const auth = getAuth();
+  const user = auth.currentUser as User | null;
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  try {
+    const postRef = doc(db, "posts", postId);
+    await deleteDoc(postRef);
+    console.log(`Post with id ${postId} deleted successfully`);
+  } catch (error) {
+    console.error("Error deleting post:", error);
     throw error;
   }
 };

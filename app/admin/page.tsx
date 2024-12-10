@@ -1,7 +1,7 @@
 "use client";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { fetchPosts } from "../api/postActions";
+import { deletePost, fetchPosts } from "../api/postActions";
 import { fetchAllUsers } from "../api/userActions";
 import { useAuth } from "../context/Authcontext";
 import { Post, Users } from "../types/dataTypes";
@@ -31,6 +31,15 @@ function AdminPage() {
       </div>
     );
   }
+
+  const handleDelete = async (postId: string) => {
+    try {
+      await deletePost(postId);
+      setPostData((prev) => prev.filter((post) => post.id !== postId));
+    } catch (error) {
+      console.error("Error deleting post: ", error);
+    }
+  };
 
   return (
     <div>
@@ -74,6 +83,7 @@ function AdminPage() {
             <th className="border-b border-white p-2 text-left">Post Id</th>
             <th className="border-b border-white p-2 text-left">Artist</th>
             <th className="border-b border-white p-2 text-left">Description</th>
+            <th className="border-b border-white p-2 text-left">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -89,6 +99,11 @@ function AdminPage() {
               <td className="border-b border-white p-2">{post.artistBand}</td>
               <td className="border-b border-white p-2 truncate">
                 {post.review ? post.review : "Review missing"}
+              </td>
+              <td className="border-b border-white p-2">
+                <button onClick={() => post.id && handleDelete(post.id)}>
+                  Delete
+                </button>{" "}
               </td>
             </tr>
           ))}
