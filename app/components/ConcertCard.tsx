@@ -1,12 +1,11 @@
 "use client";
 import { getAuth } from "firebase/auth";
 import Image from "next/image";
-import { useState } from "react";
-import { likePost, unlikePost } from "../api/postActions";
 import Barcode from "../svg/Barcode.svg";
 import Star from "../svg/Star.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
+import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
   isProfile?: boolean;
@@ -15,33 +14,6 @@ interface ConcertCardProps {
 function ConcertCard({ post, isProfile }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-  const [liked, setLiked] = useState(
-    post.likesBy && userId ? post.likesBy.includes(userId) : false
-  );
-  const [likes, setLikes] = useState(post.likes || 0);
-
-  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    if (!userId) {
-      console.error("User must be logged in to like a post.");
-      return;
-    }
-
-    try {
-      if (liked) {
-        await unlikePost(post.id);
-        setLikes((prev) => prev - 1);
-      } else {
-        await likePost(post.id);
-        setLikes((prev) => prev + 1);
-      }
-      setLiked((prev) => !prev);
-    } catch (error) {
-      console.error("Error handling like:", error);
-    }
-  };
 
   return (
     <div className="flex flex-col">
@@ -123,15 +95,12 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
 
       {/* Like Button and Likes Count Below the Card */}
       <div className="mt-2">
-        <button
-          onClick={(e) => handleLike(e)}
-          className={`px-3 py-1 rounded ${
-            liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-          }`}
-        >
-          {liked ? "Unlike" : "Like"}
-        </button>
-        <span className="ml-2 text-white">{likes} Likes</span>
+        <LikeButton
+          postId={post.id || ""}
+          initialLikes={post.likes || 0}
+          isLiked={userId ? post.likesBy?.includes(userId) || false : false}
+          userId={userId || null}
+        />
       </div>
     </div>
   );

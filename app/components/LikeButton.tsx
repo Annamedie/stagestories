@@ -4,15 +4,29 @@ import { likePost, unlikePost } from "../api/postActions";
 
 interface LikeButtonProps {
   postId: string;
-  initialLiked: boolean;
   initialLikes: number;
+  isLiked: boolean;
+  userId: string | null;
 }
 
-function LikeButton({ postId, initialLiked, initialLikes }: LikeButtonProps) {
-  const [liked, setLiked] = useState(initialLiked);
+const LikeButton = ({
+  postId,
+  initialLikes,
+  isLiked,
+  userId,
+}: LikeButtonProps) => {
+  const [liked, setLiked] = useState(isLiked);
   const [likes, setLikes] = useState(initialLikes);
 
-  const handleLike = async () => {
+  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!userId) {
+      console.error("User must be logged in to like a post.");
+      return;
+    }
+
     try {
       if (liked) {
         await unlikePost(postId);
@@ -28,7 +42,7 @@ function LikeButton({ postId, initialLiked, initialLikes }: LikeButtonProps) {
   };
 
   return (
-    <div className="flex items-center mt-4">
+    <div>
       <button
         onClick={handleLike}
         className={`px-3 py-1 rounded ${
@@ -37,9 +51,9 @@ function LikeButton({ postId, initialLiked, initialLikes }: LikeButtonProps) {
       >
         {liked ? "Unlike" : "Like"}
       </button>
-      <span className="ml-2">{likes} Likes</span>
+      <span className="ml-2 text-white">{likes} Likes</span>
     </div>
   );
-}
+};
 
 export default LikeButton;
