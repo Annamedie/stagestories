@@ -55,6 +55,11 @@ function ProfileButton() {
           <div className="px-4 py-2 text-gray-800 hover:bg-gray-100">
             <LogOutButton />
           </div>
+          <Link href={"/admin"}>
+            <div className="px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <p>Admin</p>
+            </div>
+          </Link>
         </div>
       )}
     </div>

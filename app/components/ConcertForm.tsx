@@ -84,7 +84,7 @@ function ConcertForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto mt-10">
+      <div className="max-w-md mx-auto mt-10 bg-white">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Artist or Band</label>
@@ -237,17 +237,31 @@ function ConcertForm() {
               ))}{" "}
             </select>
           </div>
-          <div>
-            <label htmlFor="review">Type yout review</label>
+          <div className="mb-4">
+            <label
+              htmlFor="review"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Type your review
+            </label>
             <textarea
               id="review"
               rows={4}
               {...register("review")}
-              className={`border p-2 rounded-md ${
-                errors.review ? "border-red-500" : "border-gray-300"
+              className={`border p-2 rounded-md w-full mt-1 focus:ring-2 focus:outline-none ${
+                errors.review
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
+              aria-invalid={errors.review ? "true" : "false"}
             />
+            {errors.review && (
+              <p className="mt-1 text-sm text-red-500" id="review-error">
+                {errors.review.message}
+              </p>
+            )}
           </div>
+
           <button>add photo</button>
           <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
 

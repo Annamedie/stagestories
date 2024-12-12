@@ -6,6 +6,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -22,8 +23,8 @@ export const fetchPosts = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-
-      return { id: doc.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: doc.id, ...data, createdAt } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts: ", error);
@@ -37,8 +38,8 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-
-      return { id: docSnap.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: docSnap.id, ...data, createdAt } as Post;
     } else {
       return null;
     }
@@ -55,7 +56,8 @@ export const fetchPostsByUserId = async (userId: string) => {
     const querySnapshot = await getDocs(queryPost);
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-      return { id: doc.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: doc.id, ...data, createdAt } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts by user id: ", error);
@@ -86,6 +88,23 @@ export const addPost = async (post: Post) => {
     console.log("Post added successfully");
   } catch (error) {
     console.error("Error adding post:", error);
+    throw error;
+  }
+};
+
+export const deletePost = async (postId: string) => {
+  const auth = getAuth();
+  const user = auth.currentUser as User | null;
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  try {
+    const postRef = doc(db, "posts", postId);
+    await deleteDoc(postRef);
+    console.log(`Post with id ${postId} deleted successfully`);
+  } catch (error) {
+    console.error("Error deleting post:", error);
     throw error;
   }
 };

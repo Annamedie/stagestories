@@ -21,7 +21,7 @@ export const ConcertFormSchema = z.object({
   genre: z.string().optional(),
   review: z
     .string()
-    .max(150, { message: "Your review can maximum be 150 characters" })
+    .max(400, { message: "Your review can maximum be 400 characters" })
     .optional(),
 });
 

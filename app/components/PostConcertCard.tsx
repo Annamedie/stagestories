@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
-import Barcode from "../svg/Barcode.svg";
+import Barcode2 from "../svg/Barcode2.svg";
 import Star from "../svg/Star.svg";
 
 import { Post } from "../types/dataTypes";
@@ -44,8 +44,8 @@ function PostConcertCard({ post }: ConcertCardProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <div>
-        <p className="text-center text-sm p-1 text-white">
+      <div className="w-3/4">
+        <p className="text-lg p-1 text-white">
           {post.username ? post.username : "Hemligt"}
         </p>
       </div>
@@ -54,70 +54,84 @@ function PostConcertCard({ post }: ConcertCardProps) {
         key={post.id}
         className="h-80 w-3/4 bg-[#F3F0E8] flex overflow-hidden relative hover:scale-[1.02] transition-transform duration-300 ease-in-out"
       >
-        <div className="absolute right-[71px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
-        <div className="absolute right-[71px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
+        <div className="absolute right-[186px] -translate-x-1/2 -top-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
+        <div className="absolute right-[186px] -translate-x-1/2 -bottom-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
+
         <div className="flex flex-grow">
-          <div className="flex">
-            <div className="w-64 flex-shrink-0">
-              <Image
-                src={post.image ? post.image : "/images/standin.jpg"}
-                alt={post.artistBand}
-                width={500}
-                height={500}
-                className="w-full h-full object-cover"
-              />
+          {/* Image Section */}
+          <div className="w-64 flex-shrink-0">
+            <Image
+              src={post.image ? post.image : "/images/standin.jpg"}
+              alt={post.artistBand}
+              width={500}
+              height={500}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Info Section */}
+          <div className="pt-3 flex flex-col items-center justify-center flex-grow text-center">
+            <div>
+              <h2 className="text-4xl font-semibold">{post.artistBand}</h2>
+              <h3 className="font-semibold text-xl italic">
+                {post.tourName ? post.tourName : "Sunny Tour"}
+              </h3>
             </div>
-            <div className="pl-4 pt-4 flex flex-col justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-semibold">{post.artistBand}</h2>
-                <h3 className="font-medium italic">
-                  {post.tourName ? post.tourName : "Sunny Tour"}
-                </h3>
-              </div>
-              <div>
-                <p className="text-gray-700 mb-2 font-bold">
-                  {post.review && "Read review..."}
-                </p>
-              </div>
-              <div className="my-1">
-                <p>{post.venue ? post.venue : "Ullevi"}</p>
-                <p>{post.location}</p>
-                <p className="text-sm text-gray-500">{post.genre}</p>
-              </div>
-              {post.rating && (
-                <div className="pb-2">
-                  {Array.from({ length: post.rating }, (_, index) => (
-                    <span key={index} className="inline-block">
-                      <Star width={20} height={20} />
-                    </span>
-                  ))}
-                </div>
-              )}
-              <div className="pt-2">
-                <span className="text-sm text-black">
-                  {new Date(post.showDate).toLocaleDateString()}
-                </span>
-              </div>
+            {post.rating && (
               <div className="pb-2">
-                {post.topTracks && post.topTracks.length > 0 && (
-                  <div>
-                    <li></li>
-                  </div>
-                )}
+                {Array.from({ length: post.rating }, (_, index) => (
+                  <span key={index} className="inline-block p-1">
+                    <Star width={20} height={20} alt={index} />
+                  </span>
+                ))}
               </div>
+            )}
+            <div>
+              <p className="mb-2 px-3 py-1">{post.review}</p>
+            </div>
+            <div className="my-1 flex gap-4">
+              <p>{post.venue}</p>
+              <p>{post.location}</p>
+              <p className=" capitalize">{post.genre}</p>
+              <p className=" text-black">
+                {new Date(post.showDate).toLocaleDateString()}
+              </p>
             </div>
           </div>
-          <div className="pt-2 pr-2 flex flex-col items-end justify-between flex-grow"></div>
         </div>
-        <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
-          <div className="flex items-center justify-center">
-            <Barcode />
+
+        {/* Barcode Section */}
+        <div className="border-l-4 border-black w-56 flex-shrink-0 flex justify-between">
+          <div className="flex-grow flex  items-center">
+            <Barcode2 />
+          </div>
+          <div className="m-2 flex flex-col justify-between">
+            {post.topTracks && post.topTracks.length > 0 && (
+              <div className="pb-2">
+                <h4 className="font-semibold mb-1">Top Tracks</h4>
+                <ul className="list-disc">
+                  {post.topTracks.map((track, index) => (
+                    <li className="text-sm break-words" key={index}>
+                      {track}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="mb-3">
+              <h4 className="font-semibold">Top emotions</h4>
+              <ul className="list-disc">
+                <li>😁</li>
+                <li>👽</li>
+                <li>💩</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Gilla Knapp*/}
-      <div className="mt-2">
+      {/* Like Button */}
+      <div className="w-3/4 mt-2 flex">
         <button
           onClick={(e) => handleLike(e)}
           className={`px-3 py-1 rounded ${

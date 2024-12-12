@@ -1,9 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 
-export interface User {
+export interface Users {
   id?: string;
   username: string;
-  password: string;
+  password?: string;
   isAdmin: boolean;
   createdAt: Timestamp;
 }
@@ -12,7 +12,7 @@ export interface Post {
   id?: string;
   username?: string;
   review: string;
-  createdAt?: Timestamp;
+  createdAt: Timestamp;
   showDate: string;
   userId?: string;
   artistBand: string;
