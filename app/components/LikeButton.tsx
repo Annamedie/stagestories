@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
+import Hand from "../svg/Hand.svg";
+import MetalHand from "../svg/MetalHand.svg";
 
 interface LikeButtonProps {
   postId: string;
@@ -42,16 +44,11 @@ const LikeButton = ({
   };
 
   return (
-    <div>
-      <button
-        onClick={handleLike}
-        className={`px-3 py-1 rounded ${
-          liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-        }`}
-      >
-        {liked ? "Unlike" : "Like"}
+    <div className="m-2">
+      <button onClick={handleLike}>
+        {liked ? <MetalHand height={30} /> : <Hand height={30} />}
       </button>
-      <span className="ml-2 text-white">{likes} Likes</span>
+      <span className="ml-2 text-white">{likes} Rock on!</span>
     </div>
   );
 };
