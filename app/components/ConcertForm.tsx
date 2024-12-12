@@ -84,202 +84,217 @@ function ConcertForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto mt-10 bg-white">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium">Artist or Band</label>
-            <input type="text" {...register("artistBand")} />
-            {errors.artistBand && (
-              <p className="text-red-500 text-sm">
-                {errors.artistBand?.message}
-              </p>
-            )}
+      <h1 className="text-primary text-center text-3xl font-bold">
+        Add your concert
+      </h1>
+      <div className="max-w-4xl mx-auto m-10 p-6 bg-[#F3F0E8] rounded-lg">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-2 gap-6 p-2"
+        >
+          <div className="border-r pr-6">
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Artist or Band
+                </label>
+                <input
+                  type="text"
+                  {...register("artistBand")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.artistBand
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.artistBand && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.artistBand.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  {...register("location")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.location
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.location && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.location.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Date of concert
+                </label>
+                <input
+                  type="date"
+                  {...register("showDate")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.showDate
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.showDate && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.showDate.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Rate your concert experience (1-5)
+                </label>
+                <select
+                  {...register("rating")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.rating
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                >
+                  <option value="" label="Select a rating">
+                    Select a rating
+                  </option>
+                  {ratings.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+                {errors.rating && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.rating.message}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium">Location</label>
-            <input type="text" {...register("location")} />
-            {errors.location && (
-              <p className="text-red-500 text-sm">{errors.location?.message}</p>
-            )}
+          <div className="pl-6">
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Venue Name
+                </label>
+                <input
+                  type="text"
+                  {...register("venue")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.venue
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.venue && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.venue.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Tour or Festival Name
+                </label>
+                <input
+                  type="text"
+                  {...register("tourName")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.tourName
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.tourName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.tourName.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Genre
+                </label>
+                <select
+                  {...register("genre")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.genre
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                >
+                  <option value="" label="Select a genre">
+                    Select a genre
+                  </option>
+                  {musicGenres.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <UploadBtn onUpload={(url) => setImageUrl(url)} />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Review
+                </label>
+                <textarea
+                  rows={4}
+                  {...register("review")}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.review
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+                {errors.review && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.review.message}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium">Date of concert</label>
-            <input type="date" {...register("showDate")} />
-            {errors.showDate && (
-              <p className="text-red-500 text-sm">{errors.showDate?.message}</p>
-            )}
-          </div>
-          <div>
-            {" "}
-            <label className="block text-sm font-medium"></label>Rate your
-            concert experience between 1 and 5.
-            <select
-              id="rating"
-              {...register("rating")}
-              className={`border p-2 rounded-md ${
-                errors.rating ? "border-red-500" : "border-gray-300"
+
+          <div className="col-span-2 flex justify-center mt-6">
+            <button
+              type="submit"
+              className={`w-1/3 py-2 text-white rounded-md ${
+                isLoading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-footerHeader hover:bg-[#1872B4]"
               }`}
+              disabled={isLoading}
             >
-              {" "}
-              {ratings.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}{" "}
-            </select>
-            {errors.rating && (
-              <p className="text-red-500 text-sm">{errors.rating.message}</p>
-            )}
+              {isLoading ? "Registering..." : "Register"}
+            </button>
           </div>
-          <div>
-            {" "}
-            <label className="block text-sm font-medium">Venue name</label>
-            <input type="text" {...register("venue")} />
-            {errors.venue && (
-              <p className="text-red-500 text-sm">{errors.venue?.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="tourName">Tour name or festival name</label>
-            <input id="tourName" type="text" {...register("tourName")} />
-            {errors.tourName && (
-              <p className="text-red-500 text-sm">{errors.tourName?.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <div>
-              <h3>Enter your top tracks from the concert</h3>
-            </div>
-            {/* Track 1 */}
-            <div>
-              <label
-                htmlFor="topTracks-0"
-                className="block text-xs font-medium"
-              >
-                Track 1
-              </label>
-              <input
-                type="text"
-                id="topTracks-0"
-                {...register("topTracks.0")}
-                className={`border p-2 rounded-md w-full ${
-                  errors.topTracks?.[0] ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.topTracks?.[0] && (
-                <p className="text-red-500 text-sm">
-                  {errors.topTracks[0]?.message}
-                </p>
-              )}
-            </div>
-
-            {/* Track 2 */}
-            <div>
-              <label
-                htmlFor="topTracks-1"
-                className="block text-xs font-medium"
-              >
-                Track 2
-              </label>
-              <input
-                type="text"
-                id="topTracks-1"
-                {...register("topTracks.1")}
-                className={`border p-2 rounded-md w-full ${
-                  errors.topTracks?.[1] ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.topTracks?.[1] && (
-                <p className="text-red-500 text-sm">
-                  {errors.topTracks[1]?.message}
-                </p>
-              )}
-            </div>
-
-            {/* Track 3 */}
-            <div>
-              <label
-                htmlFor="topTracks-2"
-                className="block text-xs font-medium"
-              >
-                Track 3
-              </label>
-              <input
-                type="text"
-                id="topTracks-2"
-                {...register("topTracks.2")}
-                className={`border p-2 rounded-md w-full ${
-                  errors.topTracks?.[2] ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.topTracks?.[2] && (
-                <p className="text-red-500 text-sm">
-                  {errors.topTracks[2]?.message}
-                </p>
-              )}
-            </div>
-          </div>
-          <div>
-            <label htmlFor="genre">Genre</label>
-            <select
-              id="genre"
-              {...register("genre")}
-              className={`border p-2 rounded-md ${
-                errors.rating ? "border-red-500" : "border-gray-300"
-              }`}
-            >
-              {" "}
-              {musicGenres.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}{" "}
-            </select>
-          </div>
-          <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
-          <div className="mb-4">
-            <label
-              htmlFor="review"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Type your review
-            </label>
-            <textarea
-              id="review"
-              rows={4}
-              {...register("review")}
-              className={`border p-2 rounded-md w-full mt-1 focus:ring-2 focus:outline-none ${
-                errors.review
-                  ? "border-red-500 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              }`}
-              aria-invalid={errors.review ? "true" : "false"}
-            />
-            {errors.review && (
-              <p className="mt-1 text-sm text-red-500" id="review-error">
-                {errors.review.message}
-              </p>
-            )}
-          </div>
-
-          <button
-            className={`w-full py-2 rounded ${
-              isLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-lime-500 hover:bg-lime-600 text-white"
-            }`}
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? "Registering..." : "Register"}
-          </button>
         </form>
-        <Link href={"/"}>
-          <div>
-            <h3>Finished? To the start page!</h3>
-          </div>
-        </Link>
+
+        <div className="mt-6 text-center">
+          <Link href="/" className="text-footerHeader hover:underline">
+            <h3>Finished? Back to the start page!</h3>
+          </Link>
+        </div>
       </div>
     </>
   );
