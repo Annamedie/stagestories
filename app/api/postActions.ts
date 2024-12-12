@@ -38,8 +38,8 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-
-      return { id: docSnap.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: docSnap.id, ...data, createdAt } as Post;
     } else {
       return null;
     }
@@ -56,7 +56,8 @@ export const fetchPostsByUserId = async (userId: string) => {
     const querySnapshot = await getDocs(queryPost);
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-      return { id: doc.id, ...data } as Post;
+      const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
+      return { id: doc.id, ...data, createdAt } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts by user id: ", error);
