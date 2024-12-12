@@ -45,7 +45,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               <div className="my-1">
                 <p>{post.venue ? post.venue : "Ullevi"}</p>
                 <p>{post.location}</p>
-                <p className="text-sm text-gray-500">{post.genre}</p>
+                <p className="text-sm text-gray-500 capitalize">{post.genre}</p>
               </div>
               {post.rating && (
                 <div className="pb-2">

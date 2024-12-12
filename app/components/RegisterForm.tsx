@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -13,6 +14,7 @@ interface FormInputs {
 
 function RegisterForm() {
   const { registerUser } = useAuth();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,6 +35,10 @@ function RegisterForm() {
       );
       reset();
       toast.success("Registered successfully");
+
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     } catch (error: any) {
       if (error?.code) {
         toast.error(error.message, { position: "top-center" });

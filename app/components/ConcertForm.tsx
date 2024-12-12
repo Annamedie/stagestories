@@ -141,7 +141,7 @@ function ConcertForm() {
             )}
           </div>
           <div>
-            <label htmlFor="tourName">Tour name</label>
+            <label htmlFor="tourName">Tour name or festival name</label>
             <input id="tourName" type="text" {...register("tourName")} />
             {errors.tourName && (
               <p className="text-red-500 text-sm">{errors.tourName?.message}</p>
@@ -237,6 +237,7 @@ function ConcertForm() {
               ))}{" "}
             </select>
           </div>
+          <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
           <div className="mb-4">
             <label
               htmlFor="review"
@@ -261,9 +262,6 @@ function ConcertForm() {
               </p>
             )}
           </div>
-
-          <button>add photo</button>
-          <UploadBtn onUpload={(url: string) => setImageUrl(url)} />
 
           <button
             className={`w-full py-2 rounded ${
