@@ -1,5 +1,3 @@
-import React from "react";
-
 interface TableProps<T> {
   data: T[];
   columns: { header: string; accessor: keyof T }[];
@@ -8,35 +6,42 @@ interface TableProps<T> {
 
 function DataTable<T>({ data, columns, actions }: TableProps<T>) {
   return (
-    <table className="text-white border-collapse w-full mt-4">
+    <table className="text-gray-800 bg-white border-collapse w-full mt-4  rounded-lg">
       <thead>
-        <tr>
+        <tr className="bg-card1">
           {columns.map((column) => (
             <th
               key={column.accessor as string}
-              className="border-b border-white p-2 text-left"
+              className="border-b border-gray-300 p-4 text-left text-sm font-bold"
             >
               {column.header}
             </th>
           ))}
           {actions && (
-            <th className="border-b border-white p-2 text-left">Actions</th>
+            <th className="border-b border-gray-300 p-4 text-left text-sm font-bold">
+              Actions
+            </th>
           )}
         </tr>
       </thead>
       <tbody>
         {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
+          <tr
+            key={rowIndex}
+            className={rowIndex % 2 === 0 ? "bg-white" : "bg-primary"}
+          >
             {columns.map((column) => (
               <td
                 key={column.accessor as string}
-                className="border-b border-white p-2"
+                className="border-b border-gray-300 p-4 text-base font-medium"
               >
                 {String(row[column.accessor])}
               </td>
             ))}
             {actions && (
-              <td className="border-b border-white p-2">{actions(row)}</td>
+              <td className="border-b border-gray-300 p-4 text-sm">
+                {actions(row)}
+              </td>
             )}
           </tr>
         ))}
