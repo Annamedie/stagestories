@@ -3,7 +3,7 @@
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { deletePost, fetchPosts } from "../api/postActions";
-import { fetchAllUsers } from "../api/userActions";
+import { deleteUserandPostsAdmin, fetchAllUsers } from "../api/userActions";
 import DataTable from "../components/DataTable";
 import { useAuth } from "../context/Authcontext";
 import Trashcan from "../svg/Trashcan.svg";
@@ -35,12 +35,21 @@ function AdminPage() {
     );
   }
 
-  const handleDelete = async (postId: string) => {
+  const handleDeletePost = async (postId: string) => {
     try {
       await deletePost(postId);
       setPostData((prev) => prev.filter((post) => post.id !== postId));
     } catch (error) {
       console.error("Error deleting post: ", error);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string, isAdmin: boolean) => {
+    try {
+      await deleteUserandPostsAdmin(userId, isAdmin);
+      setUserData((prev) => prev.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Error deleting user: ", error);
     }
   };
 
@@ -59,6 +68,11 @@ function AdminPage() {
             { header: "Admin", accessor: "isAdmin" },
           ] as Array<{ header: string; accessor: keyof (typeof userData)[0] }>
         }
+        actions={(row) => (
+          <button onClick={() => row.id && handleDeleteUser(row.id, isAdmin)}>
+            <Trashcan />
+          </button>
+        )}
       />
 
       <h2 className="text-2xl font-semibold text-primary mt-8">Posts</h2>
@@ -74,7 +88,7 @@ function AdminPage() {
           ] as Array<{ header: string; accessor: keyof (typeof postData)[0] }>
         }
         actions={(row) => (
-          <button onClick={() => row.id && handleDelete(row.id)}>
+          <button onClick={() => row.id && handleDeletePost(row.id)}>
             <Trashcan />
           </button>
         )}

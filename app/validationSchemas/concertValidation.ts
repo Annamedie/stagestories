@@ -23,7 +23,7 @@ export const ConcertFormSchema = z.object({
     .string()
     .max(150, { message: "Tour name cannot exceed 150 characters " })
     .optional(),
-  topTracks: z.array(z.string().optional()).max(3),
+  topTracks: z.array(z.string().optional()).max(3).optional(),
   genre: z.string().optional(),
   review: z
     .string()

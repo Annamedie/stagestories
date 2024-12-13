@@ -20,6 +20,7 @@ function ConcertForm() {
   } = useForm<Post>({ resolver: zodResolver(ConcertFormSchema) });
 
   const onSubmit: SubmitHandler<Post> = async (concertData: Post) => {
+    console.log(errors);
     setIsLoading(true);
 
     try {
@@ -28,11 +29,14 @@ function ConcertForm() {
       reset();
       setImageUrl("");
       toast.success("Concert added successfully");
+      console.log(errors);
     } catch (error: any) {
       if (error?.code) {
         toast.error(error.message, { position: "top-center" });
+        console.log(errors);
       } else {
         toast.error("An unknown error occurred", { position: "top-center" });
+        console.log(errors);
       }
     } finally {
       setIsLoading(false);
