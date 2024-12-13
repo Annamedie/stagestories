@@ -6,7 +6,7 @@ import { useAuth } from "../context/Authcontext";
 import LogOutButton from "./LogOutButton";
 
 function ProfileButton() {
-  const { username } = useAuth();
+  const { username, isAdmin } = useAuth();
   const [isOpened, setIsOpened] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const firstLetter = username ? username.charAt(0).toUpperCase() : "S";
@@ -55,11 +55,13 @@ function ProfileButton() {
           <div className="px-4 py-2 text-gray-800 hover:bg-gray-100">
             <LogOutButton />
           </div>
-          <Link href={"/admin"}>
+          {isAdmin && (
             <div className="px-4 py-2 text-gray-800 hover:bg-gray-100">
-              <p>Admin</p>
+              <Link href={"/admin"}>
+                <p>Admin</p>
+              </Link>
             </div>
-          </Link>
+          )}
         </div>
       )}
     </div>
