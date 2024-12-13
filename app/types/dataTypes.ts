@@ -4,6 +4,7 @@ export interface Users {
   id?: string;
   username: string;
   password?: string;
+  email?: string;
   isAdmin: boolean;
   createdAt: Timestamp;
 }

@@ -40,7 +40,7 @@ function RegisterForm() {
         router.push("/");
       }, 2000);
     } catch (error: any) {
-      if (error?.code) {
+      if (error?.message) {
         toast.error(error.message, { position: "top-center" });
       } else {
         toast.error("An unknown error occurred", { position: "top-center" });
