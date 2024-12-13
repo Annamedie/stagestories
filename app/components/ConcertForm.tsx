@@ -185,6 +185,34 @@ function ConcertForm() {
                   </p>
                 )}
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Enter your top 3 tracks from the concert
+                </label>
+                <input
+                  type="text"
+                  placeholder="Top Track 1"
+                  {...register("topTracks.0")}
+                  className="w-full border p-2 rounded-md mt-1"
+                />
+                <input
+                  type="text"
+                  placeholder="Top Track 2"
+                  {...register("topTracks.1")}
+                  className="w-full border p-2 rounded-md mt-1"
+                />
+                <input
+                  type="text"
+                  placeholder="Top Track 3"
+                  {...register("topTracks.2")}
+                  className="w-full border p-2 rounded-md mt-1"
+                />
+                {errors.topTracks && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.topTracks.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
