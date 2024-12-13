@@ -44,6 +44,7 @@ function AdminPage() {
     }
   };
 
+  /* Detta fungerar inte helt som tanken blir önskemål måste använda admin skd och mkt server funktioner låg prio */
   const handleDeleteUser = async (userId: string, isAdmin: boolean) => {
     try {
       await deleteUserandPostsAdmin(userId, isAdmin);
