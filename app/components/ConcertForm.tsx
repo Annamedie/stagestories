@@ -71,6 +71,7 @@ function ConcertForm() {
     { value: "soul", label: "Soul" },
     { value: "kpop", label: "K-pop" },
     { value: "latin", label: "Latin" },
+    { value: "other", label: "Other" },
   ];
 
   return (

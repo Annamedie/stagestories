@@ -22,8 +22,8 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
         key={post.id}
         className="h-52 bg-[#F3F0E8] flex w-full overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out"
       >
-        <div className="absolute right-[71px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
-        <div className="absolute right-[71px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
+        <div className="absolute right-[103px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full  "></div>
+        <div className="absolute right-[103px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full  "></div>
         <div className="flex flex-grow">
           <div className="flex">
             <div className="w-44 flex-shrink-0">
@@ -50,7 +50,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               {post.rating && (
                 <div className="pb-2">
                   {Array.from({ length: post.rating }, (_, index) => (
-                    <span key={index} className="inline-block">
+                    <span key={index} className="inline-block p-[3px]">
                       <Star width={20} height={20} />
                     </span>
                   ))}
@@ -78,7 +78,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
           </div>
         </div>
-        <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
+        <div className="border-l-2 border-black w-32 flex-shrink-0 flex flex-col">
           <div>
             <p className="text-center text-sm p-1 truncate">
               {post.username ? post.username : "Hemligt"}
@@ -93,7 +93,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
         </div>
       </div>
 
-      {/* Like Button and Likes Count Below the Card */}
+      {/* Like Button and Likes Count */}
       <div className="mt-2">
         <LikeButton
           postId={post.id || ""}
