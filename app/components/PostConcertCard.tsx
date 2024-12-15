@@ -4,6 +4,7 @@ import Image from "next/image";
 import Barcode2 from "../svg/Barcode2.svg";
 import Star from "../svg/Star.svg";
 
+import Link from "next/link";
 import { Post } from "../types/dataTypes";
 import LikeButton from "./LikeButton";
 interface ConcertCardProps {
@@ -17,9 +18,11 @@ function PostConcertCard({ post }: ConcertCardProps) {
   return (
     <div className="flex flex-col items-center">
       <div className="w-3/4">
-        <p className="text-lg p-1 text-white">
-          {post.username ? post.username : "Hemligt"}
-        </p>
+        <Link href={`/profile/${post.userId}/${post.username}`}>
+          <h2 className="text-2xl p-1 text-white">
+            {post.username ? post.username : "Hemligt"}
+          </h2>
+        </Link>
       </div>
       {/* Card Content */}
       <div
