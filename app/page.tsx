@@ -46,7 +46,9 @@ function Home() {
           </Link>
         ))}
       </div>
-      <AddConcertButton />
+      <div className="mb-6">
+        <AddConcertButton />
+      </div>
     </div>
   );
 }
