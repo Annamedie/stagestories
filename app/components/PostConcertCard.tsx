@@ -24,7 +24,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
       {/* Card Content */}
       <div
         key={post.id}
-        className="h-80 w-3/4 bg-[#F3F0E8] flex overflow-hidden relative hover:scale-[1.02] transition-transform duration-300 ease-in-out"
+        className="h-80 w-3/4 bg-[#F3F0E8] flex overflow-hidden relative"
       >
         <div className="absolute right-[186px] -translate-x-1/2 -top-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
         <div className="absolute right-[186px] -translate-x-1/2 -bottom-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
@@ -42,26 +42,27 @@ function PostConcertCard({ post }: ConcertCardProps) {
           </div>
 
           {/* Info Section */}
-          <div className="pt-3 flex flex-col items-center justify-center flex-grow text-center">
+          <div className=" pt-3 flex flex-col justify-between flex-grow text-center min-h-full">
             <div>
               <h2 className="text-4xl font-semibold">{post.artistBand}</h2>
-              <h3 className="font-semibold text-xl italic">
-                {post.tourName ? post.tourName : "Sunny Tour"}
-              </h3>
+              <h3 className="font-semibold text-xl italic">{post.tourName}</h3>
+              {post.rating && (
+                <div>
+                  {Array.from({ length: post.rating }, (_, index) => (
+                    <span key={index} className="inline-block p-1">
+                      <Star width={20} height={20} alt={index} />
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-            {post.rating && (
-              <div className="pb-2">
-                {Array.from({ length: post.rating }, (_, index) => (
-                  <span key={index} className="inline-block p-1">
-                    <Star width={20} height={20} alt={index} />
-                  </span>
-                ))}
-              </div>
-            )}
+
             <div>
-              <p className="mb-2 px-3 py-1">{post.review}</p>
+              <p className="flex-grow flex items-center justify-center p-2">
+                {post.review ? post.review : "No review available."}
+              </p>
             </div>
-            <div className="my-1 flex gap-4">
+            <div className="my-1 flex gap-4 justify-center">
               <p>{post.venue}</p>
               <p>{post.location}</p>
               <p className=" capitalize">{post.genre}</p>
