@@ -30,11 +30,12 @@ export interface Post {
 }
 
 export interface Comment {
-  id?: string;
+  id: string;
   content: string;
-  createdAt: Date;
+  createdAt: Timestamp;
   postId: string;
   userId: string;
+  username: string;
 }
 
 export interface Like {
