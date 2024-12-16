@@ -26,7 +26,6 @@ async function EditconcertPage({ params }: EditconcertPageProps) {
   const postData = postSnap.data();
   return (
     <div>
-      <h1 className="text-white">Edit Concert</h1>
       <ConcertForm isEdit={true} postId={postId} initialData={postData} />
     </div>
   );

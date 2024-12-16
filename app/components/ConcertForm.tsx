@@ -118,8 +118,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
         theme="light"
         transition={Bounce}
       />
+
       <h1 className="text-primary text-center text-3xl font-bold">
-        Add your concert
+        {isEdit ? "Edit your concert" : "Add your concert"}
       </h1>
       <div className="max-w-4xl mx-auto m-10 p-6 bg-[#F3F0E8] rounded-lg">
         <form
