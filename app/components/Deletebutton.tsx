@@ -1,3 +1,5 @@
+"use client";
+import { useRouter } from "next/navigation";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { deletePost } from "../api/postActions";
 import WhiteTrashcan from "../svg/WhiteTrashcan.svg";
@@ -7,10 +9,15 @@ interface deleteProps {
 }
 
 function DeleteButton({ postId }: deleteProps) {
+  const router = useRouter();
+
   async function handelDelete(id: string) {
     try {
       await deletePost(id);
       toast.success("Post deleted successfully");
+      setTimeout(() => {
+        router.refresh();
+      }, 3000);
     } catch (error) {
       console.error("Error deleting post: ", error);
     }
