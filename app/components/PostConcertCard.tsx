@@ -6,6 +6,7 @@ import Star from "../svg/Star.svg";
 
 import Link from "next/link";
 import { Post } from "../types/dataTypes";
+import DeleteButton from "./Deletebutton";
 import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
@@ -14,6 +15,16 @@ interface ConcertCardProps {
 function PostConcertCard({ post }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
+
+  if (!post) {
+    return (
+      <div>
+        <h1 className="text-white">
+          We are sorry this post do no longer exist, rock on!
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -114,6 +125,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
           isLiked={userId ? post.likesBy?.includes(userId) || false : false}
           userId={userId || null}
         />
+        {userId === post.userId && post.id && <DeleteButton postId={post.id} />}
       </div>
     </div>
   );
