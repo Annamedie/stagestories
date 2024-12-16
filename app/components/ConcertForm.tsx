@@ -4,20 +4,41 @@ import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-import { addPost } from "../api/postActions";
+import { addPost, updatePost } from "../api/postActions";
 import { Post } from "../types/dataTypes";
 import { ConcertFormSchema } from "../validationSchemas/concertValidation";
 import UploadBtn from "./UploadBtn";
 
-function ConcertForm() {
+interface ConcertFormProps {
+  isEdit: boolean;
+  postId?: string;
+  initialData?: Partial<Post>;
+}
+
+function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(initialData.image || "");
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Post>({ resolver: zodResolver(ConcertFormSchema) });
+  } = useForm<Post>({
+    resolver: zodResolver(ConcertFormSchema),
+    defaultValues: {
+      artistBand: initialData.artistBand || "",
+      location: initialData.location || "",
+      showDate: initialData.showDate || "",
+      rating: initialData.rating || undefined,
+      topTracks: initialData.topTracks || ["", "", ""],
+      venue: initialData.venue || "",
+      tourName: initialData.tourName || "",
+      genre: initialData.genre || "",
+      review: initialData.review || "",
+      image: initialData.image || "",
+    },
+  });
 
   const onSubmit: SubmitHandler<Post> = async (concertData: Post) => {
     console.log(errors);
@@ -25,10 +46,18 @@ function ConcertForm() {
 
     try {
       const postWithImage = { ...concertData, image: imageUrl };
-      await addPost(postWithImage);
+
+      if (isEdit && postId) {
+        await updatePost(postId, postWithImage);
+        toast.success("Concert updated successfully");
+      } else {
+        await addPost(postWithImage);
+        toast.success("Concert added successfully");
+      }
+
       reset();
       setImageUrl("");
-      toast.success("Concert added successfully");
+
       console.log(errors);
     } catch (error: any) {
       if (error?.code) {
@@ -318,7 +347,13 @@ function ConcertForm() {
               }`}
               disabled={isLoading}
             >
-              {isLoading ? "Registering..." : "Register"}
+              {isLoading
+                ? isEdit
+                  ? "Updating..."
+                  : "Adding..."
+                : isEdit
+                ? "Update Concert"
+                : "Add Concert"}
             </button>
           </div>
         </form>
