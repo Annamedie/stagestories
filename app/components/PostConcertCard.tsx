@@ -7,6 +7,7 @@ import Star from "../svg/Star.svg";
 import Link from "next/link";
 import { Post } from "../types/dataTypes";
 import DeleteButton from "./Deletebutton";
+import EditConcertButton from "./EditConcertButton";
 import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
@@ -125,7 +126,14 @@ function PostConcertCard({ post }: ConcertCardProps) {
           isLiked={userId ? post.likesBy?.includes(userId) || false : false}
           userId={userId || null}
         />
-        {userId === post.userId && post.id && <DeleteButton postId={post.id} />}
+        <div className="flex">
+          {userId === post.userId && post.id && (
+            <DeleteButton postId={post.id} />
+          )}
+          {userId === post.userId && post.id && (
+            <EditConcertButton editUrl={`/edit-concert/${post.id}`} />
+          )}
+        </div>
       </div>
     </div>
   );
