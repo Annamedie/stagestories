@@ -30,9 +30,9 @@ export interface Post {
 }
 
 export interface Comment {
-  id: string;
+  id?: string;
   content: string;
-  createdAt: Timestamp;
+  createdAt: string;
   postId: string;
   userId: string;
   username: string;

@@ -5,7 +5,10 @@ import Barcode2 from "../svg/Barcode2.svg";
 import Star from "../svg/Star.svg";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Post } from "../types/dataTypes";
+import CommentInput from "./CommentInput";
+import CommentList from "./CommentsList";
 import DeleteButton from "./Deletebutton";
 import EditConcertButton from "./EditConcertButton";
 import LikeButton from "./LikeButton";
@@ -16,6 +19,8 @@ interface ConcertCardProps {
 function PostConcertCard({ post }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
+
+  const [comments, setComments] = useState([]);
 
   if (!post) {
     return (
@@ -133,6 +138,10 @@ function PostConcertCard({ post }: ConcertCardProps) {
           {userId === post.userId && post.id && (
             <EditConcertButton editUrl={`/edit-concert/${post.id}`} />
           )}
+        </div>
+        <div>
+          {post.id && <CommentList postId={post.id} />}
+          <CommentInput postId={post.id || ""} />
         </div>
       </div>
     </div>
