@@ -26,7 +26,7 @@ function Home() {
 
   if (isloading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen text-white">
         <p>Loading...</p>
       </div>
     );
@@ -38,8 +38,10 @@ function Home() {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold mb-4">Concert Reviews</h1>
-      <div className="grid grid-cols-2  gap-4 mb-3">
+      <h1 className="text-2xl font-bold m-4 text-white font-inter">
+        Concert Reviews
+      </h1>
+      <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8">
         {posts.map((post) => (
           <Link key={post.id} href={`/post/${post.id}`}>
             <ConcertCard key={post.id} post={post} />
