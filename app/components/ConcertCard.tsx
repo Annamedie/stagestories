@@ -39,7 +39,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
                 alt={post.artistBand}
                 width={500}
                 height={500}
-                className="w-full lg:h-full h-72 object-cover object"
+                className="w-full lg:h-full h-72 object-cover object-center"
               />
             </div>
             <div className="lg:pl-4 lg:pt-4 flex flex-col lg:justify-between items-center lg:items-stretch text-center lg:text-left">

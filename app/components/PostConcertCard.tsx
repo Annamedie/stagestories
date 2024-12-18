@@ -1,11 +1,10 @@
 "use client";
 import { getAuth } from "firebase/auth";
 import Image from "next/image";
-import Barcode2 from "../svg/Barcode2.svg";
-import Star from "../svg/Star.svg";
-
 import Link from "next/link";
-import { useState } from "react";
+import Barcode2 from "../svg/Barcode2.svg";
+import BarcodeSmall2 from "../svg/BarcodeSmall2.svg";
+import Star from "../svg/Star.svg";
 import { Post } from "../types/dataTypes";
 import CommentInput from "./CommentInput";
 import CommentList from "./CommentsList";
@@ -19,8 +18,6 @@ interface ConcertCardProps {
 function PostConcertCard({ post }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-
-  const [comments, setComments] = useState([]);
 
   if (!post) {
     return (
@@ -44,20 +41,21 @@ function PostConcertCard({ post }: ConcertCardProps) {
       {/* Card Content */}
       <div
         key={post.id}
-        className="h-80 w-3/4 bg-[#F3F0E8] flex overflow-hidden relative"
+        className="xl:h-80 xl:w-3/4 w-2/3 bg-[#F3F0E8] flex flex-col xl:flex-row overflow-hidden relative"
       >
-        <div className="absolute right-[186px] -translate-x-1/2 -top-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
-        <div className="absolute right-[186px] -translate-x-1/2 -bottom-5 bg-[#020C11] w-9 h-9 rounded-full  "></div>
+        <div className=" hidden  md:block absolute xl:right-[186px] xl:-translate-x-1/2 xl:-top-5 bg-[#020C11] w-9 h-9 rounded-full  -translate-x-5 bottom-[140px] "></div>
 
-        <div className="flex flex-grow">
+        <div className=" hidden md:block absolute xl:right-[186px] xl:-translate-x-1/2 xl:-bottom-5 bottom-[140px]  lg:translate-x-[645px] md:translate-x-[470px] bg-[#020C11] w-9 h-9 rounded-full  "></div>
+
+        <div className="flex flex-grow flex-col xl:flex-row">
           {/* Image Section */}
-          <div className="w-64 flex-shrink-0">
+          <div className="xl:w-64 flex-shrink-0">
             <Image
               src={post.image ? post.image : "/images/standin.jpg"}
               alt={post.artistBand}
               width={500}
               height={500}
-              className="w-full h-full object-cover"
+              className="w-full xl:h-full h-80 object-cover object-center "
             />
           </div>
 
@@ -94,8 +92,11 @@ function PostConcertCard({ post }: ConcertCardProps) {
         </div>
 
         {/* Barcode Section */}
-        <div className="border-l-4 border-black w-56 flex-shrink-0 flex justify-between">
-          <div className="flex-grow flex  items-center">
+        <div className="xl:border-l-4 border-t-4 md:border-solid border-dashed border-black xl:w-56 flex-shrink-0 flex flex-col xl:flex-row xl:justify-between items-center xl:items-stretch w-full">
+          <div className="block xl:hidden">
+            <BarcodeSmall2 />
+          </div>
+          <div className=" hidden flex-grow xl:flex items-center">
             <Barcode2 />
           </div>
           <div className="m-2 flex flex-col justify-between">
@@ -111,7 +112,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
                 </ul>
               </div>
             )}
-            <div className="mb-3">
+            <div className="mb-3 hidden xl:block">
               <h4 className="font-semibold">Top emotions</h4>
               <ul className="list-disc">
                 <li>😁</li>
@@ -124,14 +125,14 @@ function PostConcertCard({ post }: ConcertCardProps) {
       </div>
 
       {/* Like Button */}
-      <div className="w-3/4 mt-2 flex">
+      <div className="w-3/4 mt-2 flex justify-between">
         <LikeButton
           postId={post.id || ""}
           initialLikes={post.likes || 0}
           isLiked={userId ? post.likesBy?.includes(userId) || false : false}
           userId={userId || null}
         />
-        <div className="flex">
+        <div className="flex justify-center align-baseline items-baseline">
           {userId === post.userId && post.id && (
             <DeleteButton postId={post.id} />
           )}
@@ -139,10 +140,10 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <EditConcertButton editUrl={`/edit-concert/${post.id}`} />
           )}
         </div>
-        <div>
-          {post.id && <CommentList postId={post.id} />}
-          <CommentInput postId={post.id || ""} />
-        </div>
+      </div>
+      <div className="">
+        {post.id && <CommentList postId={post.id} />}
+        <CommentInput postId={post.id || ""} />
       </div>
     </div>
   );
