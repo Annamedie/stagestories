@@ -28,6 +28,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
       </div>
     );
   }
+  const visibleTracks = post.topTracks?.filter((track) => track.trim() !== "");
 
   return (
     <div className="flex flex-col items-center">
@@ -100,11 +101,11 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <Barcode2 />
           </div>
           <div className="m-2 flex flex-col justify-between">
-            {post.topTracks && post.topTracks.length > 0 && (
+            {visibleTracks && visibleTracks.length > 0 && (
               <div className="pb-2">
                 <h4 className="font-semibold mb-1">Top Tracks</h4>
                 <ul className="list-disc">
-                  {post.topTracks.map((track, index) => (
+                  {visibleTracks.map((track, index) => (
                     <li className="text-sm break-words" key={index}>
                       {track}
                     </li>
