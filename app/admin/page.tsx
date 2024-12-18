@@ -44,7 +44,6 @@ function AdminPage() {
     }
   };
 
-  /* Detta fungerar inte helt som tanken blir önskemål måste använda admin skd och mkt server funktioner låg prio */
   const handleDeleteUser = async (userId: string, isAdmin: boolean) => {
     try {
       await deleteUserandPostsAdmin(userId, isAdmin);
@@ -55,45 +54,51 @@ function AdminPage() {
   };
 
   return (
-    <div className="bg-gray-900 min-h-screen p-8">
-      <h1 className="text-3xl font-bold text-primary">Admin Dashboard</h1>
+    <div className="bg-gray-900 min-h-screen p-4 md:p-8">
+      <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
+        Admin Dashboard
+      </h1>
 
-      <h2 className="text-2xl font-semibold text-primary mt-8">Users</h2>
-      <DataTable
-        data={userData}
-        columns={
-          [
+      <h2 className="text-xl md:text-2xl font-semibold text-primary mt-6 md:mt-8 text-center">
+        Users
+      </h2>
+      <div className="overflow-x-auto">
+        <DataTable
+          data={userData}
+          columns={[
             { header: "Username", accessor: "username" },
             { header: "Date of Registration", accessor: "createdAt" },
             { header: "User ID", accessor: "id" },
             { header: "Admin", accessor: "isAdmin" },
-          ] as Array<{ header: string; accessor: keyof (typeof userData)[0] }>
-        }
-        actions={(row) => (
-          <button onClick={() => row.id && handleDeleteUser(row.id, isAdmin)}>
-            <Trashcan />
-          </button>
-        )}
-      />
+          ]}
+          actions={(row) => (
+            <button onClick={() => row.id && handleDeleteUser(row.id, isAdmin)}>
+              <Trashcan />
+            </button>
+          )}
+        />
+      </div>
 
-      <h2 className="text-2xl font-semibold text-primary mt-8">Posts</h2>
-      <DataTable
-        data={postData}
-        columns={
-          [
+      <h2 className="text-xl md:text-2xl font-semibold text-primary mt-6 md:mt-8 text-center">
+        Posts
+      </h2>
+      <div className="overflow-x-auto">
+        <DataTable
+          data={postData}
+          columns={[
             { header: "Username", accessor: "username" },
             { header: "Date of Post", accessor: "createdAt" },
             { header: "Post ID", accessor: "id" },
             { header: "Artist", accessor: "artistBand" },
-            { header: "Description", accessor: "review" },
-          ] as Array<{ header: string; accessor: keyof (typeof postData)[0] }>
-        }
-        actions={(row) => (
-          <button onClick={() => row.id && handleDeletePost(row.id)}>
-            <Trashcan />
-          </button>
-        )}
-      />
+            { header: "Description", accessor: "review", isLongText: true },
+          ]}
+          actions={(row) => (
+            <button onClick={() => row.id && handleDeletePost(row.id)}>
+              <Trashcan />
+            </button>
+          )}
+        />
+      </div>
     </div>
   );
 }
