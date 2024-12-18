@@ -20,11 +20,11 @@ async function ProfilePage({ params }: Props) {
       </h1>
 
       <div className="container mx-auto m-6">
-        <div className="flex mb-6 justify-between">
+        <div className="flex flex-col-reverse lg:flex-row gap-7 mb-6 justify-between">
           <QuickFacts posts={posts} />
           <AddConcertButton />
         </div>
-        <div className="grid grid-cols-2 gap-5 mb-3">
+        <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8 mb-3">
           {posts.map((post) => (
             <Link key={post.id} href={`/post/${post.id}`}>
               <ConcertCard key={post.id} post={post} isProfile={true} />
