@@ -125,9 +125,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       <div className="max-w-4xl mx-auto m-10 p-6 bg-[#F3F0E8] rounded-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-6 p-2"
+          className=" lg:grid gap-6 p-2 lg:grid-cols-2"
         >
-          <div className="border-r pr-6">
+          <div className="lg:border-r lg:pr-6">
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -247,7 +247,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
             </div>
           </div>
 
-          <div className="pl-6">
+          <div className="lg:pl-6 mt-3 lg:mt-0">
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -313,7 +313,10 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
               </div>
 
               <div className="mb-4">
-                <UploadBtn onUpload={(url) => setImageUrl(url)} />
+                <UploadBtn
+                  imageUrl={imageUrl}
+                  onUpload={(url) => setImageUrl(url)}
+                />
               </div>
 
               <div>
