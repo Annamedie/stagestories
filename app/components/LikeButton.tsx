@@ -45,10 +45,17 @@ const LikeButton = ({
 
   return (
     <div className="m-2">
-      <button onClick={handleLike}>
+      <button
+        onClick={handleLike}
+        aria-label={liked ? "Unlike this post" : "Like this post"}
+        aria-pressed={liked}
+        className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
+      >
         {liked ? <MetalHand height={30} /> : <Hand height={30} />}
       </button>
-      <span className="ml-2 text-white">{likes} Rock on!</span>
+      <span className="ml-2 text-white" aria-live="polite">
+        {likes} Rock on!
+      </span>
     </div>
   );
 };

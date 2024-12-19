@@ -37,21 +37,32 @@ function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <main
+      className="container mx-auto px-4"
+      aria-label="Concert Review section"
+    >
       <h1 className="text-2xl font-bold m-4 text-white font-inter">
         Concert Reviews
       </h1>
-      <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8">
+      <section
+        className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8"
+        aria-label="Concert reviews listings"
+      >
         {posts.map((post) => (
-          <Link key={post.id} href={`/post/${post.id}`}>
+          <Link
+            key={post.id}
+            href={`/post/${post.id}`}
+            aria-label={`Read more about this concert: ${post.artistBand}`}
+            className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
+          >
             <ConcertCard key={post.id} post={post} />
           </Link>
         ))}
-      </div>
+      </section>
       <div className="mb-6">
         <AddConcertButton />
       </div>
-    </div>
+    </main>
   );
 }
 

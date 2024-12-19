@@ -8,7 +8,7 @@ function QuickFacts({ posts }: QuickFactsProps) {
   if (!posts || posts.length === 0) {
     return (
       <div className="bg-white">
-        <h1>Quick Facts</h1>
+        <h2>Quick Facts</h2>
         <p>No data avaliable</p>
       </div>
     );
@@ -60,8 +60,11 @@ function QuickFacts({ posts }: QuickFactsProps) {
 
   return (
     <div className="bg-primary rounded-lg p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Quick Facts</h1>
-      <ul className="space-y-2">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Facts</h2>
+      <ul
+        className="space-y-2"
+        aria-label="Quick Facts about the collected data from your concerts."
+      >
         <li className="flex items-center">
           <span className="font-medium text-gray-700">Favorite artist:</span>
           <span className="ml-2 text-gray-900">

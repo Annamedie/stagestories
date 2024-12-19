@@ -19,7 +19,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
   return (
     <div className="flex flex-col items-center lg:items-stretch ">
       {/* Card Content */}
-      <div
+      <article
         key={post.id}
         className="  xl:h-52 lg:h-60 w-2/3  bg-[#F3F0E8] flex flex-col lg:flex-row lg:w-full  relative lg:hover:scale-105 md:transition-transform md:duration-300 md:ease-in-out"
       >
@@ -36,7 +36,11 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             <div className="lg:w-44 flex-shrink-0">
               <Image
                 src={post.image ? post.image : "/images/standin.jpg"}
-                alt={post.artistBand}
+                alt={
+                  post.artistBand
+                    ? `Image of ${post.artistBand}`
+                    : "A stand-in image"
+                }
                 width={500}
                 height={500}
                 className="w-full lg:h-full h-72 object-cover object-center"
@@ -57,7 +61,10 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
                 <p className=" text-gray-700 capitalize">{post.genre}</p>
               </div>
               {post.rating && (
-                <div className="pb-2">
+                <div
+                  className="pb-2"
+                  aria-label={`Rating: ${post.rating} out of 5`}
+                >
                   {Array.from({ length: post.rating }, (_, index) => (
                     <span key={index} className="inline-block p-[3px]">
                       <Star width={20} height={20} />
@@ -75,7 +82,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
             <div>
               <p className="text-gray-700 mb-2 font-bold lg:text-sm">
-                {post.review && "Read review..."}
+                {post.review && "Review"}
               </p>
             </div>
             <div className="pb-2">
@@ -105,7 +112,10 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
                 {new Date(post.showDate).toLocaleDateString()}
               </span>
             </div>
-            <span className="text-xs font-lacquer rotate-[270deg] hidden lg:block ">
+            <span
+              className="text-xs font-lacquer rotate-[270deg] hidden lg:block "
+              aria-hidden="true"
+            >
               STAGE STORIES
             </span>
           </div>
@@ -115,7 +125,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </p>
           </div>
         </div>
-      </div>
+      </article>
 
       {/* Like Button and Likes Count */}
       <div className="mb-5 mt-2 mr-64 lg:mr-0">
