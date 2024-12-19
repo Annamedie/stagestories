@@ -15,19 +15,23 @@ async function EditconcertPage({ params }: EditconcertPageProps) {
 
   if (!postSnap.exists()) {
     return (
-      <div>
-        <h1 className="text-white">
-          We are sorry this post do no longer exist, rock on!
-        </h1>
-      </div>
+      <main>
+        <h2 className="sr-only">Edit Concert</h2>
+        <div role="alert">
+          <h3 className="text-white">
+            We are sorry, this post does not exist anymore. Rock on!
+          </h3>
+        </div>
+      </main>
     );
   }
 
   const postData = postSnap.data();
   return (
-    <div>
+    <main>
+      <h2 className="sr-only">Edit Concert</h2>
       <ConcertForm isEdit={true} postId={postId} initialData={postData} />
-    </div>
+    </main>
   );
 }
 export default EditconcertPage;

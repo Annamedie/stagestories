@@ -19,28 +19,22 @@ function PostConcertCard({ post }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
 
-  if (!post) {
-    return (
-      <div>
-        <h1 className="text-white">
-          We are sorry this post do no longer exist, rock on!
-        </h1>
-      </div>
-    );
-  }
   const visibleTracks = post.topTracks?.filter((track) => track.trim() !== "");
 
   return (
-    <div className="flex flex-col items-center">
+    <article className="flex flex-col items-center">
       <div className="w-3/4">
-        <Link href={`/profile/${post.userId}/${post.username}`}>
+        <Link
+          href={`/profile/${post.userId}/${post.username}`}
+          aria-label={`View profile of ${post.username}`}
+        >
           <h2 className="text-2xl p-1 text-white">
             {post.username ? post.username : "Hemligt"}
           </h2>
         </Link>
       </div>
       {/* Card Content */}
-      <div
+      <section
         key={post.id}
         className="xl:h-80 xl:w-3/4 w-2/3 bg-[#F3F0E8] flex flex-col xl:flex-row overflow-hidden relative"
       >
@@ -53,7 +47,11 @@ function PostConcertCard({ post }: ConcertCardProps) {
           <div className="xl:w-64 flex-shrink-0">
             <Image
               src={post.image ? post.image : "/images/standin.jpg"}
-              alt={post.artistBand}
+              alt={
+                post.artistBand
+                  ? `Image of ${post.artistBand}`
+                  : "A stand-in image"
+              }
               width={500}
               height={500}
               className="w-full xl:h-full h-80 object-cover object-center "
@@ -66,7 +64,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
               <h2 className="text-4xl font-semibold">{post.artistBand}</h2>
               <h3 className="font-semibold text-xl italic">{post.tourName}</h3>
               {post.rating && (
-                <div>
+                <div aria-label={`Rating: ${post.rating} out of 5`}>
                   {Array.from({ length: post.rating }, (_, index) => (
                     <span key={index} className="inline-block p-1">
                       <Star width={20} height={20} alt={index} />
@@ -85,15 +83,21 @@ function PostConcertCard({ post }: ConcertCardProps) {
               <p>{post.venue}</p>
               <p>{post.location}</p>
               <p className=" capitalize">{post.genre}</p>
-              <p className=" text-black">
+              <time className=" text-black">
                 {new Date(post.showDate).toLocaleDateString()}
-              </p>
+              </time>
             </div>
           </div>
         </div>
 
         {/* Barcode Section */}
-        <div className="xl:border-l-4 border-t-4 md:border-solid border-dashed border-black xl:w-56 flex-shrink-0 flex flex-col xl:flex-row xl:justify-between items-center xl:items-stretch w-full">
+        <aside
+          aria-labelledby="barcode-section"
+          className="xl:border-l-4 border-t-4 md:border-solid border-dashed border-black xl:w-56 flex-shrink-0 flex flex-col xl:flex-row xl:justify-between items-center xl:items-stretch w-full"
+        >
+          <h4 id="barcode-section" className="sr-only">
+            Barcode representing the concert ticket
+          </h4>
           <div className="block xl:hidden">
             <BarcodeSmall2 />
           </div>
@@ -122,8 +126,8 @@ function PostConcertCard({ post }: ConcertCardProps) {
               </ul>
             </div>
           </div>
-        </div>
-      </div>
+        </aside>
+      </section>
 
       {/* Like Button */}
       <div className="w-3/4 mt-2 flex justify-between">
@@ -146,7 +150,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
         {post.id && <CommentList postId={post.id} />}
         <CommentInput postId={post.id || ""} />
       </div>
-    </div>
+    </article>
   );
 }
 

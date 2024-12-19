@@ -25,13 +25,17 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
             {columns.map((column) => (
               <th
                 key={String(column.accessor)}
+                scope="col"
                 className="border-b border-gray-300 p-2 md:p-4 text-left text-xs md:text-sm font-bold"
               >
                 {column.header}
               </th>
             ))}
             {actions && (
-              <th className="border-b border-gray-300 p-2 md:p-4 text-left text-xs md:text-sm font-bold">
+              <th
+                scope="col"
+                className="border-b border-gray-300 p-2 md:p-4 text-left text-xs md:text-sm font-bold"
+              >
                 Actions
               </th>
             )}
@@ -43,6 +47,7 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
               <tr
                 key={rowIndex}
                 className={rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                tabIndex={0}
               >
                 {columns.map((column) => {
                   const cellValue = String(row[column.accessor]);
@@ -60,6 +65,7 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
                             <button
                               onClick={() => setModalContent(cellValue)}
                               className="text-footerHeader underline text-sm mt-1 self-start"
+                              aria-label={`Read full content of ${column.header}`}
                             >
                               Read
                             </button>
@@ -88,13 +94,26 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
       </table>
 
       {modalContent && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-4 max-w-md w-full">
-            <h2 className="text-lg font-bold mb-4">Full Description</h2>
-            <p className="text-sm whitespace-pre-wrap">{modalContent}</p>
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          role="dialog"
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <div
+            className="bg-white rounded-lg shadow-lg p-4 max-w-md w-full"
+            tabIndex={-1}
+          >
+            <h2 id="modal-title" className="text-lg font-bold mb-4">
+              Full Description
+            </h2>
+            <p id="modal-description" className="text-sm whitespace-pre-wrap">
+              {modalContent}
+            </p>
             <button
               onClick={() => setModalContent(null)}
               className="mt-4 bg-footerHeader text-white px-4 py-2 rounded-md"
+              aria-label="Close modal"
             >
               Close
             </button>

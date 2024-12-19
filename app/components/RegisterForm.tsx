@@ -64,11 +64,14 @@ function RegisterForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto">
+      <section className="max-w-md mx-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email
+            </label>
             <input
+              id="email"
               type="email"
               {...register("email", {
                 required: "Email is required",
@@ -81,17 +84,25 @@ function RegisterForm() {
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.email ? "true" : "false"}
+              aria-describedby={errors.email ? "email-error" : undefined}
             />
             {errors.email && (
-              <p className="text-sm text-red-500 mt-1">
+              <p
+                id="email-error"
+                aria-live="polite"
+                className="text-sm text-red-500 mt-1"
+              >
                 {errors.email.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
             <input
+              id="password"
               type="password"
               {...register("password", {
                 required: "Password is required",
@@ -100,17 +111,25 @@ function RegisterForm() {
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.password ? "true" : "false"}
+              aria-describedby={errors.password ? "password-error" : undefined}
             />
             {errors.password && (
-              <p className="text-sm text-red-500 mt-1">
+              <p
+                id="password-error"
+                className="text-sm text-red-500 mt-1"
+                aria-live="polite"
+              >
                 {errors.password.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Username</label>
+            <label htmlFor="username" className="block text-sm font-medium">
+              Username
+            </label>
             <input
+              id="username"
               type="text"
               {...register("username", {
                 required: "Username is required",
@@ -132,16 +151,21 @@ function RegisterForm() {
                 errors.username ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.username ? "true" : "false"}
+              aria-describedby={errors.username ? "username-error" : undefined}
             />
             {errors.username && (
-              <p className="text-sm text-red-500 mt-1">
+              <p
+                id="username-error"
+                className="text-sm text-red-500 mt-1"
+                aria-live="polite"
+              >
                 {errors.username.message}
               </p>
             )}
           </div>
 
           <button
-            className={`w-full py-2 rounded ${
+            className={`w-full py-2 rounded focus:outline focus:outline-2 focus:outline-green-700 ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-buttonDark hover:bg-buttonDarkHover text-white"
@@ -153,13 +177,11 @@ function RegisterForm() {
           </button>
         </form>
         <Link href={"/auth/login"}>
-          <div className="text-center mt-2">
-            <h3 className="font-semibold">
-              Already a user? Sign In <i>here</i>
-            </h3>
-          </div>
+          <h3 className="font-semibold text-center mt-2 hover:underline">
+            Already a user? Sign In <i>here</i>
+          </h3>
         </Link>
-      </div>
+      </section>
     </>
   );
 }

@@ -25,7 +25,9 @@ async function ProfilePage({ params }: Props) {
             <div aria-live="polite">
               <QuickFacts posts={posts} />
             </div>
-            <AddConcertButton />
+            <div className="flex justify-center items-center">
+              <AddConcertButton />
+            </div>
           </div>
           <section className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8 mb-3">
             {posts.map((post) => (

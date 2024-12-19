@@ -20,6 +20,7 @@ function DeleteButton({ postId }: deleteProps) {
       }, 3000);
     } catch (error) {
       console.error("Error deleting post: ", error);
+      toast.error("Failed to delete the post.");
     }
   }
   return (
@@ -36,9 +37,13 @@ function DeleteButton({ postId }: deleteProps) {
         pauseOnHover
         theme="light"
         transition={Bounce}
+        role="alert"
       />
-      <button onClick={() => handelDelete(postId)}>
-        <WhiteTrashcan height={30} />
+      <button
+        onClick={() => handelDelete(postId)}
+        className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
+      >
+        <WhiteTrashcan height={30} aria-label="Delete this post" />
       </button>
     </>
   );

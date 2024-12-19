@@ -49,9 +49,11 @@ function CommentInput({ postId }: CommentInputProps) {
         Write your comment here
       </label>
       <input
+        id="Commet input"
         type="text"
         placeholder="Write a comment..."
         aria-label="Write a comment"
+        aria-describedby={errors.content ? "comment-error" : ""}
         {...register("content", {
           required: "Comment text is required",
           maxLength: {
@@ -64,10 +66,19 @@ function CommentInput({ postId }: CommentInputProps) {
         }`}
       />
       {errors.content && (
-        <p className="text-red-500 text-sm">{errors.content.message}</p>
+        <p
+          id="commen-error"
+          aria-live="polite"
+          className="text-red-500 text-sm"
+        >
+          {errors.content.message}
+        </p>
       )}
 
-      <button type="submit" className="bg-card1 py-1 px-3 rounded">
+      <button
+        type="submit"
+        className="bg-card1 py-1 px-3 rounded focus:outline focus:outline-2 focus:outline-buttonDarkHover"
+      >
         Comment
       </button>
     </form>

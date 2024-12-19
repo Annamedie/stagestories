@@ -14,7 +14,7 @@ function Header() {
   }
   return (
     <header className="bg-footerHeader flex justify-between items-center sticky top-0 z-10">
-      <Link href="/">
+      <Link href="/" aria-label="Navigate to Stage Stories home page">
         <h1 className="font-lacquer text-primary m-4 text-4xl">
           Stage Stories
         </h1>

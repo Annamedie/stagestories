@@ -10,8 +10,8 @@ function Footer() {
     return null;
   }
   return (
-    <footer className="bg-footerHeader min-h-10 flex justify-center items-center">
-      <h2 className="text-white">©️ SINCE 2024</h2>
+    <footer className="bg-footerHeader min-h-10 flex justify-center items-center border-t border-gray-700 py-4">
+      <p className="text-white">Copyright © SINCE 2024</p>
     </footer>
   );
 }

@@ -76,9 +76,9 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
           </div>
           <div className="pt-2 xl:pr-2 pr-1 flex flex-col lg:items-end items-center justify-between flex-grow">
             <div className="pt-2">
-              <span className="text-sm text-black lg:block hidden">
+              <time className="text-sm text-black lg:block hidden">
                 {new Date(post.showDate).toLocaleDateString()}
-              </span>
+              </time>
             </div>
             <div>
               <p className="text-gray-700 mb-2 font-bold lg:text-sm">
