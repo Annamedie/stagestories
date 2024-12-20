@@ -72,12 +72,15 @@ function LogInForm() {
         theme="light"
         transition={Bounce}
       />
-      <div className="max-w-md mx-auto">
+      <section className="max-w-md mx-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email
+            </label>
             <input
               type="email"
+              id="email"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -89,17 +92,25 @@ function LogInForm() {
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.email ? "true" : "false"}
+              aria-describedby={errors.email ? "email-error" : undefined}
             />
             {errors.email && (
-              <p className="text-sm text-red-500 mt-1">
+              <p
+                id="email-error"
+                aria-live="polite"
+                className="text-sm text-red-500 mt-1"
+              >
                 {errors.email.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
             <input
+              id="password"
               type="password"
               {...register("password", {
                 required: "Password is required",
@@ -108,16 +119,21 @@ function LogInForm() {
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
               aria-invalid={errors.password ? "true" : "false"}
+              aria-describedby={errors.password ? "password-error" : undefined}
             />
             {errors.password && (
-              <p className="text-sm text-red-500 mt-1">
+              <p
+                id="password-error"
+                aria-live="polite"
+                className="text-sm text-red-500 mt-1"
+              >
                 {errors.password.message}
               </p>
             )}
           </div>
 
           <button
-            className="w-full bg-buttonDark text-white py-2 rounded hover:bg-buttonDarkHover text-"
+            className="w-full bg-buttonDark text-white py-2 rounded hover:bg-buttonDarkHover focus:outline focus:outline-2 focus:outline-green-700"
             type="submit"
             disabled={isLoading}
           >
@@ -125,13 +141,11 @@ function LogInForm() {
           </button>
         </form>
         <Link href={"/auth/register"}>
-          <div className="flex justify-center mt-2">
-            <h3 className=" font-semibold">
-              New user? Register <i>here</i>
-            </h3>
-          </div>
+          <h3 className=" font-semibold flex justify-center mt-2 hover:underline">
+            New user? Register <i>here</i>
+          </h3>
         </Link>
-      </div>
+      </section>
     </>
   );
 }

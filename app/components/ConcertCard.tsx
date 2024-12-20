@@ -1,12 +1,12 @@
 "use client";
 import { getAuth } from "firebase/auth";
 import Image from "next/image";
-import { useState } from "react";
-import { likePost, unlikePost } from "../api/postActions";
 import Barcode from "../svg/Barcode.svg";
+import BarcodeSmall from "../svg/BarcodeSmall.svg";
 import Star from "../svg/Star.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
+import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
   isProfile?: boolean;
@@ -15,70 +15,58 @@ interface ConcertCardProps {
 function ConcertCard({ post, isProfile }: ConcertCardProps) {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-  const [liked, setLiked] = useState(
-    post.likesBy && userId ? post.likesBy.includes(userId) : false
-  );
-  const [likes, setLikes] = useState(post.likes || 0);
-
-  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    if (!userId) {
-      console.error("User must be logged in to like a post.");
-      return;
-    }
-
-    try {
-      if (liked) {
-        await unlikePost(post.id);
-        setLikes((prev) => prev - 1);
-      } else {
-        await likePost(post.id);
-        setLikes((prev) => prev + 1);
-      }
-      setLiked((prev) => !prev);
-    } catch (error) {
-      console.error("Error handling like:", error);
-    }
-  };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center lg:items-stretch ">
       {/* Card Content */}
-      <div
+      <article
         key={post.id}
-        className="h-52 bg-[#F3F0E8] flex w-full overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out"
+        className="  xl:h-52 lg:h-60 w-2/3  bg-[#F3F0E8] flex flex-col lg:flex-row lg:w-full  relative lg:hover:scale-105 md:transition-transform md:duration-300 md:ease-in-out"
       >
-        <div className="absolute right-[71px] -translate-x-1/2 -top-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
-        <div className="absolute right-[71px] -translate-x-1/2 -bottom-4 bg-[#020C11] w-6 h-6 rounded-full border-2 "></div>
-        <div className="flex flex-grow">
-          <div className="flex">
-            <div className="w-44 flex-shrink-0">
+        <div className=" hidden md:block absolute lg:right-[103px] lg:-translate-x-1/2 lg:-top-4 bg-[#020C11] w-6 h-6 rounded-full max-lg:bottom-[84px] max-lg:-translate-y-5 max-lg:-translate-x-3 over"></div>
+        <div
+          className=" hidden md:block absolute 
+                lg:right-[103px] lg:-translate-x-1/2 lg:-bottom-8 
+                bottom-[84px] -translate-y-5 translate-x-[480px]
+                bg-[#020C11] w-6 h-6 rounded-full"
+        ></div>
+
+        <div className="flex flex-col lg:flex-row flex-grow">
+          <div className="flex flex-col lg:flex-row">
+            <div className="lg:w-44 flex-shrink-0">
               <Image
                 src={post.image ? post.image : "/images/standin.jpg"}
-                alt={post.artistBand}
+                alt={
+                  post.artistBand
+                    ? `Image of ${post.artistBand}`
+                    : "A stand-in image"
+                }
                 width={500}
                 height={500}
-                className="w-full h-full object-cover"
+                className="w-full lg:h-full h-72 object-cover object-center"
               />
             </div>
-            <div className="pl-4 pt-4 flex flex-col justify-between">
+            <div className="lg:pl-4 lg:pt-4 flex flex-col lg:justify-between items-center lg:items-stretch text-center lg:text-left">
               <div>
-                <h2 className="text-2xl font-semibold">{post.artistBand}</h2>
-                <h3 className="font-medium italic">
-                  {post.tourName ? post.tourName : "Sunny Tour"}
+                <h2 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
+                  {post.artistBand}
+                </h2>
+                <h3 className="font-medium lg:text-sm xl:text-lg text-lg italic">
+                  {post.tourName}
                 </h3>
               </div>
-              <div className="my-1">
-                <p>{post.venue ? post.venue : "Ullevi"}</p>
+              <div className="my-1 text-base lg:text-xs xl:text-base">
+                <p>{post.venue}</p>
                 <p>{post.location}</p>
-                <p className="text-sm text-gray-500">{post.genre}</p>
+                <p className=" text-gray-700 capitalize">{post.genre}</p>
               </div>
               {post.rating && (
-                <div className="pb-2">
+                <div
+                  className="pb-2"
+                  aria-label={`Rating: ${post.rating} out of 5`}
+                >
                   {Array.from({ length: post.rating }, (_, index) => (
-                    <span key={index} className="inline-block">
+                    <span key={index} className="inline-block p-[3px]">
                       <Star width={20} height={20} />
                     </span>
                   ))}
@@ -86,15 +74,15 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               )}
             </div>
           </div>
-          <div className="pt-2 pr-2 flex flex-col items-end justify-between flex-grow">
+          <div className="pt-2 xl:pr-2 pr-1 flex flex-col lg:items-end items-center justify-between flex-grow">
             <div className="pt-2">
-              <span className="text-sm text-black">
+              <time className="text-sm text-black lg:block hidden">
                 {new Date(post.showDate).toLocaleDateString()}
-              </span>
+              </time>
             </div>
             <div>
-              <p className="text-gray-700 mb-2 font-bold">
-                {post.review && "Read review..."}
+              <p className="text-gray-700 mb-2 font-bold lg:text-sm">
+                {post.review && "Review"}
               </p>
             </div>
             <div className="pb-2">
@@ -106,32 +94,47 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
           </div>
         </div>
-        <div className="border-l-2 border-black w-24 flex-shrink-0 flex flex-col">
-          <div>
+        <div className="lg:border-l-[3px] lg:border-t-0 border-t-4 border-dashed md:border-solid border-[#020C11] lg:w-32 flex-shrink-0 flex flex-col">
+          <div className="lg:block hidden">
             <p className="text-center text-sm p-1 truncate">
-              {post.username ? post.username : "Hemligt"}
+              {post.username ? post.username : "Anonymous"}
             </p>
           </div>
-          <div className="flex items-center justify-center">
-            <Barcode />
-            <span className="text-xs font-lacquer rotate-[270deg]">
+          <div className="flex flex-col lg:flex-row items-center justify-center">
+            <div className="lg:block hidden">
+              <Barcode />
+            </div>
+            <div className="lg:hidden block mt-2">
+              <BarcodeSmall />
+            </div>
+            <div className="lg:pt-2 p-2 lg:hidden block">
+              <span className="text-sm text-black font-semibold ">
+                {new Date(post.showDate).toLocaleDateString()}
+              </span>
+            </div>
+            <span
+              className="text-xs font-lacquer rotate-[270deg] hidden lg:block "
+              aria-hidden="true"
+            >
               STAGE STORIES
             </span>
           </div>
+          <div className="lg:hidden block">
+            <p className="text-center text-sm pb-3 font-semibold truncate">
+              {post.username ? post.username : "Anonymous"}
+            </p>
+          </div>
         </div>
-      </div>
+      </article>
 
-      {/* Like Button and Likes Count Below the Card */}
-      <div className="mt-2">
-        <button
-          onClick={(e) => handleLike(e)}
-          className={`px-3 py-1 rounded ${
-            liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-          }`}
-        >
-          {liked ? "Unlike" : "Like"}
-        </button>
-        <span className="ml-2 text-white">{likes} Likes</span>
+      {/* Like Button and Likes Count */}
+      <div className="mb-5 mt-2 mr-64 lg:mr-0">
+        <LikeButton
+          postId={post.id || ""}
+          initialLikes={post.likes || 0}
+          isLiked={userId ? post.likesBy?.includes(userId) || false : false}
+          userId={userId || null}
+        />
       </div>
     </div>
   );

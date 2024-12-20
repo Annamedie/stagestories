@@ -4,6 +4,7 @@ export interface Users {
   id?: string;
   username: string;
   password?: string;
+  email?: string;
   isAdmin: boolean;
   createdAt: Timestamp;
 }
@@ -31,9 +32,10 @@ export interface Post {
 export interface Comment {
   id?: string;
   content: string;
-  createdAt: Date;
+  createdAt: string;
   postId: string;
   userId: string;
+  username: string;
 }
 
 export interface Like {

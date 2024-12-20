@@ -3,11 +3,11 @@ import RegisterForm from "@/app/components/RegisterForm";
 function registerPage() {
   return (
     <>
-      <div>
-        <div>
+      <main>
+        <section>
           <RegisterForm />
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
 }

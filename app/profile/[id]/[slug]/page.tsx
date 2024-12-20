@@ -1,5 +1,7 @@
 import { fetchPostsByUserId } from "@/app/api/postActions";
 import ConcertCard from "@/app/components/ConcertCard";
+import QuickFacts from "@/app/components/QuickFacts";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -11,15 +13,33 @@ type Props = {
 async function ProfilePage({ params }: Props) {
   const posts = await fetchPostsByUserId(params.id);
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-2xl text-white mb-6">Profile Page</h1>
-      <p className="text-gray-300 mb-4">Posts by user {params.slug}</p>
-      <div className="grid grid-cols-2 gap-4 mb-3">
-        {posts.map((post) => (
-          <ConcertCard key={post.id} post={post} isProfile={true} />
-        ))}
-      </div>
-    </div>
+    <>
+      <main aria-label={`${params.slug} concert reviews`}>
+        <h1 className="text-3xl text-white text-center p-5 font-semibold">
+          The venue of {params.slug}{" "}
+        </h1>
+
+        <section className="container mx-auto m-6">
+          <div className="flex flex-col-reverse lg:flex-row gap-7 mb-6 justify-between">
+            <div aria-live="polite">
+              <QuickFacts posts={posts} />
+            </div>
+          </div>
+          <section className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8 mb-3">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={`/post/${post.id}`}
+                className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
+                aria-label={`Read more about this concert: ${post.artistBand}`}
+              >
+                <ConcertCard key={post.id} post={post} isProfile={true} />
+              </Link>
+            ))}
+          </section>
+        </section>
+      </main>
+    </>
   );
 }
 

@@ -109,6 +109,28 @@ export const deletePost = async (postId: string) => {
   }
 };
 
+export const updatePost = async (postId: string, post: Post) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+  const postRef = doc(db, "posts", postId);
+  try {
+    //sortera ut alla värden som är undefined
+    const updates = Object.fromEntries(
+      Object.entries(post).filter(([_, v]) => v !== undefined)
+    );
+    if (Object.keys(updates).length === 0) {
+      throw new Error("No updates provided");
+    }
+    await updateDoc(postRef, updates);
+  } catch (error) {
+    console.error("Error updating post:", error);
+    throw new Error(`Failed to update post: ${error}`);
+  }
+};
+
 export const likePost = async (postId: string) => {
   const auth = getAuth();
   const userId = auth.currentUser?.uid;

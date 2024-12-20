@@ -15,7 +15,14 @@ function LogOutButton() {
   };
 
   if (user) {
-    return <button onClick={handleLogout}>Log Out</button>;
+    return (
+      <button
+        className="focus:outline focus:outline-2 focus:outline-buttonDarkHover"
+        onClick={handleLogout}
+      >
+        Log Out
+      </button>
+    );
   }
 }
 export default LogOutButton;

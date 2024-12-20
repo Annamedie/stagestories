@@ -2,9 +2,9 @@ import LogInForm from "@/app/components/LogInForm";
 
 function loginPage() {
   return (
-    <div>
+    <main>
       <LogInForm />
-    </div>
+    </main>
   );
 }
 export default loginPage;

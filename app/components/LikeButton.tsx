@@ -1,18 +1,34 @@
 "use client";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
+import Hand from "../svg/Hand.svg";
+import MetalHand from "../svg/MetalHand.svg";
 
 interface LikeButtonProps {
   postId: string;
-  initialLiked: boolean;
   initialLikes: number;
+  isLiked: boolean;
+  userId: string | null;
 }
 
-function LikeButton({ postId, initialLiked, initialLikes }: LikeButtonProps) {
-  const [liked, setLiked] = useState(initialLiked);
+const LikeButton = ({
+  postId,
+  initialLikes,
+  isLiked,
+  userId,
+}: LikeButtonProps) => {
+  const [liked, setLiked] = useState(isLiked);
   const [likes, setLikes] = useState(initialLikes);
 
-  const handleLike = async () => {
+  const handleLike = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!userId) {
+      console.error("User must be logged in to like a post.");
+      return;
+    }
+
     try {
       if (liked) {
         await unlikePost(postId);
@@ -28,18 +44,20 @@ function LikeButton({ postId, initialLiked, initialLikes }: LikeButtonProps) {
   };
 
   return (
-    <div className="flex items-center mt-4">
+    <div className="m-2">
       <button
         onClick={handleLike}
-        className={`px-3 py-1 rounded ${
-          liked ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-        }`}
+        aria-label={liked ? "Unlike this post" : "Like this post"}
+        aria-pressed={liked}
+        className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
       >
-        {liked ? "Unlike" : "Like"}
+        {liked ? <MetalHand height={30} /> : <Hand height={30} />}
       </button>
-      <span className="ml-2">{likes} Likes</span>
+      <span className="ml-2 text-white" aria-live="polite">
+        {likes} Rock on!
+      </span>
     </div>
   );
-}
+};
 
 export default LikeButton;

@@ -7,7 +7,16 @@ import {
   signInWithEmailAndPassword,
   User,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  Timestamp,
+  where,
+} from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
@@ -67,17 +76,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     username: string
   ) => {
     try {
+      const usersRef = collection(db, "users");
+      const usernameQuery = query(usersRef, where("username", "==", username));
+      const usernameSnapshot = await getDocs(usernameQuery);
+
+      if (!usernameSnapshot.empty) {
+        throw new Error(
+          "Username already exists, please choose another username"
+        );
+      }
+
       const userInfo = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+
       const userRef = doc(db, "users", userInfo.user.uid);
       await setDoc(userRef, {
         username,
+        email: userInfo.user.email,
         isAdmin: false,
         createdAt: Timestamp.now(),
       });
+
       setUsername(username);
     } catch (error) {
       console.error("Error registering user: ", error);

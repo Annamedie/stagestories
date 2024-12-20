@@ -4,7 +4,7 @@ function addconcert() {
   return (
     <div>
       <h1>Add Concert</h1>
-      <ConcertForm />
+      <ConcertForm isEdit={false} />
     </div>
   );
 }
