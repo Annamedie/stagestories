@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { addComment } from "../api/commentsActions";
 import { useAuth } from "../context/Authcontext";
@@ -22,8 +21,6 @@ function CommentInput({ postId }: CommentInputProps) {
     formState: { errors },
   } = useForm<CommentFromData>();
 
-  const router = useRouter();
-
   const onSubmit: SubmitHandler<CommentFromData> = async (commentData) => {
     if (!commentData.content.trim()) {
       return;
@@ -44,7 +41,7 @@ function CommentInput({ postId }: CommentInputProps) {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex space-x-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex space-x-2 m-3">
       <label htmlFor="content" className="sr-only">
         Write your comment here
       </label>
@@ -61,16 +58,12 @@ function CommentInput({ postId }: CommentInputProps) {
             message: "Comment cannot exceed 250 characters",
           },
         })}
-        className={`border rounded p-2 ${
+        className={`border rounded p-2 bg-[#F3F0E8] ${
           errors.content ? "border-red-500" : "border-gray-300"
         }`}
       />
       {errors.content && (
-        <p
-          id="commen-error"
-          aria-live="polite"
-          className="text-red-500 text-sm"
-        >
+        <p id="commen-error" aria-live="polite" className="text-white text-sm">
           {errors.content.message}
         </p>
       )}

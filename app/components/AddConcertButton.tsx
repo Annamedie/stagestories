@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function AddConcertButton() {
   return (
-    <div className="flex justify-start items-center mt-8">
+    <div className="flex justify-start items-center mx-4">
       <Link
         href="/add-concert"
         className="relative inline-block px-8 py-3 font-medium text-white group rounded-full"

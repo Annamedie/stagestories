@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AddConcertButton from "./AddConcertButton";
 import ProfileButton from "./ProfileButton";
 
 function Header() {
@@ -19,8 +20,10 @@ function Header() {
           Stage Stories
         </h1>
       </Link>
-
-      <ProfileButton />
+      <div className="flex items-center">
+        <AddConcertButton />
+        <ProfileButton />
+      </div>
     </header>
   );
 }

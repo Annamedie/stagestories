@@ -1,5 +1,4 @@
 import { fetchPostsByUserId } from "@/app/api/postActions";
-import AddConcertButton from "@/app/components/AddConcertButton";
 import ConcertCard from "@/app/components/ConcertCard";
 import QuickFacts from "@/app/components/QuickFacts";
 import Link from "next/link";
@@ -24,9 +23,6 @@ async function ProfilePage({ params }: Props) {
           <div className="flex flex-col-reverse lg:flex-row gap-7 mb-6 justify-between">
             <div aria-live="polite">
               <QuickFacts posts={posts} />
-            </div>
-            <div className="flex justify-center items-center">
-              <AddConcertButton />
             </div>
           </div>
           <section className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8 mb-3">

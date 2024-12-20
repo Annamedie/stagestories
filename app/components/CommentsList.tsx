@@ -38,34 +38,40 @@ function CommentList({ postId }: CommentListProps) {
   return (
     <div className="space-y-4">
       {comments.length === 0 && <p className="text-white">No comments yet.</p>}
-      <ul>
-        {comments.map((comment) => (
-          <li
-            key={comment.id}
-            className="comment flex items-start p-4 border-b border-gray-700 bg-black"
-            tabIndex={0}
-          >
-            {/* Avatar Container */}
-            <div
-              className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center mr-4"
-              aria-hidden="true"
+      {/* Scrollable Container */}
+      <div
+        className="max-h-96 overflow-y-auto bg-gray-900 rounded-lg p-4"
+        aria-label="Comments section"
+      >
+        <ul className="space-y-2">
+          {comments.map((comment) => (
+            <li
+              key={comment.id}
+              className="flex items-start p-4 border-b border-gray-700 bg-[#F3F0E8]"
+              tabIndex={0}
             >
-              <span className="text-white font-bold">
-                {comment.username?.charAt(0).toUpperCase()}
-              </span>
-            </div>
+              {/* Avatar Container */}
+              <div
+                className="w-10 h-10 rounded-full bg-footerHeader flex items-center justify-center my-auto"
+                aria-hidden="true"
+              >
+                <span className="text-primary font-bold font-lacquer">
+                  {comment.username?.charAt(0).toUpperCase()}
+                </span>
+              </div>
 
-            {/* Comment Content */}
-            <div className="flex flex-col text-white">
-              <div className="font-bold text-sm">{comment.username}</div>
-              <div className="text-sm">{comment.content}</div>
-              <time className="text-xs text-gray-400 mt-1">
-                {new Date(comment.createdAt).toLocaleDateString()}
-              </time>
-            </div>
-          </li>
-        ))}
-      </ul>
+              {/* Comment Content */}
+              <div className="flex flex-col text-black pl-4">
+                <div className="font-bold text-sm">{comment.username}</div>
+                <div className="text-sm">{comment.content}</div>
+                <time className="text-xs text-gray-800 mt-1">
+                  {new Date(comment.createdAt).toLocaleDateString()}
+                </time>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "./api/postActions";
-import AddConcertButton from "./components/AddConcertButton";
 import ConcertCard from "./components/ConcertCard";
 import { useAuth } from "./context/Authcontext";
 import { Post } from "./types/dataTypes";
@@ -59,9 +58,6 @@ function Home() {
           </Link>
         ))}
       </section>
-      <div className="mb-6">
-        <AddConcertButton />
-      </div>
     </main>
   );
 }
