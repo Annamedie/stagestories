@@ -3,6 +3,8 @@ import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   query,
   serverTimestamp,
@@ -45,4 +47,15 @@ export async function fetchCommentsByPostId(
     console.error("Error fetching comments by post id: ", error);
     throw error;
   }
+}
+
+export async function deleteComment(commentId: string) {
+  try {
+    const commentRef = doc(db, "comments", commentId);
+    await deleteDoc(commentRef);
+  } catch (error) {
+    console.error("Error deleting comment: ", error);
+    throw new Error("Failed to delete comment");
+  }
+  const commentRef = doc(db, "comments", commentId);
 }

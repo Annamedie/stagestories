@@ -14,6 +14,7 @@ interface CommentFromData {
 
 function CommentInput({ postId }: CommentInputProps) {
   const { username } = useAuth();
+
   const {
     register,
     handleSubmit,
