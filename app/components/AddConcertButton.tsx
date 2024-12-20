@@ -1,6 +1,16 @@
+"use client";
+
+import { getAuth } from "firebase/auth";
 import Link from "next/link";
 
 function AddConcertButton() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex justify-start items-center mx-4">
       <Link

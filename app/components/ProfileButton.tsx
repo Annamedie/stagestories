@@ -74,6 +74,14 @@ function ProfileButton() {
           >
             Profile
           </Link>
+          <Link
+            href="/add-concert"
+            className="md:hidden block px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline focus:outline-2 focus:outline-buttonDarkHover"
+            onClick={() => setIsOpened(false)}
+            role="menuitem"
+          >
+            Add New Concert
+          </Link>
           <div
             role="menuitem"
             className="px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline focus:outline-2 focus:outline-buttonDarkHover"

@@ -21,7 +21,9 @@ function Header() {
         </h1>
       </Link>
       <div className="flex items-center">
-        <AddConcertButton />
+        <div className="hidden md:block">
+          <AddConcertButton />
+        </div>
         <ProfileButton />
       </div>
     </header>

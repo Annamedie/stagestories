@@ -141,7 +141,7 @@ function LogInForm() {
           </button>
         </form>
         <Link href={"/auth/register"}>
-          <h3 className=" font-semibold flex justify-center mt-2">
+          <h3 className=" font-semibold flex justify-center mt-2 hover:underline">
             New user? Register <i>here</i>
           </h3>
         </Link>
