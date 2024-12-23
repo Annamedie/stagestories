@@ -6,6 +6,7 @@ import BarcodeSmall from "../svg/BarcodeSmall.svg";
 import Star from "../svg/Star.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
+import CommentCounter from "./CommentCounter";
 import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
@@ -128,7 +129,8 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
       </article>
 
       {/* Like Button and Likes Count */}
-      <div className="mb-5 mt-2 mr-64 lg:mr-0">
+      <div className="mb-5 mt-2 mr-64 lg:mr-0 flex items-center">
+        <CommentCounter postId={post.id || ""} />
         <LikeButton
           postId={post.id || ""}
           initialLikes={post.likes || 0}
