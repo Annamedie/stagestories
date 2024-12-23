@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "./api/postActions";
 import ConcertCard from "./components/ConcertCard";
+import Hero from "./components/Hero";
 import SearchBar from "./components/SearchBar";
 import { useAuth } from "./context/Authcontext";
 import { Post } from "./types/dataTypes";
@@ -59,6 +60,9 @@ function Home() {
       className="container mx-auto px-4"
       aria-label="Concert Review section"
     >
+      <div>
+        <Hero />
+      </div>
       <h1 className="text-2xl font-bold m-4 text-white font-inter">
         Concert Reviews
       </h1>
