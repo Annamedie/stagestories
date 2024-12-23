@@ -2,8 +2,8 @@ import Image from "next/image";
 
 function Hero() {
   return (
-    <section className="flex border-2 border-cyan-600 my-10 bg-black">
-      <div className="w-1/2 flex object-center object-cover">
+    <section className="flex md:flex-row flex-col border-2 border-cyan-600 my-10 bg-black">
+      <div className="md:w-1/2 flex object-center object-cover">
         <Image
           src="/images/background.jpg"
           alt="Lively concert crowd and stage"
@@ -11,7 +11,7 @@ function Hero() {
           height={400}
         />
       </div>
-      <div className="w-1/2 flex flex-col justify-center p-8 font-inter">
+      <div className="md:w-1/2 flex flex-col justify-center p-8 font-inter">
         <h2 className="font-inter text-xl font-medium text-white p-2">
           Our Stage Stories
         </h2>{" "}
