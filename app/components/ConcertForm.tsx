@@ -119,9 +119,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
         transition={Bounce}
       />
 
-      <h3 className="text-primary text-center text-3xl font-bold">
+      <h2 className="text-primary text-center text-3xl font-bold">
         {isEdit ? "Edit your concert" : "Add your concert"}
-      </h3>
+      </h2>
       <section className="max-w-4xl mx-auto m-10 p-6 bg-[#F3F0E8] rounded-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}

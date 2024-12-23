@@ -3,7 +3,7 @@ import ConcertForm from "../components/ConcertForm";
 function addconcert() {
   return (
     <div>
-      <h1>Add Concert</h1>
+      <h2>Add Concert</h2>
       <ConcertForm isEdit={false} />
     </div>
   );

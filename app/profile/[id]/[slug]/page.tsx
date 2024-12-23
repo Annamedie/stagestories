@@ -15,9 +15,9 @@ async function ProfilePage({ params }: Props) {
   return (
     <>
       <main aria-label={`${params.slug} concert reviews`}>
-        <h1 className="text-3xl text-white text-center p-5 font-semibold">
+        <h3 className="text-3xl text-white text-center p-5 font-semibold">
           The venue of {params.slug}{" "}
-        </h1>
+        </h3>
 
         <section className="container mx-auto m-6">
           <div className="flex flex-col-reverse lg:flex-row gap-7 mb-6 justify-between">

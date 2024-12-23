@@ -63,9 +63,9 @@ function Home() {
       <div>
         <Hero />
       </div>
-      <h1 className="text-2xl font-bold m-4 text-white font-inter">
+      <h3 className="text-2xl font-bold m-4 text-white font-inter">
         Concert Reviews
-      </h1>
+      </h3>
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
       <section
         className="grid lg:grid-cols-2 grid-cols-1 lg:gap-8"

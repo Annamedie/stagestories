@@ -12,14 +12,14 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-concert-background bg-cover">
-      <h1 className="font-lacquer mt-8 self-center text-8xl text-primary">
+      <h2 className="font-lacquer mt-8 self-center text-8xl text-primary">
         STAGE STORIES
-      </h1>
+      </h2>
 
       {pathname === "/auth/register" && (
-        <h2 className="text-white self-center text-3xl">
+        <h3 className="text-white self-center text-3xl">
           Register to Stage Stories
-        </h2>
+        </h3>
       )}
 
       <div className="flex justify-center mb-4">

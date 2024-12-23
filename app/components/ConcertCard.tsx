@@ -48,12 +48,12 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
             <div className="lg:pl-4 lg:pt-4 flex flex-col lg:justify-between items-center lg:items-stretch text-center lg:text-left">
               <div>
-                <h2 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
+                <h4 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
                   {post.artistBand}
-                </h2>
-                <h3 className="font-medium lg:text-sm xl:text-lg text-lg italic">
+                </h4>
+                <h5 className="font-medium lg:text-sm xl:text-lg text-lg italic">
                   {post.tourName}
-                </h3>
+                </h5>
               </div>
               <div className="my-1 text-base lg:text-xs xl:text-base">
                 <p>{post.venue}</p>
