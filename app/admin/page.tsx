@@ -92,6 +92,7 @@ function AdminPage() {
                 { header: "Username", accessor: "username" },
                 { header: "Date of Registration", accessor: "createdAt" },
                 { header: "User ID", accessor: "id" },
+                { header: "Email", accessor: "email" },
                 { header: "Admin", accessor: "isAdmin" },
               ]}
               actions={(row) => (
