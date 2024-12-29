@@ -1,12 +1,14 @@
 "use client";
 
-import { getAuth } from "firebase/auth";
 import Link from "next/link";
+import { useAuth } from "../context/Authcontext";
 
 function AddConcertButton() {
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { user, isloading } = useAuth();
 
+  if (isloading) {
+    return null;
+  }
   if (!user) {
     return null;
   }
