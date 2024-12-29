@@ -14,9 +14,9 @@ async function PostPage({ params }: Props) {
   if (!post) {
     return (
       <main role="alert">
-        <h1 className="text-white text-center m-4">
+        <h2 className="text-white text-center m-4">
           We are sorry, this concert does not exist anymore. Rock on!
-        </h1>
+        </h2>
         <Link
           href="/"
           className=" inline-block px-6 py-3 m-3 text-white bg-buttonDark rounded-md text-lg font-medium hover:bg-buttonDarkHover hover:shadow-lg transition duration-300"

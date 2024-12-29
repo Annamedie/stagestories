@@ -62,10 +62,10 @@ function PostConcertCard({ post }: ConcertCardProps) {
             {/* Info Section */}
             <div className=" pt-3 flex flex-col justify-between flex-grow text-center min-h-full">
               <div>
-                <h2 className="text-4xl font-semibold">{post.artistBand}</h2>
-                <h3 className="font-semibold text-xl italic">
+                <h3 className="text-4xl font-semibold">{post.artistBand}</h3>
+                <h4 className="font-semibold text-xl italic">
                   {post.tourName}
-                </h3>
+                </h4>
                 {post.rating && (
                   <div aria-label={`Rating: ${post.rating} out of 5`}>
                     {Array.from({ length: post.rating }, (_, index) => (
@@ -98,9 +98,9 @@ function PostConcertCard({ post }: ConcertCardProps) {
             aria-labelledby="barcode-section"
             className="xl:border-l-4 border-t-4 md:border-solid border-dashed border-black xl:w-56 flex-shrink-0 flex flex-col xl:flex-row xl:justify-between items-center xl:items-stretch w-full"
           >
-            <h4 id="barcode-section" className="sr-only">
+            <p id="barcode-section" className="sr-only">
               Barcode representing the concert ticket
-            </h4>
+            </p>
             <div className="block xl:hidden">
               <BarcodeSmall2 />
             </div>
@@ -110,7 +110,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <div className="m-2 flex flex-col justify-between">
               {visibleTracks && visibleTracks.length > 0 && (
                 <div className="pb-2">
-                  <h4 className="font-semibold mb-1">Top Tracks</h4>
+                  <h6 className="font-semibold mb-1">Top Tracks</h6>
                   <ul className="list-disc">
                     {visibleTracks.map((track, index) => (
                       <li className="text-sm break-words" key={index}>
@@ -121,7 +121,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
                 </div>
               )}
               <div className="mb-3 hidden xl:block">
-                <h4 className="font-semibold">Top emotions</h4>
+                <h5 className="font-semibold">Top emotions</h5>
                 <ul className="list-disc">
                   <li>😁</li>
                   <li>👽</li>

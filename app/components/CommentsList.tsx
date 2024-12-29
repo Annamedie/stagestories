@@ -1,8 +1,10 @@
 "use client";
 
+import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { fetchCommentsByPostId } from "../api/commentsActions";
 import { Comment } from "../types/dataTypes";
+import DeleteComments from "./DeleteComments";
 
 interface CommentListProps {
   postId: string;
@@ -11,6 +13,8 @@ interface CommentListProps {
 function CommentList({ postId }: CommentListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
 
   useEffect(() => {
     async function getComments() {
@@ -68,6 +72,11 @@ function CommentList({ postId }: CommentListProps) {
                   {new Date(comment.createdAt).toLocaleDateString()}
                 </time>
               </div>
+              {comment.userId === userId && (
+                <div>
+                  {comment.id && <DeleteComments commentId={comment.id} />}
+                </div>
+              )}
             </li>
           ))}
         </ul>

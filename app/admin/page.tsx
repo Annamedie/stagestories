@@ -75,16 +75,16 @@ function AdminPage() {
         role="alert"
       />
       <main className="bg-gray-900 min-h-screen p-4 md:p-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-primary text-center">
+        <h3 className="text-2xl md:text-3xl font-bold text-primary text-center">
           Admin Dashboard
-        </h2>
+        </h3>
         <section aria-labelledby="users-section">
-          <h3
+          <h4
             id="users-section"
             className="text-xl md:text-2xl font-semibold text-primary mt-6 md:mt-8 text-center"
           >
             Users
-          </h3>
+          </h4>
           <div className="overflow-x-auto">
             <DataTable
               data={userData}
@@ -92,6 +92,7 @@ function AdminPage() {
                 { header: "Username", accessor: "username" },
                 { header: "Date of Registration", accessor: "createdAt" },
                 { header: "User ID", accessor: "id" },
+                { header: "Email", accessor: "email" },
                 { header: "Admin", accessor: "isAdmin" },
               ]}
               actions={(row) => (
@@ -107,12 +108,12 @@ function AdminPage() {
           </div>
         </section>
         <section aria-labelledby="posts-section">
-          <h3
+          <h5
             id="posts-section"
             className="text-xl md:text-2xl font-semibold text-primary mt-6 md:mt-8 text-center"
           >
             Posts
-          </h3>
+          </h5>
           <div className="overflow-x-auto">
             <DataTable
               data={postData}

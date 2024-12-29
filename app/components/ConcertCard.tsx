@@ -6,6 +6,7 @@ import BarcodeSmall from "../svg/BarcodeSmall.svg";
 import Star from "../svg/Star.svg";
 import TopTracks from "../svg/TopTracks.svg";
 import { Post } from "../types/dataTypes";
+import CommentCounter from "./CommentCounter";
 import LikeButton from "./LikeButton";
 interface ConcertCardProps {
   post: Post;
@@ -48,12 +49,12 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
             <div className="lg:pl-4 lg:pt-4 flex flex-col lg:justify-between items-center lg:items-stretch text-center lg:text-left">
               <div>
-                <h2 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
+                <h4 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
                   {post.artistBand}
-                </h2>
-                <h3 className="font-medium lg:text-sm xl:text-lg text-lg italic">
+                </h4>
+                <h5 className="font-medium lg:text-sm xl:text-lg text-lg italic">
                   {post.tourName}
-                </h3>
+                </h5>
               </div>
               <div className="my-1 text-base lg:text-xs xl:text-base">
                 <p>{post.venue}</p>
@@ -128,7 +129,8 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
       </article>
 
       {/* Like Button and Likes Count */}
-      <div className="mb-5 mt-2 mr-64 lg:mr-0">
+      <div className="mb-5 mt-2 mr-64 lg:mr-0 flex items-center">
+        <CommentCounter postId={post.id || ""} />
         <LikeButton
           postId={post.id || ""}
           initialLikes={post.likes || 0}

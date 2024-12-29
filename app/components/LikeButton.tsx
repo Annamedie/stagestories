@@ -44,7 +44,7 @@ const LikeButton = ({
   };
 
   return (
-    <div className="m-2">
+    <div className="m-2 flex items-center">
       <button
         onClick={handleLike}
         aria-label={liked ? "Unlike this post" : "Like this post"}
