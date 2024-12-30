@@ -78,7 +78,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const usersRef = collection(db, "users");
       const usernameQuery = query(usersRef, where("username", "==", username));
+      const emailQuery = query(usersRef, where("email", "==", email));
+      const emailSnapshot = await getDocs(emailQuery);
       const usernameSnapshot = await getDocs(usernameQuery);
+
+      if (!emailSnapshot.empty) {
+        throw new Error("Email already exists, please login instead");
+      }
 
       if (!usernameSnapshot.empty) {
         throw new Error(

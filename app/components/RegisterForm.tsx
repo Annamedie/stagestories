@@ -142,7 +142,7 @@ function RegisterForm() {
                   message: "Username must be at most 15 characters long",
                 },
                 pattern: {
-                  value: /^(?!.*[_.]{2})[a-zA-Z0-9]+(?:[._][a-zA-Z0-9]+)*$/,
+                  value: /^(?!.*[_.]{2})[\p{L}\p{N}]+(?:[._][\p{L}\p{N}]+)*$/u,
                   message:
                     "Username can only contain letters, numbers, underscores, and periods",
                 },
