@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface TableColumn<T> {
   header: string;
@@ -16,6 +16,33 @@ interface TableProps<T> {
 
 function DataTable<T>({ data, columns, actions }: TableProps<T>) {
   const [modalContent, setModalContent] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (modalContent) {
+      // Flytta fokus till modalen
+      modalRef.current?.focus();
+
+      // Lyssna på `Esc` för att stänga modalen
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+          setModalContent(null);
+        }
+      };
+
+      document.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [modalContent]);
+
+  if (data.length === 0) {
+    return (
+      <p className="text-white text-center m-4 text-lg">No data available.</p>
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -58,7 +85,7 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
                       key={String(column.accessor)}
                       className="border-b border-gray-300 p-2 md:p-4 text-xs md:text-base font-medium"
                     >
-                      {isLongText ? (
+                      {isLongText && cellValue ? (
                         <>
                           {/* On small screens: Hide the text completely and only show the "Read" button */}
                           <div className="block md:hidden">
@@ -101,8 +128,9 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
           aria-describedby="modal-description"
         >
           <div
-            className="bg-white rounded-lg shadow-lg p-4 max-w-md w-full"
+            ref={modalRef}
             tabIndex={-1}
+            className="bg-white rounded-lg shadow-lg p-4 max-w-md w-full"
           >
             <h2 id="modal-title" className="text-lg font-bold mb-4">
               Full Description
@@ -112,7 +140,7 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
             </p>
             <button
               onClick={() => setModalContent(null)}
-              className="mt-4 bg-footerHeader text-white px-4 py-2 rounded-md"
+              className="mt-4 bg-footerHeader text-white px-4 py-2 rounded-md focus:outline focus:outline-4 focus:outline-rose-700"
               aria-label="Close modal"
             >
               Close

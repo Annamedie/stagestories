@@ -131,7 +131,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
             <div className="space-y-6">
               <div>
                 <label
-                  htmlFor="artisBand"
+                  htmlFor="artistBand"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Artist or Band
@@ -139,7 +139,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 <input
                   id="artistBand"
                   type="text"
-                  aria-describedby="artistBand-error"
+                  aria-describedby={
+                    errors.artistBand ? "artistBand-error" : undefined
+                  }
                   placeholder=" Enter Artist or Band Name"
                   {...register("artistBand")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
@@ -170,7 +172,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   id="location"
                   type="text"
                   placeholder="City or Town"
-                  aria-describedby="location-error"
+                  aria-describedby={
+                    errors.location ? "location-error" : undefined
+                  }
                   {...register("location")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.location
@@ -199,7 +203,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 <input
                   id="showDate"
                   type="date"
-                  aria-describedby="showDate-error"
+                  aria-describedby={
+                    errors.showDate ? "showDate-error" : undefined
+                  }
                   {...register("showDate")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.showDate
@@ -227,7 +233,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 </label>
                 <select
                   id="rating"
-                  aria-describedby="rating-error"
+                  aria-describedby={errors.rating ? "rating-error" : undefined}
                   {...register("rating")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.rating
@@ -256,38 +262,50 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
               </div>
               <div>
                 <label
-                  htmlFor="topTracks"
+                  htmlFor="topTrack1"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Enter your top 3 tracks from the concert
                 </label>
                 <input
-                  id="topTracks"
+                  id="topTrack1"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 1"
                   {...register("topTracks.0")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
+                <label htmlFor="topTrack2" className="sr-only">
+                  Top Track 2
+                </label>
                 <input
-                  id="topTracks"
+                  id="topTrack2"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 2"
                   {...register("topTracks.1")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
+                <label htmlFor="topTrack3" className="sr-only">
+                  Top Track 3
+                </label>
                 <input
-                  id="topTracks"
+                  id="topTrack3"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 3"
                   {...register("topTracks.2")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
                 {errors.topTracks && (
                   <p
-                    id="topTracks"
+                    id="topTracks-error"
                     role="alert"
                     className="text-red-500 text-sm mt-1"
                   >
@@ -311,7 +329,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   id="venue"
                   type="text"
                   placeholder="Enter Venue Name"
-                  aria-describedby="venue-error"
+                  aria-describedby={errors.venue ? "venue-error" : undefined}
                   {...register("venue")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.venue
@@ -341,7 +359,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   id="tourFestivalname"
                   type="text"
                   placeholder="Enter Tour or Festival Name"
-                  aria-describedby="tourName-error"
+                  aria-describedby={
+                    errors.tourName ? "tourName-error" : undefined
+                  }
                   {...register("tourName")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.tourName
@@ -403,7 +423,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 </label>
                 <textarea
                   id="review"
-                  aria-describedby="review-error"
+                  aria-describedby={errors.review ? "review-error" : undefined}
                   placeholder="Write your review here"
                   rows={4}
                   {...register("review")}

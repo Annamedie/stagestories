@@ -43,11 +43,11 @@ function CommentInput({ postId }: CommentInputProps) {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex space-x-2 m-3">
-      <label htmlFor="content" className="sr-only">
+      <label htmlFor="content" className="sr-only text-white">
         Write your comment here
       </label>
       <input
-        id="Commet input"
+        id="content"
         type="text"
         placeholder="Write a comment..."
         aria-label="Write a comment"

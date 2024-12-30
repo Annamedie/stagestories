@@ -30,7 +30,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
             aria-label={`View profile of ${post.username}`}
           >
             <h2 className="text-2xl p-1 text-white">
-              {post.username ? post.username : "Hemligt"}
+              {post.username ? post.username : "Anonymous"}
             </h2>
           </Link>
         </div>
@@ -62,10 +62,15 @@ function PostConcertCard({ post }: ConcertCardProps) {
             {/* Info Section */}
             <div className=" pt-3 flex flex-col justify-between flex-grow text-center min-h-full">
               <div>
-                <h3 className="text-4xl font-semibold">{post.artistBand}</h3>
-                <h4 className="font-semibold text-xl italic">
-                  {post.tourName}
-                </h4>
+                {post.artistBand && (
+                  <h3 className="text-4xl font-semibold">{post.artistBand}</h3>
+                )}
+                {post.tourName && (
+                  <h4 className="font-semibold text-xl italic">
+                    {post.tourName}
+                  </h4>
+                )}
+
                 {post.rating && (
                   <div aria-label={`Rating: ${post.rating} out of 5`}>
                     {Array.from({ length: post.rating }, (_, index) => (
@@ -110,7 +115,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <div className="m-2 flex flex-col justify-between">
               {visibleTracks && visibleTracks.length > 0 && (
                 <div className="pb-2">
-                  <h6 className="font-semibold mb-1">Top Tracks</h6>
+                  <h5 className="font-semibold mb-1">Top Tracks</h5>
                   <ul className="list-disc">
                     {visibleTracks.map((track, index) => (
                       <li className="text-sm break-words" key={index}>
@@ -121,7 +126,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
                 </div>
               )}
               <div className="mb-3 hidden xl:block">
-                <h5 className="font-semibold">Top emotions</h5>
+                <h6 className="font-semibold">Top emotions</h6>
                 <ul className="list-disc">
                   <li>😁</li>
                   <li>👽</li>

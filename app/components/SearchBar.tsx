@@ -10,7 +10,7 @@ const SearchBar: FC<SearchBarProps> = ({ value, onChange }) => {
   return (
     <div className="my-4 bg-black p-4 rounded-md shadow-md">
       {/* Visually hidden label for screen readers */}
-      <label htmlFor="search" className="sr-only">
+      <label htmlFor="search" className="sr-only text-white">
         Search by artist or band
       </label>
 
