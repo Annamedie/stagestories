@@ -91,11 +91,13 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               </p>
             </div>
             <div className="pb-2">
-              {isProfile && post.topTracks && post.topTracks.length > 0 && (
-                <div>
-                  <TopTracks width={20} />
-                </div>
-              )}
+              {Array.isArray(post.topTracks) &&
+                post.topTracks.filter((track) => track.trim() !== "").length >
+                  0 && (
+                  <div>
+                    <TopTracks width={20} />
+                  </div>
+                )}
             </div>
           </div>
         </div>

@@ -18,6 +18,22 @@ interface ConcertFormProps {
 function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialData.image || "");
+  const [selectedEmojis, setSelectedEmojis] = useState<string[]>(
+    initialData.emojis || []
+  );
+
+  const handleEmojiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedEmoji = e.target.value;
+    if (selectedEmoji === "") {
+      return;
+    }
+    if (selectedEmojis.length < 3) {
+      setSelectedEmojis((prev) => [...prev, selectedEmoji]);
+    }
+  };
+  const removeEmoji = (index: number) => {
+    setSelectedEmojis((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const {
     register,
@@ -37,6 +53,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       genre: initialData.genre || "",
       review: initialData.review || "",
       image: initialData.image || "",
+      emojis: initialData.emojis || [],
     },
   });
 
@@ -45,7 +62,11 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
     setIsLoading(true);
 
     try {
-      const postWithImage = { ...concertData, image: imageUrl };
+      const postWithImage = {
+        ...concertData,
+        image: imageUrl,
+        emojis: selectedEmojis.length ? selectedEmojis : undefined,
+      };
 
       if (isEdit && postId) {
         await updatePost(postId, postWithImage);
@@ -57,6 +78,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
 
       reset();
       setImageUrl("");
+      setSelectedEmojis([]);
 
       console.log(errors);
     } catch (error: any) {
@@ -101,6 +123,28 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
     { value: "kpop", label: "K-pop" },
     { value: "latin", label: "Latin" },
     { value: "other", label: "Other" },
+  ];
+
+  const emojis = [
+    { value: "🙂", label: "Happy - 🙂" },
+    { value: "😀", label: "Very Happy - 😀" },
+    { value: "😢", label: "Sad - 😢" },
+    { value: "😡", label: "Angry - 😡" },
+    { value: "😎", label: "Cool - 😎" },
+    { value: "😱", label: "Suprised - 😱" },
+    { value: "😍", label: "In love - 😍" },
+    { value: "🤔", label: "Thinking - 🤔" },
+    { value: "🤣", label: "Laughing - 🤣" },
+    { value: "🤯", label: "Mind blown - 🤯" },
+    { value: "🥺", label: "Pleading - 🥺" },
+    { value: "🤩", label: "Star struck - 🤩" },
+    { value: "🤬", label: "Cursing - 🤬" },
+    { value: "😴", label: "Sleeping - 😴" },
+    { value: "🤢", label: "Disgusted - 🤢" },
+    { value: "🤕", label: "Hurt - 🤕" },
+    { value: "🥵", label: "Hot - 🥵" },
+    { value: "🥶", label: "Cold - 🥶" },
+    { value: "🫤", label: "Skeptical - 🫤" },
   ];
 
   return (
@@ -412,6 +456,54 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   imageUrl={imageUrl}
                   onUpload={(url) => setImageUrl(url)}
                 />
+              </div>
+              <div>
+                <label
+                  htmlFor="emoji"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Choose three emojis
+                </label>
+                <select
+                  id="emoji"
+                  value=""
+                  onChange={handleEmojiSelect}
+                  disabled={selectedEmojis.length === 3}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.emojis
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                >
+                  <option value="" disabled>
+                    Select up to 3 emojis
+                  </option>
+                  {emojis.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">Selected Emojis:</p>
+                  <div className="flex space-x-2 mt-1">
+                    {selectedEmojis.map((emoji, index) => (
+                      <span
+                        key={index}
+                        className="inline-block p-2 border rounded-md bg-gray-100 text-lg cursor-pointer"
+                        onClick={() => removeEmoji(index)}
+                      >
+                        {emoji}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {selectedEmojis.length === 3 && (
+                  <p className="text-sm text-green-500 mt-2">
+                    You have selected the maximum of 3 emojis.
+                  </p>
+                )}
               </div>
 
               <div>

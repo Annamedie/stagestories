@@ -112,7 +112,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <div className=" hidden flex-grow xl:flex items-center">
               <Barcode2 />
             </div>
-            <div className="m-2 flex flex-col justify-between">
+            <div className="m-2 pr-3 flex flex-col justify-between">
               {visibleTracks && visibleTracks.length > 0 && (
                 <div className="pb-2">
                   <h5 className="font-semibold mb-1">Top Tracks</h5>
@@ -125,14 +125,17 @@ function PostConcertCard({ post }: ConcertCardProps) {
                   </ul>
                 </div>
               )}
-              <div className="mb-3 hidden xl:block">
-                <h6 className="font-semibold">Top emotions</h6>
-                <ul className="list-disc">
-                  <li>😁</li>
-                  <li>👽</li>
-                  <li>💩</li>
-                </ul>
-              </div>
+
+              {post.emojis && post.emojis.length > 0 && (
+                <div className="mb-3 hidden xl:block">
+                  <h6 className="font-semibold">Top emotions</h6>
+                  <ul className="list-disc">
+                    {post.emojis.map((emoji, index) => (
+                      <li key={index}>{emoji}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </aside>
         </section>
