@@ -6,6 +6,7 @@ interface TableColumn<T> {
   header: string;
   accessor: keyof T;
   isLongText?: boolean;
+  format?(value: T[keyof T]): string;
 }
 
 interface TableProps<T> {
@@ -79,7 +80,10 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
                 tabIndex={0}
               >
                 {columns.map((column) => {
-                  const cellValue = String(row[column.accessor]);
+                  const rawValue = row[column.accessor];
+                  const cellValue = column.format
+                    ? column.format(rawValue)
+                    : String(rawValue);
                   const isLongText = column.isLongText;
 
                   return (

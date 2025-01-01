@@ -124,7 +124,11 @@ function AdminPage() {
                 { header: "Date of Registration", accessor: "createdAt" },
                 { header: "User ID", accessor: "id" },
                 { header: "Email", accessor: "email" },
-                { header: "Admin", accessor: "isAdmin" },
+                {
+                  header: "Admin",
+                  accessor: "isAdmin",
+                  format: (value) => (value ? "Admin" : "Not Admin"),
+                },
               ]}
               actions={(row) => (
                 <div className="flex space-x-4">
