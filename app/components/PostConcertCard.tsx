@@ -1,7 +1,7 @@
 "use client";
-import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "../context/Authcontext";
 import Barcode2 from "../svg/Barcode2.svg";
 import BarcodeSmall2 from "../svg/BarcodeSmall2.svg";
 import Star from "../svg/Star.svg";
@@ -16,8 +16,7 @@ interface ConcertCardProps {
 }
 
 function PostConcertCard({ post }: ConcertCardProps) {
-  const auth = getAuth();
-  const userId = auth.currentUser?.uid;
+  const { uid } = useAuth();
 
   const visibleTracks = post.topTracks?.filter((track) => track.trim() !== "");
 
@@ -145,14 +144,14 @@ function PostConcertCard({ post }: ConcertCardProps) {
           <LikeButton
             postId={post.id || ""}
             initialLikes={post.likes || 0}
-            isLiked={userId ? post.likesBy?.includes(userId) || false : false}
-            userId={userId || null}
+            isLiked={uid ? post.likesBy?.includes(uid) || false : false}
+            userId={uid || null}
           />
           <div className="flex justify-center align-baseline items-baseline">
-            {userId === post.userId && post.id && (
+            {uid === post.userId && post.id && (
               <DeleteButton postId={post.id} />
             )}
-            {userId === post.userId && post.id && (
+            {uid === post.userId && post.id && (
               <EditConcertButton editUrl={`/edit-concert/${post.id}`} />
             )}
           </div>

@@ -22,6 +22,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface AuthContextType {
   user: User | null;
   username: string | null;
+  uid: string | null;
   isloading: boolean;
   isAdmin: boolean;
   registerUser: (
@@ -35,6 +36,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  uid: null,
   username: null,
   isloading: true,
   isAdmin: false,
@@ -133,10 +135,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const uid = user?.uid || null;
+
   return (
     <AuthContext.Provider
       value={{
         user,
+        uid,
         username,
         isloading,
         isAdmin,

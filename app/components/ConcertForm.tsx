@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -16,6 +17,7 @@ interface ConcertFormProps {
 }
 
 function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialData.image || "");
   const [selectedEmojis, setSelectedEmojis] = useState<string[]>(
@@ -70,7 +72,11 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
 
       if (isEdit && postId) {
         await updatePost(postId, postWithImage);
-        toast.success("Concert updated successfully");
+        toast.success("Concert updated successfully, navigating to post...");
+        router.refresh();
+        setTimeout(() => {
+          router.push(`/post/${postId}`);
+        }, 3000);
       } else {
         await addPost(postWithImage);
         toast.success("Concert added successfully");

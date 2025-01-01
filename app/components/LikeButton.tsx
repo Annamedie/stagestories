@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { likePost, unlikePost } from "../api/postActions";
 import Hand from "../svg/Hand.svg";
@@ -17,6 +18,7 @@ const LikeButton = ({
   isLiked,
   userId,
 }: LikeButtonProps) => {
+  const router = useRouter();
   const [liked, setLiked] = useState(isLiked);
   const [likes, setLikes] = useState(initialLikes);
 
@@ -38,6 +40,7 @@ const LikeButton = ({
         setLikes((prev) => prev + 1);
       }
       setLiked((prev) => !prev);
+      router.refresh();
     } catch (error) {
       console.error("Error handling like:", error);
     }
