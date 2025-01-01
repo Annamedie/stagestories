@@ -59,12 +59,14 @@ function DataTable<T>({ data, columns, actions }: TableProps<T>) {
               </th>
             ))}
             {actions && (
-              <th
-                scope="col"
-                className="border-b border-gray-300 p-2 md:p-4 text-left text-xs md:text-sm font-bold"
-              >
-                Actions
-              </th>
+              <>
+                <th
+                  scope="col"
+                  className="border-b border-gray-300 p-2 md:p-4 text-left text-xs md:text-sm font-bold"
+                >
+                  Actions
+                </th>
+              </>
             )}
           </tr>
         </thead>

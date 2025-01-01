@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
@@ -52,6 +53,25 @@ export const deleteUserandPostsAdmin = async (
     await deleteDoc(userRef);
   } catch (error) {
     console.error("Error deleting user and posts: ", error);
+    throw error;
+  }
+};
+
+export const setAdmin = async (
+  userId: string,
+  isAdmin: boolean,
+  newAdminValue: boolean
+) => {
+  if (!isAdmin) {
+    throw new Error("User is not authorized to set admin status");
+  }
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      isAdmin: newAdminValue,
+    });
+  } catch (error) {
+    console.error("Error setting admin: ", error);
     throw error;
   }
 };
