@@ -11,6 +11,10 @@ interface FormInputs {
   email: string;
   password: string;
 }
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
 
 function getFriendlyErrorMessage(errorCode: string): string {
   const errorMessages: Record<string, string> = {
@@ -46,13 +50,11 @@ function LogInForm() {
       toast.success("Logged in successfully");
 
       router.push("/");
-    } catch (error: any) {
-      if (error?.code) {
-        const friendlyMessage = getFriendlyErrorMessage(error.code);
-        toast.error(friendlyMessage, { position: "top-center" });
-      } else {
-        toast.error("An unknown error occurred", { position: "top-center" });
-      }
+    } catch (error) {
+      const firebaseError = error as FirebaseError; // Explicitly cast the error
+
+      const friendlyMessage = getFriendlyErrorMessage(firebaseError.code || "");
+      toast.error(friendlyMessage, { position: "top-center" });
     } finally {
       setIsLoading(false);
     }

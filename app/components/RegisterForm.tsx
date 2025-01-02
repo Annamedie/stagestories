@@ -12,6 +12,11 @@ interface FormInputs {
   username: string;
 }
 
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
+
 function RegisterForm() {
   const { registerUser } = useAuth();
   const router = useRouter();
@@ -39,12 +44,9 @@ function RegisterForm() {
       setTimeout(() => {
         router.push("/");
       }, 2000);
-    } catch (error: any) {
-      if (error?.message) {
-        toast.error(error.message, { position: "top-center" });
-      } else {
-        toast.error("An unknown error occurred", { position: "top-center" });
-      }
+    } catch (error) {
+      const firebaseError = error as FirebaseError; // Explicitly cast the error
+      toast.error(firebaseError.message, { position: "top-center" });
     } finally {
       setIsLoading(false);
     }

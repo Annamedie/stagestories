@@ -23,13 +23,13 @@ function Hero() {
           Our Stage Stories
         </h2>{" "}
         <p id="hero-description" className="text-white text-lg leading-relaxed">
-          Studies show that concert memories fade faster than we realize. That's
-          why <i className="font-medium">Stage Stories</i> is here — to help you
-          capture the energy, unforgettable vibes, and magic of live music.
-          Whether it's your first show or your 100th, preserve the moments that
-          made it special and explore memories shared by fellow music lovers.
-          Relive the thrill, connect with others, and keep the music alive long
-          after the encore fades.
+          Studies show that concert memories fade faster than we realize.
+          That&apos;s why <i className="font-medium">Stage Stories</i> is here —
+          to help you capture the energy, unforgettable vibes, and magic of live
+          music. Whether it&apos;s your first show or your 100th, preserve the
+          moments that made it special and explore memories shared by fellow
+          music lovers. Relive the thrill, connect with others, and keep the
+          music alive long after the encore fades.
         </p>
       </div>
     </section>

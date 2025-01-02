@@ -119,7 +119,7 @@ export const updatePost = async (postId: string, post: Post) => {
   try {
     //sortera ut alla värden som är undefined
     const updates = Object.fromEntries(
-      Object.entries(post).filter(([_, v]) => v !== undefined)
+      Object.entries(post).filter(([, v]) => v !== undefined)
     );
     if (Object.keys(updates).length === 0) {
       throw new Error("No updates provided");

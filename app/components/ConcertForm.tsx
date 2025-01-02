@@ -16,6 +16,11 @@ interface ConcertFormProps {
   initialData?: Partial<Post>;
 }
 
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
+
 function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -87,14 +92,10 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       setSelectedEmojis([]);
 
       console.log(errors);
-    } catch (error: any) {
-      if (error?.code) {
-        toast.error(error.message, { position: "top-center" });
-        console.log(errors);
-      } else {
-        toast.error("An unknown error occurred", { position: "top-center" });
-        console.log(errors);
-      }
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      toast.error(firebaseError.message, { position: "top-center" });
+      console.log(errors);
     } finally {
       setIsLoading(false);
     }

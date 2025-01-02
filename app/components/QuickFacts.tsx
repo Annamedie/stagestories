@@ -21,7 +21,7 @@ function QuickFacts({ posts }: QuickFactsProps) {
     });
     const maxCount = Math.max(...Object.values(counts));
     const mostFrequent = Object.entries(counts)
-      .filter(([_, count]) => count === maxCount)
+      .filter(([, count]) => count === maxCount)
       .map(([item]) => item);
     return {
       mostFrequent,
