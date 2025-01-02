@@ -7,9 +7,9 @@ interface QuickFactsProps {
 function QuickFacts({ posts }: QuickFactsProps) {
   if (!posts || posts.length === 0) {
     return (
-      <div className="bg-white">
-        <h2>Quick Facts</h2>
-        <p>No data avaliable</p>
+      <div className="bg-primary rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Facts</h2>
+        <p className="font-medium text-gray-700">No data avaliable</p>
       </div>
     );
   }

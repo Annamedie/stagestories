@@ -1,5 +1,6 @@
 import { fetchPostsByUserId } from "@/app/api/postActions";
 import ConcertCard from "@/app/components/ConcertCard";
+import DeleteAccountBtn from "@/app/components/DeleteAccountBtn";
 import QuickFacts from "@/app/components/QuickFacts";
 import Link from "next/link";
 
@@ -38,6 +39,9 @@ async function ProfilePage({ params }: Props) {
             ))}
           </section>
         </section>
+        <div className="flex justify-center mt-8">
+          <DeleteAccountBtn userId={params.id} />
+        </div>
       </main>
     </>
   );

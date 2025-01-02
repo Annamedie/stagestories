@@ -57,6 +57,48 @@ export const deleteUserandPostsAdmin = async (
   }
 };
 
+export const deleteUserData = async (userId: string) => {
+  const currentUser = auth.currentUser;
+  if (!currentUser || currentUser.uid !== userId) {
+    throw new Error("User is not authorized to delete this user");
+  }
+
+  try {
+    // References
+    const userRef = doc(db, "users", userId);
+
+    //Posts
+    const postsCollectionRef = collection(db, "posts");
+    const postsQuery = query(postsCollectionRef, where("userId", "==", userId));
+    const postsSnapshot = await getDocs(postsQuery);
+
+    //Comments
+    const commentsCollectionRef = collection(db, "comments");
+    const commentsQuery = query(
+      commentsCollectionRef,
+      where("userId", "==", userId)
+    );
+    const commentsSnapshot = await getDocs(commentsQuery);
+
+    const batch = writeBatch(db);
+
+    batch.delete(userRef);
+
+    postsSnapshot.forEach((postDoc) => {
+      batch.delete(postDoc.ref);
+    });
+
+    commentsSnapshot.forEach((commentDoc) => {
+      batch.delete(commentDoc.ref);
+    });
+
+    await batch.commit();
+  } catch (error) {
+    console.error("Error deleting user data: ", error);
+    throw error;
+  }
+};
+
 export const setAdmin = async (
   userId: string,
   isAdmin: boolean,

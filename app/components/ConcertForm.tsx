@@ -167,6 +167,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
         pauseOnHover
         theme="light"
         transition={Bounce}
+        role="alert"
       />
 
       <h2 className="text-primary text-center text-3xl font-bold">
