@@ -15,7 +15,8 @@ interface FormInputs {
 function getFriendlyErrorMessage(errorCode: string): string {
   const errorMessages: Record<string, string> = {
     "auth/user-not-found": "No account found with this email.",
-    "auth/invalid-credential": "Incorrect password. Please try again.",
+    "auth/invalid-credential":
+      "Incorrect password or Email. Try Again or Register as a new user.",
     "auth/invalid-email": "Invalid email address.",
     "auth/too-many-requests": "Too many attempts. Please try again later.",
   };
