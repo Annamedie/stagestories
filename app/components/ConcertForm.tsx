@@ -6,6 +6,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { addPost, updatePost } from "../api/postActions";
+import { emojis, musicGenres, ratings } from "../constants";
 import { Post } from "../types/dataTypes";
 import { ConcertFormSchema } from "../validationSchemas/concertValidation";
 import UploadBtn from "./UploadBtn";
@@ -100,59 +101,6 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       setIsLoading(false);
     }
   };
-
-  const ratings = [
-    {
-      value: 1,
-      label: "⭐ - This is bad",
-    },
-    { value: 2, label: "⭐⭐ - Just Okay" },
-    { value: 3, label: "⭐⭐⭐ - Good" },
-    { value: 4, label: "⭐⭐⭐⭐ - Amazing" },
-    { value: 5, label: "⭐⭐⭐⭐⭐ - Perfection, nothing can top this" },
-  ];
-
-  const musicGenres = [
-    { value: "pop", label: "Pop" },
-    { value: "rock", label: "Rock" },
-    { value: "hip-hop", label: "Hip-Hop" },
-    { value: "r&b", label: "R&B" },
-    { value: "eletronic-dance", label: "Electronic/Dance" },
-    { value: "country", label: "Country" },
-    { value: "jazz", label: "Jazz" },
-    { value: "classical", label: "Classical" },
-    { value: "reggae", label: "Reggae" },
-    { value: "metal", label: "Metal" },
-    { value: "blues", label: "Blues" },
-    { value: "folk", label: "Folk" },
-    { value: "indie", label: "Indie" },
-    { value: "soul", label: "Soul" },
-    { value: "kpop", label: "K-pop" },
-    { value: "latin", label: "Latin" },
-    { value: "other", label: "Other" },
-  ];
-
-  const emojis = [
-    { value: "🙂", label: "Happy - 🙂" },
-    { value: "😀", label: "Very Happy - 😀" },
-    { value: "😢", label: "Sad - 😢" },
-    { value: "😡", label: "Angry - 😡" },
-    { value: "😎", label: "Cool - 😎" },
-    { value: "😱", label: "Suprised - 😱" },
-    { value: "😍", label: "In love - 😍" },
-    { value: "🤔", label: "Thinking - 🤔" },
-    { value: "🤣", label: "Laughing - 🤣" },
-    { value: "🤯", label: "Mind blown - 🤯" },
-    { value: "🥺", label: "Pleading - 🥺" },
-    { value: "🤩", label: "Star struck - 🤩" },
-    { value: "🤬", label: "Cursing - 🤬" },
-    { value: "😴", label: "Sleeping - 😴" },
-    { value: "🤢", label: "Disgusted - 🤢" },
-    { value: "🤕", label: "Hurt - 🤕" },
-    { value: "🥵", label: "Hot - 🥵" },
-    { value: "🥶", label: "Cold - 🥶" },
-    { value: "🫤", label: "Skeptical - 🫤" },
-  ];
 
   return (
     <>
@@ -317,7 +265,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="topTrack1"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Enter your top 3 tracks from the concert
+                  Enter your top 3 tracks from the concert (Optional)
                 </label>
                 <input
                   id="topTrack1"
@@ -375,7 +323,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="venue"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Venue Name
+                  Venue Name (Optional)
                 </label>
                 <input
                   id="venue"
@@ -405,7 +353,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="tourFestivalname"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Tour or Festival Name
+                  Tour or Festival Name (Optional)
                 </label>
                 <input
                   id="tourFestivalname"
@@ -437,7 +385,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="genre"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Genre
+                  Genre of Music (Optional)
                 </label>
                 <select
                   id="genre"
@@ -470,7 +418,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="emoji"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Choose three emojis
+                  Choose three emojis (Optional)
                 </label>
                 <select
                   id="emoji"
@@ -508,7 +456,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   </div>
                 </div>
                 {selectedEmojis.length === 3 && (
-                  <p className="text-sm text-green-500 mt-2">
+                  <p className="text-sm text-green-800 mt-2">
                     You have selected the maximum of 3 emojis.
                   </p>
                 )}
@@ -519,7 +467,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="review"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Review
+                  Review (Optional)
                 </label>
                 <textarea
                   id="review"

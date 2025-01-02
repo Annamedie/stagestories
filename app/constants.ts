@@ -1,0 +1,52 @@
+export const ratings = [
+  {
+    value: 1,
+    label: "⭐ - This is bad",
+  },
+  { value: 2, label: "⭐⭐ - Just Okay" },
+  { value: 3, label: "⭐⭐⭐ - Good" },
+  { value: 4, label: "⭐⭐⭐⭐ - Amazing" },
+  { value: 5, label: "⭐⭐⭐⭐⭐ - Perfection, nothing can top this" },
+];
+
+export const musicGenres = [
+  { value: "pop", label: "Pop" },
+  { value: "rock", label: "Rock" },
+  { value: "hip-hop", label: "Hip-Hop" },
+  { value: "r&b", label: "R&B" },
+  { value: "eletronic-dance", label: "Electronic/Dance" },
+  { value: "country", label: "Country" },
+  { value: "jazz", label: "Jazz" },
+  { value: "classical", label: "Classical" },
+  { value: "reggae", label: "Reggae" },
+  { value: "metal", label: "Metal" },
+  { value: "blues", label: "Blues" },
+  { value: "folk", label: "Folk" },
+  { value: "indie", label: "Indie" },
+  { value: "soul", label: "Soul" },
+  { value: "kpop", label: "K-pop" },
+  { value: "latin", label: "Latin" },
+  { value: "other", label: "Other" },
+];
+
+export const emojis = [
+  { value: "🙂", label: "Happy - 🙂" },
+  { value: "😀", label: "Very Happy - 😀" },
+  { value: "😢", label: "Sad - 😢" },
+  { value: "😡", label: "Angry - 😡" },
+  { value: "😎", label: "Cool - 😎" },
+  { value: "😱", label: "Suprised - 😱" },
+  { value: "😍", label: "In love - 😍" },
+  { value: "🤔", label: "Thinking - 🤔" },
+  { value: "🤣", label: "Laughing - 🤣" },
+  { value: "🤯", label: "Mind blown - 🤯" },
+  { value: "🥺", label: "Pleading - 🥺" },
+  { value: "🤩", label: "Star struck - 🤩" },
+  { value: "🤬", label: "Cursing - 🤬" },
+  { value: "😴", label: "Sleeping - 😴" },
+  { value: "🤢", label: "Disgusted - 🤢" },
+  { value: "🤕", label: "Hurt - 🤕" },
+  { value: "🥵", label: "Hot - 🥵" },
+  { value: "🥶", label: "Cold - 🥶" },
+  { value: "🫤", label: "Skeptical - 🫤" },
+];
