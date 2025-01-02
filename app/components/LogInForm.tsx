@@ -11,11 +11,16 @@ interface FormInputs {
   email: string;
   password: string;
 }
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
 
 function getFriendlyErrorMessage(errorCode: string): string {
   const errorMessages: Record<string, string> = {
     "auth/user-not-found": "No account found with this email.",
-    "auth/invalid-credential": "Incorrect password. Please try again.",
+    "auth/invalid-credential":
+      "Incorrect password or Email. Try Again or Register as a new user.",
     "auth/invalid-email": "Invalid email address.",
     "auth/too-many-requests": "Too many attempts. Please try again later.",
   };
@@ -45,13 +50,11 @@ function LogInForm() {
       toast.success("Logged in successfully");
 
       router.push("/");
-    } catch (error: any) {
-      if (error?.code) {
-        const friendlyMessage = getFriendlyErrorMessage(error.code);
-        toast.error(friendlyMessage, { position: "top-center" });
-      } else {
-        toast.error("An unknown error occurred", { position: "top-center" });
-      }
+    } catch (error) {
+      const firebaseError = error as FirebaseError; // Explicitly cast the error
+
+      const friendlyMessage = getFriendlyErrorMessage(firebaseError.code || "");
+      toast.error(friendlyMessage, { position: "top-center" });
     } finally {
       setIsLoading(false);
     }

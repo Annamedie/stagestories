@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
@@ -52,6 +53,67 @@ export const deleteUserandPostsAdmin = async (
     await deleteDoc(userRef);
   } catch (error) {
     console.error("Error deleting user and posts: ", error);
+    throw error;
+  }
+};
+
+export const deleteUserData = async (userId: string) => {
+  const currentUser = auth.currentUser;
+  if (!currentUser || currentUser.uid !== userId) {
+    throw new Error("User is not authorized to delete this user");
+  }
+
+  try {
+    // References
+    const userRef = doc(db, "users", userId);
+
+    //Posts
+    const postsCollectionRef = collection(db, "posts");
+    const postsQuery = query(postsCollectionRef, where("userId", "==", userId));
+    const postsSnapshot = await getDocs(postsQuery);
+
+    //Comments
+    const commentsCollectionRef = collection(db, "comments");
+    const commentsQuery = query(
+      commentsCollectionRef,
+      where("userId", "==", userId)
+    );
+    const commentsSnapshot = await getDocs(commentsQuery);
+
+    const batch = writeBatch(db);
+
+    batch.delete(userRef);
+
+    postsSnapshot.forEach((postDoc) => {
+      batch.delete(postDoc.ref);
+    });
+
+    commentsSnapshot.forEach((commentDoc) => {
+      batch.delete(commentDoc.ref);
+    });
+
+    await batch.commit();
+  } catch (error) {
+    console.error("Error deleting user data: ", error);
+    throw error;
+  }
+};
+
+export const setAdmin = async (
+  userId: string,
+  isAdmin: boolean,
+  newAdminValue: boolean
+) => {
+  if (!isAdmin) {
+    throw new Error("User is not authorized to set admin status");
+  }
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      isAdmin: newAdminValue,
+    });
+  } catch (error) {
+    console.error("Error setting admin: ", error);
     throw error;
   }
 };

@@ -57,5 +57,4 @@ export async function deleteComment(commentId: string) {
     console.error("Error deleting comment: ", error);
     throw new Error("Failed to delete comment");
   }
-  const commentRef = doc(db, "comments", commentId);
 }

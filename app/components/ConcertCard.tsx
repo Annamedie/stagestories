@@ -22,7 +22,7 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
       {/* Card Content */}
       <article
         key={post.id}
-        className="  xl:h-52 lg:h-60 w-2/3  bg-[#F3F0E8] flex flex-col lg:flex-row lg:w-full  relative lg:hover:scale-105 md:transition-transform md:duration-300 md:ease-in-out"
+        className="xl:h-52 lg:h-60 w-2/3  bg-[#F3F0E8] flex flex-col lg:flex-row lg:w-full  relative lg:hover:scale-105 md:transition-transform md:duration-300 md:ease-in-out"
       >
         <div className=" hidden md:block absolute lg:right-[103px] lg:-translate-x-1/2 lg:-top-4 bg-[#020C11] w-6 h-6 rounded-full max-lg:bottom-[84px] max-lg:-translate-y-5 max-lg:-translate-x-3 over"></div>
         <div
@@ -49,12 +49,16 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
             </div>
             <div className="lg:pl-4 lg:pt-4 flex flex-col lg:justify-between items-center lg:items-stretch text-center lg:text-left">
               <div>
-                <h4 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
-                  {post.artistBand}
-                </h4>
-                <h5 className="font-medium lg:text-sm xl:text-lg text-lg italic">
-                  {post.tourName}
-                </h5>
+                {post.artistBand && (
+                  <h4 className="text-2xl lg:text-lg xl:text-2xl font-semibold">
+                    {post.artistBand}
+                  </h4>
+                )}
+                {post.tourName && (
+                  <h5 className="font-medium lg:text-sm xl:text-lg text-lg italic">
+                    {post.tourName}
+                  </h5>
+                )}
               </div>
               <div className="my-1 text-base lg:text-xs xl:text-base">
                 <p>{post.venue}</p>
@@ -87,11 +91,14 @@ function ConcertCard({ post, isProfile }: ConcertCardProps) {
               </p>
             </div>
             <div className="pb-2">
-              {isProfile && post.topTracks && post.topTracks.length > 0 && (
-                <div>
-                  <TopTracks width={20} />
-                </div>
-              )}
+              {isProfile &&
+                Array.isArray(post.topTracks) &&
+                post.topTracks.filter((track) => track.trim() !== "").length >
+                  0 && (
+                  <div aria-label="Top tracks exist">
+                    <TopTracks width={20} />
+                  </div>
+                )}
             </div>
           </div>
         </div>

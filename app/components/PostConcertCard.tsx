@@ -1,7 +1,7 @@
 "use client";
-import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "../context/Authcontext";
 import Barcode2 from "../svg/Barcode2.svg";
 import BarcodeSmall2 from "../svg/BarcodeSmall2.svg";
 import Star from "../svg/Star.svg";
@@ -16,8 +16,7 @@ interface ConcertCardProps {
 }
 
 function PostConcertCard({ post }: ConcertCardProps) {
-  const auth = getAuth();
-  const userId = auth.currentUser?.uid;
+  const { uid } = useAuth();
 
   const visibleTracks = post.topTracks?.filter((track) => track.trim() !== "");
 
@@ -30,7 +29,7 @@ function PostConcertCard({ post }: ConcertCardProps) {
             aria-label={`View profile of ${post.username}`}
           >
             <h2 className="text-2xl p-1 text-white">
-              {post.username ? post.username : "Hemligt"}
+              {post.username ? post.username : "Anonymous"}
             </h2>
           </Link>
         </div>
@@ -62,10 +61,15 @@ function PostConcertCard({ post }: ConcertCardProps) {
             {/* Info Section */}
             <div className=" pt-3 flex flex-col justify-between flex-grow text-center min-h-full">
               <div>
-                <h3 className="text-4xl font-semibold">{post.artistBand}</h3>
-                <h4 className="font-semibold text-xl italic">
-                  {post.tourName}
-                </h4>
+                {post.artistBand && (
+                  <h3 className="text-4xl font-semibold">{post.artistBand}</h3>
+                )}
+                {post.tourName && (
+                  <h4 className="font-semibold text-xl italic">
+                    {post.tourName}
+                  </h4>
+                )}
+
                 {post.rating && (
                   <div aria-label={`Rating: ${post.rating} out of 5`}>
                     {Array.from({ length: post.rating }, (_, index) => (
@@ -107,10 +111,10 @@ function PostConcertCard({ post }: ConcertCardProps) {
             <div className=" hidden flex-grow xl:flex items-center">
               <Barcode2 />
             </div>
-            <div className="m-2 flex flex-col justify-between">
+            <div className="m-2 pr-3 flex flex-col justify-between">
               {visibleTracks && visibleTracks.length > 0 && (
                 <div className="pb-2">
-                  <h6 className="font-semibold mb-1">Top Tracks</h6>
+                  <h5 className="font-semibold mb-1">Top Tracks</h5>
                   <ul className="list-disc">
                     {visibleTracks.map((track, index) => (
                       <li className="text-sm break-words" key={index}>
@@ -120,14 +124,17 @@ function PostConcertCard({ post }: ConcertCardProps) {
                   </ul>
                 </div>
               )}
-              <div className="mb-3 hidden xl:block">
-                <h5 className="font-semibold">Top emotions</h5>
-                <ul className="list-disc">
-                  <li>😁</li>
-                  <li>👽</li>
-                  <li>💩</li>
-                </ul>
-              </div>
+
+              {post.emojis && post.emojis.length > 0 && (
+                <div className="mb-3 hidden xl:block">
+                  <h6 className="font-semibold">Top emotions</h6>
+                  <ul className="list-disc">
+                    {post.emojis.map((emoji, index) => (
+                      <li key={index}>{emoji}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </aside>
         </section>
@@ -137,14 +144,14 @@ function PostConcertCard({ post }: ConcertCardProps) {
           <LikeButton
             postId={post.id || ""}
             initialLikes={post.likes || 0}
-            isLiked={userId ? post.likesBy?.includes(userId) || false : false}
-            userId={userId || null}
+            isLiked={uid ? post.likesBy?.includes(uid) || false : false}
+            userId={uid || null}
           />
           <div className="flex justify-center align-baseline items-baseline">
-            {userId === post.userId && post.id && (
+            {uid === post.userId && post.id && (
               <DeleteButton postId={post.id} />
             )}
-            {userId === post.userId && post.id && (
+            {uid === post.userId && post.id && (
               <EditConcertButton editUrl={`/edit-concert/${post.id}`} />
             )}
           </div>

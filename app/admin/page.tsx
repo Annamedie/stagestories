@@ -4,7 +4,11 @@ import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { deletePost, fetchPosts } from "../api/postActions";
-import { deleteUserandPostsAdmin, fetchAllUsers } from "../api/userActions";
+import {
+  deleteUserandPostsAdmin,
+  fetchAllUsers,
+  setAdmin,
+} from "../api/userActions";
 import DataTable from "../components/DataTable";
 import { useAuth } from "../context/Authcontext";
 import Trashcan from "../svg/Trashcan.svg";
@@ -35,6 +39,33 @@ function AdminPage() {
       </main>
     );
   }
+
+  const handleToggleAdmin = async (user: Users) => {
+    try {
+      const newValue = !user.isAdmin; // flipping the boolean
+      if (user.id) {
+        await setAdmin(user.id, isAdmin, newValue);
+      } else {
+        throw new Error("User ID is undefined");
+      }
+
+      // Update local userData so the UI matches new admin status
+      setUserData((prev) =>
+        prev.map((userData) =>
+          userData.id === user.id
+            ? { ...userData, isAdmin: newValue }
+            : userData
+        )
+      );
+
+      toast.success(
+        `User ${user.username} admin set to: ${newValue ? "true" : "false"}`
+      );
+    } catch (error) {
+      console.error("Error toggling admin:", error);
+      toast.error("Failed to toggle admin status.");
+    }
+  };
 
   const handleDeletePost = async (postId: string) => {
     try {
@@ -93,16 +124,38 @@ function AdminPage() {
                 { header: "Date of Registration", accessor: "createdAt" },
                 { header: "User ID", accessor: "id" },
                 { header: "Email", accessor: "email" },
-                { header: "Admin", accessor: "isAdmin" },
+                {
+                  header: "Admin",
+                  accessor: "isAdmin",
+                  format: (value) => (value ? "Admin" : "Not Admin"),
+                },
               ]}
               actions={(row) => (
-                <button
-                  onClick={() => row.id && handleDeleteUser(row.id, isAdmin)}
-                  aria-label={`Delete user ${row.username}`}
-                  className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
-                >
-                  <Trashcan />
-                </button>
+                <div className="flex space-x-4">
+                  <div className="flex flex-col mr-2">
+                    <label
+                      htmlFor="admin-toggle"
+                      className="text-sm font-semibold text-gray-700"
+                    >
+                      Set Admin role
+                    </label>
+                    <input
+                      id="admin-toggle"
+                      type="checkbox"
+                      checked={Boolean(row.isAdmin)}
+                      onChange={() => handleToggleAdmin(row)}
+                      aria-label={`Toggle admin for user ${row.username}`}
+                      className="focus:outline-none focus:ring-2 focus:ring-buttonDarkHover"
+                    ></input>
+                  </div>
+                  <button
+                    onClick={() => row.id && handleDeleteUser(row.id, isAdmin)}
+                    aria-label={`Delete user ${row.username}`}
+                    className="focus:outline focus:outline-2 focus:outline-buttonDarkHover rounded"
+                  >
+                    <Trashcan />
+                  </button>
+                </div>
               )}
             />
           </div>

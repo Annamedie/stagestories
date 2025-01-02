@@ -1,10 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { addPost, updatePost } from "../api/postActions";
+import { emojis, musicGenres, ratings } from "../constants";
 import { Post } from "../types/dataTypes";
 import { ConcertFormSchema } from "../validationSchemas/concertValidation";
 import UploadBtn from "./UploadBtn";
@@ -15,9 +17,31 @@ interface ConcertFormProps {
   initialData?: Partial<Post>;
 }
 
+interface FirebaseError {
+  code?: string;
+  message?: string;
+}
+
 function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialData.image || "");
+  const [selectedEmojis, setSelectedEmojis] = useState<string[]>(
+    initialData.emojis || []
+  );
+
+  const handleEmojiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedEmoji = e.target.value;
+    if (selectedEmoji === "") {
+      return;
+    }
+    if (selectedEmojis.length < 3) {
+      setSelectedEmojis((prev) => [...prev, selectedEmoji]);
+    }
+  };
+  const removeEmoji = (index: number) => {
+    setSelectedEmojis((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const {
     register,
@@ -37,6 +61,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       genre: initialData.genre || "",
       review: initialData.review || "",
       image: initialData.image || "",
+      emojis: initialData.emojis || [],
     },
   });
 
@@ -45,11 +70,19 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
     setIsLoading(true);
 
     try {
-      const postWithImage = { ...concertData, image: imageUrl };
+      const postWithImage = {
+        ...concertData,
+        image: imageUrl,
+        emojis: selectedEmojis.length ? selectedEmojis : [],
+      };
 
       if (isEdit && postId) {
         await updatePost(postId, postWithImage);
-        toast.success("Concert updated successfully");
+        toast.success("Concert updated successfully, navigating to post...");
+        router.refresh();
+        setTimeout(() => {
+          router.push(`/post/${postId}`);
+        }, 3000);
       } else {
         await addPost(postWithImage);
         toast.success("Concert added successfully");
@@ -57,51 +90,17 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
 
       reset();
       setImageUrl("");
+      setSelectedEmojis([]);
 
       console.log(errors);
-    } catch (error: any) {
-      if (error?.code) {
-        toast.error(error.message, { position: "top-center" });
-        console.log(errors);
-      } else {
-        toast.error("An unknown error occurred", { position: "top-center" });
-        console.log(errors);
-      }
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      toast.error(firebaseError.message, { position: "top-center" });
+      console.log(errors);
     } finally {
       setIsLoading(false);
     }
   };
-
-  const ratings = [
-    {
-      value: 1,
-      label: "⭐ - This is bad",
-    },
-    { value: 2, label: "⭐⭐ - Just Okay" },
-    { value: 3, label: "⭐⭐⭐ - Good" },
-    { value: 4, label: "⭐⭐⭐⭐ - Amazing" },
-    { value: 5, label: "⭐⭐⭐⭐⭐ - Perfection, nothing can top this" },
-  ];
-
-  const musicGenres = [
-    { value: "pop", label: "Pop" },
-    { value: "rock", label: "Rock" },
-    { value: "hip-hop", label: "Hip-Hop" },
-    { value: "r&b", label: "R&B" },
-    { value: "eletronic-dance", label: "Electronic/Dance" },
-    { value: "country", label: "Country" },
-    { value: "jazz", label: "Jazz" },
-    { value: "classical", label: "Classical" },
-    { value: "reggae", label: "Reggae" },
-    { value: "metal", label: "Metal" },
-    { value: "blues", label: "Blues" },
-    { value: "folk", label: "Folk" },
-    { value: "indie", label: "Indie" },
-    { value: "soul", label: "Soul" },
-    { value: "kpop", label: "K-pop" },
-    { value: "latin", label: "Latin" },
-    { value: "other", label: "Other" },
-  ];
 
   return (
     <>
@@ -117,6 +116,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
         pauseOnHover
         theme="light"
         transition={Bounce}
+        role="alert"
       />
 
       <h2 className="text-primary text-center text-3xl font-bold">
@@ -131,7 +131,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
             <div className="space-y-6">
               <div>
                 <label
-                  htmlFor="artisBand"
+                  htmlFor="artistBand"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Artist or Band
@@ -139,7 +139,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 <input
                   id="artistBand"
                   type="text"
-                  aria-describedby="artistBand-error"
+                  aria-describedby={
+                    errors.artistBand ? "artistBand-error" : undefined
+                  }
                   placeholder=" Enter Artist or Band Name"
                   {...register("artistBand")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
@@ -170,7 +172,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   id="location"
                   type="text"
                   placeholder="City or Town"
-                  aria-describedby="location-error"
+                  aria-describedby={
+                    errors.location ? "location-error" : undefined
+                  }
                   {...register("location")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.location
@@ -199,7 +203,9 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 <input
                   id="showDate"
                   type="date"
-                  aria-describedby="showDate-error"
+                  aria-describedby={
+                    errors.showDate ? "showDate-error" : undefined
+                  }
                   {...register("showDate")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.showDate
@@ -227,7 +233,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                 </label>
                 <select
                   id="rating"
-                  aria-describedby="rating-error"
+                  aria-describedby={errors.rating ? "rating-error" : undefined}
                   {...register("rating")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.rating
@@ -256,38 +262,50 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
               </div>
               <div>
                 <label
-                  htmlFor="topTracks"
+                  htmlFor="topTrack1"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Enter your top 3 tracks from the concert
+                  Enter your top 3 tracks from the concert (Optional)
                 </label>
                 <input
-                  id="topTracks"
+                  id="topTrack1"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 1"
                   {...register("topTracks.0")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
+                <label htmlFor="topTrack2" className="sr-only">
+                  Top Track 2
+                </label>
                 <input
-                  id="topTracks"
+                  id="topTrack2"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 2"
                   {...register("topTracks.1")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
+                <label htmlFor="topTrack3" className="sr-only">
+                  Top Track 3
+                </label>
                 <input
-                  id="topTracks"
+                  id="topTrack3"
                   type="text"
-                  aria-describedby="topTracks-error"
+                  aria-describedby={
+                    errors.topTracks ? "topTracks-error" : undefined
+                  }
                   placeholder="Top Track 3"
                   {...register("topTracks.2")}
-                  className="w-full border p-2 rounded-md mt-1"
+                  className="w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none focus:ring-blue-500"
                 />
                 {errors.topTracks && (
                   <p
-                    id="topTracks"
+                    id="topTracks-error"
                     role="alert"
                     className="text-red-500 text-sm mt-1"
                   >
@@ -305,13 +323,13 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="venue"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Venue Name
+                  Venue Name (Optional)
                 </label>
                 <input
                   id="venue"
                   type="text"
                   placeholder="Enter Venue Name"
-                  aria-describedby="venue-error"
+                  aria-describedby={errors.venue ? "venue-error" : undefined}
                   {...register("venue")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.venue
@@ -335,13 +353,15 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="tourFestivalname"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Tour or Festival Name
+                  Tour or Festival Name (Optional)
                 </label>
                 <input
                   id="tourFestivalname"
                   type="text"
                   placeholder="Enter Tour or Festival Name"
-                  aria-describedby="tourName-error"
+                  aria-describedby={
+                    errors.tourName ? "tourName-error" : undefined
+                  }
                   {...register("tourName")}
                   className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
                     errors.tourName
@@ -365,7 +385,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   htmlFor="genre"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Genre
+                  Genre of Music (Optional)
                 </label>
                 <select
                   id="genre"
@@ -393,17 +413,65 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
                   onUpload={(url) => setImageUrl(url)}
                 />
               </div>
+              <div>
+                <label
+                  htmlFor="emoji"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Choose three emojis (Optional)
+                </label>
+                <select
+                  id="emoji"
+                  value=""
+                  onChange={handleEmojiSelect}
+                  disabled={selectedEmojis.length === 3}
+                  className={`w-full border p-2 rounded-md mt-1 focus:ring-2 focus:outline-none ${
+                    errors.emojis
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                >
+                  <option value="" disabled>
+                    Select up to 3 emojis
+                  </option>
+                  {emojis.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">Selected Emojis:</p>
+                  <div className="flex space-x-2 mt-1">
+                    {selectedEmojis.map((emoji, index) => (
+                      <span
+                        key={index}
+                        className="inline-block p-2 border rounded-md bg-gray-100 text-lg cursor-pointer"
+                        onClick={() => removeEmoji(index)}
+                      >
+                        {emoji}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {selectedEmojis.length === 3 && (
+                  <p className="text-sm text-green-800 mt-2">
+                    You have selected the maximum of 3 emojis.
+                  </p>
+                )}
+              </div>
 
               <div>
                 <label
                   htmlFor="review"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Review
+                  Review (Optional)
                 </label>
                 <textarea
                   id="review"
-                  aria-describedby="review-error"
+                  aria-describedby={errors.review ? "review-error" : undefined}
                   placeholder="Write your review here"
                   rows={4}
                   {...register("review")}

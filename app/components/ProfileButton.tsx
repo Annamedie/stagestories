@@ -57,7 +57,7 @@ function ProfileButton() {
         {firstLetter}
       </button>
 
-      <div aria-live="polite" className="sr-only">
+      <div aria-live="polite" className="sr-only text-white">
         {isOpened ? "Dropdown is open" : "Dropdown is closed"}
       </div>
       {isOpened && (

@@ -22,6 +22,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface AuthContextType {
   user: User | null;
   username: string | null;
+  uid: string | null;
   isloading: boolean;
   isAdmin: boolean;
   registerUser: (
@@ -35,6 +36,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  uid: null,
   username: null,
   isloading: true,
   isAdmin: false,
@@ -78,7 +80,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const usersRef = collection(db, "users");
       const usernameQuery = query(usersRef, where("username", "==", username));
+      const emailQuery = query(usersRef, where("email", "==", email));
+      const emailSnapshot = await getDocs(emailQuery);
       const usernameSnapshot = await getDocs(usernameQuery);
+
+      if (!emailSnapshot.empty) {
+        throw new Error("Email already exists, please login instead");
+      }
 
       if (!usernameSnapshot.empty) {
         throw new Error(
@@ -127,10 +135,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const uid = user?.uid || null;
+
   return (
     <AuthContext.Provider
       value={{
         user,
+        uid,
         username,
         isloading,
         isAdmin,

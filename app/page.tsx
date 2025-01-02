@@ -83,7 +83,7 @@ function Home() {
             </Link>
           ))
         ) : (
-          <p className="text-white">No results found for "{searchQuery}".</p>
+          <p className="text-white">No results found for: {searchQuery}.</p>
         )}
       </section>
     </main>

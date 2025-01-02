@@ -25,6 +25,10 @@ export const ConcertFormSchema = z.object({
     .optional(),
   topTracks: z.array(z.string().optional()).max(3).optional(),
   genre: z.string().optional(),
+  emojis: z
+    .array(z.string())
+    .max(3, "You can select up to 3 emojis")
+    .optional(),
   review: z
     .string()
     .max(400, { message: "Your review can maximum be 400 characters" })
