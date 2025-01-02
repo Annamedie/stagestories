@@ -67,7 +67,7 @@ function ConcertForm({ isEdit, postId, initialData = {} }: ConcertFormProps) {
       const postWithImage = {
         ...concertData,
         image: imageUrl,
-        emojis: selectedEmojis.length ? selectedEmojis : undefined,
+        emojis: selectedEmojis.length ? selectedEmojis : [],
       };
 
       if (isEdit && postId) {
