@@ -1,4 +1,7 @@
-import { CldUploadButton } from "next-cloudinary";
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 import Image from "next/image";
 
 interface UploadBtnProps {
@@ -7,8 +10,11 @@ interface UploadBtnProps {
 }
 
 function UploadBtn({ onUpload, imageUrl }: UploadBtnProps) {
-  const handleUploadSuccess = (result: any) => {
-    const uploadedImageUrl = result?.info?.secure_url;
+  const handleUploadSuccess = (result: CloudinaryUploadWidgetResults) => {
+    const uploadedImageUrl =
+      typeof result.info === "object" && result.info?.secure_url
+        ? result.info.secure_url
+        : undefined;
     if (uploadedImageUrl) {
       onUpload(uploadedImageUrl); // Update parent state directly
     }

@@ -37,7 +37,7 @@ function Home() {
   if (!user) {
     return null;
   }
-  const searchFields = [
+  const searchFields: (keyof Post)[] = [
     "username",
     "artistBand",
     "location",
@@ -50,7 +50,7 @@ function Home() {
     const query = searchQuery.toLowerCase();
 
     return searchFields.some((field) => {
-      const value = (post as Record<string, any>)[field];
+      const value = post[field];
       return typeof value === "string" && value.toLowerCase().includes(query);
     });
   });
