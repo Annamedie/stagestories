@@ -29,7 +29,7 @@ type FormInputs = {
 
 export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
   const router = useRouter();
-  const { user, uid } = useAuth(); // 1) Always call hooks unconditionally
+  const { user, uid } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState<"confirm" | "reauth">("confirm");
 
@@ -41,7 +41,6 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
     reset,
   } = useForm<FormInputs>();
 
-  // 2) The function that tries to delete the account
   async function handleDeleteAccount() {
     if (!user || !uid) {
       toast.error("No logged-in user found.");
@@ -55,7 +54,7 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
       toast.success("Account deleted successfully!");
       router.push("/");
     } catch (error) {
-      const firebaseError = error as FirebaseError; // Explicitly cast the error
+      const firebaseError = error as FirebaseError;
       if (firebaseError.code === "auth/requires-recent-login") {
         setModalStep("reauth");
       } else {
@@ -67,7 +66,6 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
     }
   }
 
-  // 3) If re-auth is required, user enters their password
   async function onSubmit(formData: FormInputs) {
     const auth = getAuth();
     const currentUser = auth.currentUser;
@@ -98,7 +96,6 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
     }
   }
 
-  // 4) Reset modal when it closes
   useEffect(() => {
     if (!isModalOpen) {
       setModalStep("confirm");
@@ -106,7 +103,6 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
     }
   }, [isModalOpen, reset]);
 
-  // 5) Conditionally hide the button/UI if uid !== userId
   const shouldHideButton = uid !== userId;
 
   return (
@@ -126,11 +122,10 @@ export default function DeleteAccountBtn({ userId }: DeleteAccountBtnProps) {
         role="alert"
       />
 
-      {/* Only render the button if the user matches */}
       {!shouldHideButton && (
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-card1 text-black p-4 rounded-md hover:scale-105 transform transition-transform"
+          className="bg-card1 text-black font-medium p-4 rounded-md hover:scale-105 transform transition-transform m-4"
         >
           Delete My Account
         </button>
