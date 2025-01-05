@@ -24,12 +24,21 @@ You can also test and run the website at [Stage Stories](https://stagestories.ve
 
 ## Checklist requirements G
 
+- [x] Utföra en noggrann målgruppsanalys.
+- [x] Använda ett projekthanteringsverktyg för backlog till exempel Trello eller Kanban föratt strukturera arbetet
+- [x] Skapa wireframes och prototyp i Figma som följer UX/UI-principer.
+- [x] Se till att designen är responsiv för minst två olika skärmstorlekaroch följer WCAG 2.1-standarder
 - [x] Utveckla med ett modernt JavaScript-ramverk.
 - [x] Använd en databas för lagring och hämtning av data.
 - [x] Implementera state-hantering och skapa dynamiska komponenter med reaktivitet och interaktivitet.
 - [x] Följa WCAG 2.1-standarder och använda semantisk HTML.
 - [x] För webbapp:Produkten ska vara responsiv och fungera korrekt på minst två skärmstorlekar, till exempel mobil och dator. Gränssnittet ska anpassa sig för att ge en användarvänlig upplevelse på båda dessa enheter.
-- [x] Versionshantering:oArbeta med Git och ha ett repo på GitHub
+- [x] Versionshantering: Arbeta med Git och ha ett repo på GitHub
+- [x] Arbeta med Git och ha ett repo på GitHub.
+- [x] Abstract på engelska.
+- [x] Tech stack och motivering av valen.
+- [x] Dokumentation av arbetsprocess, planering och research.
+- [x] Ditt projekt ska vara hostat och tillgängligt för att kunna visas i en webbläsareeller simulator.
 
 ## Checklist requirements VG
 
