@@ -1,36 +1,40 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Stage Stories
 
-First, run the development server:
+How to run the applictaion:
+
+First, run install the dependicies:
+
+```bash
+npm install
+```
+
+Second, run the site
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the website
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You need env keys from Firebase and Cloudinary to run this site.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+You can also test and run the website at [Stage Stories](https://stagestories.vercel.app/)
 
-## Learn More
+## Checklist requirements G
 
-To learn more about Next.js, take a look at the following resources:
+- [x] Utveckla med ett modernt JavaScript-ramverk.
+- [x] Använd en databas för lagring och hämtning av data.
+- [x] Implementera state-hantering och skapa dynamiska komponenter med reaktivitet och interaktivitet.
+- [x] Följa WCAG 2.1-standarder och använda semantisk HTML.
+- [x] För webbapp:Produkten ska vara responsiv och fungera korrekt på minst två skärmstorlekar, till exempel mobil och dator. Gränssnittet ska anpassa sig för att ge en användarvänlig upplevelse på båda dessa enheter.
+- [x] Versionshantering:oArbeta med Git och ha ett repo på GitHub
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Checklist requirements VG
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] Implementera CRUD-operationer, Create, Read, Update, Delete,med säker hantering av användardata.
+- [x] Implementera en säker autentiseringslösningför databasen, till exempel OAuth, JWT (JSON Web Tokens) eller Firebase Authentication, för att säkerställa att endast behöriga användare kan få åtkomst till och hantera data. Detta skyddar användardata genom att verifiera identiteten innan CRUD-operationer tillåts.
+- [x] För webbapp:Produkten ska vara fullt responsiv och anpassa sig dynamiskt till olika skärmstorlekar och enheter, från mobiltelefoner till större skärmar. Gränssnittet ska ge en optimal användarupplevelse oavsett enhet, med korrekt layout och funktionalitet för både småoch stora skärmar.
+- [x] Versionshantering: oArbeta med feature branches och gör pull requests innan du mergar till baskodenför att säkerställa ordning och spårbarhet.
+- [x] Dokumentera varje steg i din commit-historik med tydliga och informativa commit-meddelanden.
