@@ -11,6 +11,7 @@ import {
   getDoc,
   getDocs,
   increment,
+  orderBy,
   query,
   serverTimestamp,
   updateDoc,
@@ -20,18 +21,26 @@ import { Post } from "../types/dataTypes";
 
 export const fetchPosts = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "posts"));
+    const postsQuery = query(
+      collection(db, "posts"),
+      orderBy("showDate", "desc")
+    );
+
+    const querySnapshot = await getDocs(postsQuery);
+
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
       const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
-      return { id: doc.id, ...data, createdAt } as Post;
+      const showDate = data.showDate
+        ? new Date(data.showDate).toLocaleDateString()
+        : null;
+      return { id: doc.id, ...data, createdAt, showDate } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts: ", error);
     throw error;
   }
 };
-
 export const fetchPostById = async (id: string): Promise<Post | null> => {
   try {
     const docSnap = await getDoc(doc(db, "posts", id));
@@ -52,12 +61,19 @@ export const fetchPostById = async (id: string): Promise<Post | null> => {
 export const fetchPostsByUserId = async (userId: string) => {
   try {
     const postsRef = collection(db, "posts");
-    const queryPost = query(postsRef, where("userId", "==", userId));
+    const queryPost = query(
+      postsRef,
+      where("userId", "==", userId),
+      orderBy("showDate", "desc")
+    );
     const querySnapshot = await getDocs(queryPost);
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
       const createdAt = data.createdAt?.toDate().toLocaleDateString() || null;
-      return { id: doc.id, ...data, createdAt } as Post;
+      const showDate = data.showDate
+        ? new Date(data.showDate).toLocaleDateString()
+        : null;
+      return { id: doc.id, ...data, createdAt, showDate } as Post;
     });
   } catch (error) {
     console.error("Error fetching posts by user id: ", error);
